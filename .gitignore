@@ -1,0 +1,4 @@
+.settings/*
+torcs.properties
+.classpath
+bin/*
