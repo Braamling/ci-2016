@@ -71,11 +71,16 @@ public class NeuralNetwork implements Serializable {
     			a.getTrackEdgeSensors()[14],
     			a.getTrackEdgeSensors()[16],};
     	System.out.println(Arrays.toString(input));
+    	
     	double[] h = new double[numHiddenNeurons];
     	double[] output = new double[numInputNeurons];
     	
     	// put SensorModel a in input
     	
+    	return calculateOutput(input, output, h);
+    }
+    
+    public double[] calculateOutput(double[] input, double[] output, double[] h){
     	for (int i=0; i< numHiddenNeurons; i++){
     		for (int j=0; j<numInputNeurons; j++){
     			h[i] += input[j] * weights1[i][j];
