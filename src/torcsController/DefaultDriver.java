@@ -9,15 +9,15 @@ import cicontest.torcs.controller.extras.AutomatedRecovering;
 import cicontest.torcs.genome.IGenome;
 import scr.Action;
 import scr.SensorModel;
-import training.NeuralNetwork;
+import training.CustomNeuralNetwork;
 
 public class DefaultDriver extends AbstractDriver {
 
-    private NeuralNetwork neuralNetwork;
+    private CustomNeuralNetwork neuralNetwork;
 
     public DefaultDriver() {
         initialize();
-        neuralNetwork = new NeuralNetwork(9, 8, 2);
+        neuralNetwork = new CustomNeuralNetwork(9, 8, 2);
 //        neuralNetwork = neuralNetwork.loadGenome();
     }
 
