@@ -59,22 +59,6 @@ public class NeuralNetwork implements Serializable {
     // Feed forward algorithm
     public double[] getOutput(SensorModel a) {
     	//Initialize intermediate variables
-//    	double[] input = {
-//			a.getDistanceFromStartLine(),
-//			a.getDistanceRaced(),
-//			a.getRPM(),
-//			a.getSpeed(),
-//			a.getGear(),
-//			a.getAngleToTrackAxis(),
-//			a.getFocusSensors()[0],
-//			a.getTrackEdgeSensors()[0],
-//			a.getWheelSpinVelocity()[0],
-//			a.getFocusSensors()[1],
-//			a.getTrackEdgeSensors()[1],
-//			a.getWheelSpinVelocity()[1],
-//			a.getFocusSensors()[2],
-//			a.getTrackEdgeSensors()[2],
-//			a.getWheelSpinVelocity()[2],};
     	double[] input = {
     			a.getTrackEdgeSensors()[0],
     			a.getTrackEdgeSensors()[2],
