@@ -14,7 +14,7 @@ public class DefaultDriver extends AbstractDriver {
 
     public DefaultDriver() {
         initialize();
-        neuralNetwork = new NeuralNetwork(12, 8, 2);
+        neuralNetwork = new NeuralNetwork(9, 8, 2);
 //        neuralNetwork = neuralNetwork.loadGenome();
     }
 
@@ -37,14 +37,14 @@ public class DefaultDriver extends AbstractDriver {
     @Override
     public double getAcceleration(SensorModel sensors) {
         double[] sensorArray = new double[4];
-        double output = neuralNetwork.getOutput(sensors);
-        return 1;
+        double[] output = neuralNetwork.getOutput(sensors);
+        return output[1];
     }
 
     @Override
     public double getSteering(SensorModel sensors) {
-        Double output = neuralNetwork.getOutput(sensors);
-        return 0.5;
+        double[] output = neuralNetwork.getOutput(sensors);
+        return output[0];
     }
 
     @Override
@@ -70,8 +70,8 @@ public class DefaultDriver extends AbstractDriver {
         return defaultControl(action, sensors);
     }
 
-    @Override
-    public Action defaultControl(Action action, SensorModel sensors) {
+    //@Override
+    public Action defaultControl2(Action action, SensorModel sensors) {
         if (action == null) {
             action = new Action();
         }
@@ -101,5 +101,17 @@ public class DefaultDriver extends AbstractDriver {
         System.out.println("Brake: " + action.brake);
         System.out.println("-----------------------------------------------");
         return action;
+    }
+    
+    @Override
+    public Action defaultControl(Action action, SensorModel sensors) {
+    	if (action == null) {
+            action = new Action();
+        }
+    	action.steering = getSteering(sensors);
+    	action.accelerate = getAcceleration(sensors);
+    	action.brake = 0;
+    	
+    	return action;
     }
 }

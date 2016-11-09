@@ -1,3 +1,4 @@
+import scr.Action;
 import scr.SensorModel;
 
 import java.io.*;
@@ -56,13 +57,39 @@ public class NeuralNetwork implements Serializable {
     }
 
     // Feed forward algorithm
-    public double getOutput(SensorModel a) {
-    	// put SensorModel a in input
-    	
+    public double[] getOutput(SensorModel a) {
     	//Initialize intermediate variables
-    	double[] input = new double[numInputNeurons];
+//    	double[] input = {
+//			a.getDistanceFromStartLine(),
+//			a.getDistanceRaced(),
+//			a.getRPM(),
+//			a.getSpeed(),
+//			a.getGear(),
+//			a.getAngleToTrackAxis(),
+//			a.getFocusSensors()[0],
+//			a.getTrackEdgeSensors()[0],
+//			a.getWheelSpinVelocity()[0],
+//			a.getFocusSensors()[1],
+//			a.getTrackEdgeSensors()[1],
+//			a.getWheelSpinVelocity()[1],
+//			a.getFocusSensors()[2],
+//			a.getTrackEdgeSensors()[2],
+//			a.getWheelSpinVelocity()[2],};
+    	double[] input = {
+    			a.getTrackEdgeSensors()[0],
+    			a.getTrackEdgeSensors()[2],
+    			a.getTrackEdgeSensors()[4],
+    			a.getTrackEdgeSensors()[6],
+    			a.getTrackEdgeSensors()[8],
+    			a.getTrackEdgeSensors()[10],
+    			a.getTrackEdgeSensors()[12],
+    			a.getTrackEdgeSensors()[14],
+    			a.getTrackEdgeSensors()[16],};
+    	System.out.println(Arrays.toString(input));
     	double[] h = new double[numHiddenNeurons];
     	double[] output = new double[numInputNeurons];
+    	
+    	// put SensorModel a in input
     	
     	for (int i=0; i< numHiddenNeurons; i++){
     		for (int j=0; j<numInputNeurons; j++){
@@ -79,12 +106,10 @@ public class NeuralNetwork implements Serializable {
     		}
     		
     		double tempH = output[i] + bias2[i]; //add bias
-    		output[i] = 1 / (1 + Math.exp(-tempH)); // Possibly use ReLU instead
-    		System.out.println(output[i]);
+    		//output[i] = 1 / (1 + Math.exp(-tempH)); // Possibly use ReLU instead
     	}
     	
-    	//return output;
-        return 0.5;
+        return output;
     }
 
     //Store the state of this neural network
@@ -134,5 +159,6 @@ public class NeuralNetwork implements Serializable {
         }
         return null;
     }
+    
 
 }
