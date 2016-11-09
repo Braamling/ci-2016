@@ -2,3 +2,4 @@
 torcs.properties
 .classpath
 bin/*
+/bin/

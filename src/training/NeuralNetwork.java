@@ -1,4 +1,5 @@
-import scr.Action;
+package training;
+
 import scr.SensorModel;
 
 import java.io.*;
@@ -18,7 +19,7 @@ public class NeuralNetwork implements Serializable {
     private int numOutputNeurons;
     private Random r = new Random();
     
-    NeuralNetwork(int inputs, int hidden, int outputs) {
+    public NeuralNetwork(int inputs, int hidden, int outputs) {
     	// This should be a parameter..
     	double sigma = 1;
     	double mean = 0;

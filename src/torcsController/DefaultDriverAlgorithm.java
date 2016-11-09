@@ -1,3 +1,5 @@
+package torcsController;
+
 import java.io.File;
 import cicontest.algorithm.abstracts.AbstractAlgorithm;
 import cicontest.algorithm.abstracts.AbstractRace;
@@ -29,7 +31,7 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
             race.laps = 1;
 
             //for speedup set withGUI to false
-            results = race.runRace(drivers, true);
+            results = race.runRace(drivers, false);
 
             // Save genome/nn
             DriversUtils.storeGenome(drivers[0]);

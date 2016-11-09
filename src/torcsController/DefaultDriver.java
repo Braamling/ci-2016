@@ -1,3 +1,5 @@
+package torcsController;
+
 import cicontest.algorithm.abstracts.AbstractDriver;
 import cicontest.algorithm.abstracts.DriversUtils;
 import cicontest.torcs.controller.extras.ABS;
@@ -7,6 +9,7 @@ import cicontest.torcs.controller.extras.AutomatedRecovering;
 import cicontest.torcs.genome.IGenome;
 import scr.Action;
 import scr.SensorModel;
+import training.NeuralNetwork;
 
 public class DefaultDriver extends AbstractDriver {
 
@@ -49,7 +52,7 @@ public class DefaultDriver extends AbstractDriver {
 
     @Override
     public String getDriverName() {
-        return "Example Controller";
+        return "Habris";
     }
 
     @Override
@@ -75,26 +78,37 @@ public class DefaultDriver extends AbstractDriver {
         if (action == null) {
             action = new Action();
         }
+        
+        SensorReporting reporter = new SensorReporting(sensors);
+       	reporter.reportSensors();
+        
+        System.out.println(sensors.toString());
         action.steering = DriversUtils.alignToTrackAxis(sensors, 0.5);
-        if (sensors.getSpeed() > 60.0D) {
-            action.accelerate = 0.0D;
-            action.brake = 0.0D;
-        }
+        
+        
+//        if (sensors.getSpeed() > 60.0D) {
+//            action.accelerate = 0.0D;
+//            action.brake = 0.0D;
+//        }
+//
+//        if (sensors.getSpeed() > 70.0D) {
+//            action.accelerate = 0.0D;
+//            action.brake = -1.0D;
+//        }
+//
+//        if (sensors.getSpeed() <= 60.0D) {
+//            action.accelerate = (80.0D - sensors.getSpeed()) / 80.0D;
+//            action.brake = 0.0D;
+//        }
+//
+//        if (sensors.getSpeed() < 30.0D) {
+//            action.accelerate = 1.0D;
+//            action.brake = 0.0D;
+//        }
 
-        if (sensors.getSpeed() > 70.0D) {
-            action.accelerate = 0.0D;
-            action.brake = -1.0D;
-        }
-
-        if (sensors.getSpeed() <= 60.0D) {
-            action.accelerate = (80.0D - sensors.getSpeed()) / 80.0D;
-            action.brake = 0.0D;
-        }
-
-        if (sensors.getSpeed() < 30.0D) {
-            action.accelerate = 1.0D;
-            action.brake = 0.0D;
-        }
+        action.accelerate = 10.0D;
+        action.brake = 0.0D;
+        
         System.out.println("--------------" + getDriverName() + "--------------");
         System.out.println("Steering: " + action.steering);
         System.out.println("Acceleration: " + action.accelerate);
