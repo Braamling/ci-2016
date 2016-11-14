@@ -1,8 +1,15 @@
 from load_set import LoadSet
+from learn_track import LearnTrack
 
 def main():
-	loadSet = LoadSet("../resources/train_data/train.csv", 3, 22)
-	pass	
+	input_s = 3 
+	output_s = 22
+
+	loadSet = LoadSet("../resources/train_data/train.csv", input_s, output_s)
+
+	learn_track = LearnTrack(loadSet.getInput(), loadSet.getOutput(), input_s, output_s)
+	
+	learn_track.train()
 
 if __name__ == '__main__':
 	main()
