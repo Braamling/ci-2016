@@ -6,3 +6,4 @@ bin/*
 python/venv/*
 memory/
 python/.idea/
+*.pyc
