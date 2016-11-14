@@ -8,25 +8,25 @@ class LearnTrack():
     _current_pointer = 0
 
     def __init__(self, input_data, output_data, input_s, output_s):
-        _input = input_data
-        _input_s = input_s
-        _output = output_data
-        _output_s = output_s
+        self._input = input_data
+        self._input_s = input_s
+        self._output = output_data
+        self._output_s = output_s
 
-    def train():
+    def train(self):
         # Create the model
-        x = tf.placeholder(tf.float32, [None, _input_s])
-        W = tf.Variable(tf.zeros([_input_s, _output_s]))
-        b = tf.Variable(tf.zeros([_output_s]))
+        x = tf.placeholder(tf.float32, [None, self._input_s])
+        W = tf.Variable(tf.zeros([self._input_s, self._output_s]))
+        b = tf.Variable(tf.zeros([self._output_s]))
         y = tf.matmul(x, W) + b
 
         # Define loss and optimizer
-        y_ = tf.placeholder(tf.float32, [None, _input_s])
+        y_ = tf.placeholder(tf.float32, [None, self._input_s])
 
         # The raw formulation of cross-entropy,
         #
         #   tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(tf.softmax(y)),
-        #                                 reduction_indices=[1]))
+        #                                 reduction._indices=[1]))
         #
         # can be numerically unstable.
         #
@@ -37,6 +37,10 @@ class LearnTrack():
 
         sess = tf.InteractiveSession()
 
+        for _ in range(1000):
+            batch_xs, batch_ys = self.next_batch(100)
+            sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+
         # Test trained model
         correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
         accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
@@ -44,6 +48,7 @@ class LearnTrack():
                                               y_: mnist.test.labels}))
 
     def next_batch(self, size):
-        prev_pointer = _current_pointer
-        _current_pointer += size
-        return _input[prev_pointer: _current_pointer], _input[prev_pointer: _current_pointer]
+        prev_pointer = self._current_pointer
+        self._current_pointer += size
+        return self._input[prev_pointer: self._current_pointer],\
+            self._output[prev_pointer: self._current_pointer]
