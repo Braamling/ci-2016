@@ -3,3 +3,4 @@ torcs.properties
 .classpath
 bin/*
 /bin/
+python/venv/*
