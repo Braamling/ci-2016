@@ -6,8 +6,10 @@ import java.io.IOException;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
+import org.neuroph.core.learning.LearningRule;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.Perceptron;
+import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.util.TransferFunctionType;
 
 import models.OfflineDataPoint;
@@ -20,6 +22,9 @@ public class OfflineLearning {
 
 	    // Init Neural network and training data
 	    MultiLayerPerceptron myMlPerceptron = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, 22, 25, 3);
+	    
+        myMlPerceptron.setLearningRule(new BackPropagation());
+	    
 	    DataSet trainingSet = new DataSet(22, 3);
 	    
         try (BufferedReader br = new BufferedReader(new FileReader(trainingFile))) {
@@ -48,6 +53,7 @@ public class OfflineLearning {
 //         learn the training set
         System.out.println("Learn trainingset");
         myMlPerceptron.learn(trainingSet);
+        
 //		 save the trained network into file
 		myMlPerceptron.save("or_perceptron.nnet");
 		
