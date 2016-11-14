@@ -14,9 +14,12 @@ class LearnTrack():
 
     def train():
           # Create the model
-          x = tf.placeholder(tf.float32, [None, _output_s])
-          W = tf.Variable(tf.zeros([_output_s, _input_s]))
-          b = tf.Variable(tf.zeros([_input_s]))
+          x = tf.placeholder(tf.float32, [None, _input_s])
+          # onderstaande x was de orginele x van bram.
+          #x = tf.placeholder(tf.float32, [None, _output_s])
+          # W = tf.Variable(tf.zeros([_output_s, _input_s]))
+          W = tf.Variable(tf.zeros([_input_s, _output_s]))
+          b = tf.Variable(tf.zeros([_output_s]))
           y = tf.matmul(x, W) + b
 
           # Define loss and optimizer
@@ -46,4 +49,3 @@ class LearnTrack():
           accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
           print(sess.run(accuracy, feed_dict={x: mnist.test.images,
                                               y_: mnist.test.labels}))
-
