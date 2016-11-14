@@ -7,7 +7,7 @@ def main():
 
 	loadSet = LoadSet("../resources/train_data/train.csv", input_s, output_s)
 
-	learn_track = LearnTrack(LoadSet.getInput(), LoadSet.getOutput(), input_s, output_s)
+	learn_track = LearnTrack(loadSet.getInput(), loadSet.getOutput(), input_s, output_s)
 	
 	learn_track.train()
 
