@@ -21,7 +21,10 @@ class LoadSet():
                     _input = np.append(_input, np.array([values[:input_s]]), axis=0)
                     _output = np.append(_output, np.array([values[input_s:]]), axis=0)
 
-        print(_input)
-        print(_output)
+    def getInput(self):
+        return _input
+
+    def getOutput(self):
+        return _output
                 
 
