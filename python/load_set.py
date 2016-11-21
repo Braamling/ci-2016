@@ -27,3 +27,15 @@ class LoadSet():
 
     def getOutput(self):
         return self._output
+
+    def getLength(self):
+        return len(self._input)
+
+    def shuffle(self):
+        pass
+        # zipped = zip(self._input, self._output)
+        # print zipped[0]
+        # np.random.shuffle(zipped)
+        # print zipped[0]
+        # self._input, self._output = zip(*zipped)
+

@@ -5,11 +5,13 @@ def main():
 	input_s = 22
 	output_s = 3
 
-	loadSet = LoadSet("../resources/train_data/train.csv", input_s, output_s)
+	train_set = LoadSet("../resources/train_data/train.csv", input_s, output_s)
+	test_set = LoadSet("../resources/train_data/test.csv", input_s, output_s)
+	valid_set = LoadSet("../resources/train_data/valid.csv", input_s, output_s)
 
-	learn_track = LearnTrack(loadSet.getInput(), loadSet.getOutput(), input_s, output_s)
-	loadValSet = LoadSet("../resources/train_data/valid.csv", input_s, output_s)
-	learn_track.train(loadValSet)
+	learn_track = LearnTrack(train_set, test_set, valid_set, input_s, output_s)
+	
+	learn_track.train()
 
 if __name__ == '__main__':
 	main()
