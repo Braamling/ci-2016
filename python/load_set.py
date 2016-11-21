@@ -4,11 +4,10 @@ import csv
 import random
 
 class LoadSet():
-    _input = None
-    _output = None
-    _filename = None
 
     def __init__(self, filename, input_s, output_s):
+        self._input_s = input_s
+        self._output_s = output_s
         self._input = np.empty((0, input_s))
         self._output = np.empty((0, output_s))
         self._filename = filename
@@ -32,10 +31,21 @@ class LoadSet():
         return len(self._input)
 
     def shuffle(self):
-        pass
-        # zipped = zip(self._input, self._output)
-        # print zipped[0]
-        # np.random.shuffle(zipped)
-        # print zipped[0]
-        # self._input, self._output = zip(*zipped)
+        # Prepare two same shapped input and output arrays 
+        new_input = np.empty((self.getLength(), self._input_s))
+        new_output = np.empty((self.getLength(), self._output_s))
+
+        # Shuffle the indices of the input and output array
+        shuffled_indices = range(0, self.getLength())
+        random.shuffle(shuffled_indices)
+
+        # Reorder the input and output arrays
+        for i, i_ in enumerate(shuffled_indices):
+            new_input[i], self._input[i_]
+            new_output[i], self._output[i_]
+
+        # Store the shuffled arrays into the object
+        self._input = new_input
+        self._output = new_output
+
 

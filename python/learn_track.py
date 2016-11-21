@@ -24,36 +24,25 @@ class LearnTrack():
         # Define loss and optimizer
         y_ = tf.placeholder(tf.float32, [None, self._output_s])
 
-        # The raw formulation of cross-entropy,
-        #
-        #   tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(tf.softmax(y)),
-        #                                 reduction._indices=[1]))
-        #
-        # can be numerically unstable.
-        #
-        # So here we use tf.nn.softmax_cross_entropy_with_logits on the raw
-        # outputs of 'y', and then average across the batch.
-        # cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(y, y_))
+        # Define the cost function and optimizer. 
+        # Cost is a least squares functions
         cost = tf.nn.l2_loss((y-y_)/batch_size)
         train_step = tf.train.AdamOptimizer(0.5).minimize(cost)
 
-
-        sess = tf.InteractiveSession()
-        
+        # Prepare the session
+        sess = tf.InteractiveSession()        
         tf.initialize_all_variables().run()
 
         print("Start training")
         for _ in range(self._train_set.getLength()/batch_size):
             batch_xs, batch_ys = self.next_batch(batch_size)
             _, loss = sess.run([train_step, cost], feed_dict={x: batch_xs, y_: batch_ys})
-            print(loss)
+            # print(loss)
+
+        print(W.eval())
+        print(b.eval())
 
         print("Finished training")
-        # Test trained model
-        # correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
-        # accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-        # print(sess.run(accuracy, feed_dict={x: self._test_set.getInput(),
-                                              # y_: self._test_set.getOutput()}))
 
     def next_batch(self, size):
         prev_pointer = self._current_pointer
