@@ -48,4 +48,8 @@ class LoadSet():
         self._input = new_input
         self._output = new_output
 
+    def get_data_len(self):
+        return self._data_len
+
+
 
