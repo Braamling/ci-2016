@@ -54,8 +54,8 @@ def train(sess, mdl, saver, model_name, input_s, output_s):
 def main():
     input_s = 22
     output_s = 3
-    n_hidden_neurons = [100, 50, 20, 10, 5]
-    model_name = 'h100_50_20_l_008_test7/'
+    n_hidden_neurons = [100, 50, 20]
+    model_name = 'h100_50_20_l_008_test4/'
     batch_size = 100
 
     # Load model structure
@@ -77,9 +77,12 @@ def main():
     else:
         print "No checkpoint found, training from scratch!"
 
-    train(sess, mdl, saver, model_name, input_s, output_s)
+    #print(sess.run(mdl.W))
+    #print(sess.run(mdl.b))
 
-    #drive(sess, mdl)
+    #train(sess, mdl, saver, model_name, input_s, output_s)
+
+    drive(sess, mdl)
 
 
 if __name__ == '__main__':

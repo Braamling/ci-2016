@@ -52,7 +52,7 @@ class LearnTrack():
             print (" The validation loss for epoch %d and is %g" % (epoch, v_loss))
 
             # Save the best model out of all the epochs after 500 epochs(it converges after 500)
-            if v_loss < smallest_valid_error and epoch > 100:
+            if v_loss < smallest_valid_error and epoch > 800:
                 saver.save(sess, self.model_name + 'model.ckpt')
                 tf.train.write_graph(sess.graph_def, '.', 'trained_model.proto', as_text=False)
                 tf.train.write_graph(sess.graph_def, '.', 'trained_model.txt', as_text=True)

@@ -32,7 +32,7 @@ class Model():
             self.W.append(weight_variable([self.n_hidden_neurons[i - 1], self.n_hidden_neurons[i]] ))
             self.b.append(bias_variable([self.n_hidden_neurons[i]] ))
         self.W.append(weight_variable([self.n_hidden_neurons[-1], self._output_s] ))
-        self.b.append(self._output_s)
+        self.b.append(bias_variable([self._output_s]))
 
         # Initialize layers
         self.Layers = []
