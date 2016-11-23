@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import csv
+import random
 
 class LoadSet():
     _input = None
@@ -18,11 +19,21 @@ class LoadSet():
             for row in file:
                 values = map(float, row)
                 if len(values) is input_s + output_s:
-                    self._input = np.append(self._input, np.array([values[:input_s]]), axis=0)
-                    self._output = np.append(self._output, np.array([values[input_s:]]), axis=0)
+                    self._input = np.append(self._input, np.array([values[output_s:]]), axis=0)
+                    self._output = np.append(self._output, np.array([values[:output_s]]), axis=0)
 
     def getInput(self):
         return self._input
 
     def getOutput(self):
         return self._output
+
+    def get_data_len(self):
+        return self._data_len
+
+    def shuffle(self):
+        zipped = zip(self.getInput(), self._output())
+        unzipped = np.random.shuffle(zipped)
+        self._input, self._output = zip(* unzipped)
+
+
