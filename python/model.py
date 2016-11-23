@@ -1,4 +1,5 @@
 import tensorflow as tf
+import numpy as np
 
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.1)
@@ -46,10 +47,10 @@ class Model():
         self.reg_losses = tf.get_collection(tf.GraphKeys.REGULARIZATION_LOSSES)
         self.reg_constant = 0.01
         self.loss = (tf.nn.l2_loss(self.y - self.y_) / batch_size) + self.reg_constant * sum(self.reg_losses)
-        self.train_step = tf.train.AdamOptimizer(0.009, epsilon=0.1).minimize(self.loss)
+        self.train_step = tf.train.AdamOptimizer(0.001, epsilon=0.1).minimize(self.loss)
 
-    def feedforward(self, input, sess):
-        output = 2
-        return output
+    def feedforward(self, sess, input):
+        values = sess.run(self.y, feed_dict={self.x: [input], self.y_: np.zeros((len(input), self._output_s))})
+        return values[0]
 
 
