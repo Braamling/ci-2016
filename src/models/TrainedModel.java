@@ -25,4 +25,33 @@ public class TrainedModel {
 		_bias4 = bias4;	
 	}
 	
+	public double[][] getWeights(int layer){
+		switch(layer){
+			case 1: 
+				return _weight1;
+			case 2: 
+				return _weight2;
+			case 3:
+				return _weight3;
+			case 4:
+				return _weight4;
+			default:
+				return _weight4;
+		}
+	}
+	
+	public double[] getBias(int layer){
+		switch(layer){
+			case 1:
+				return _bias1;
+			case 2: 
+				return _bias2; 
+			case 3: 
+				return _bias3;
+			case 4: 
+				return _bias4;
+			default:
+				return _bias4;
+		}
+	}
 }

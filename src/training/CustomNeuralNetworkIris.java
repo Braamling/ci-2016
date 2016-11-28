@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 
-public class CustomNeuralNetwork implements Serializable {
+public class CustomNeuralNetworkIris implements Serializable {
 
     private static final long serialVersionUID = -88L;
     private double[][]weights1;
@@ -25,7 +25,7 @@ public class CustomNeuralNetwork implements Serializable {
     private int numOutputNeurons;
     private Random r = new Random();
     
-    public CustomNeuralNetwork(int inputs, int hidden, int hidden2, int hidden3, int outputs) {
+    public CustomNeuralNetworkIris(int inputs, int hidden, int hidden2, int hidden3, int outputs) {
     	// This should be a parameter..
     	double sigma = 1;
     	double mean = 0;
@@ -89,6 +89,51 @@ public class CustomNeuralNetwork implements Serializable {
     	for (int i=0; i< outputs; i++){
     		bias4[i] = r.nextGaussian() * sigma + mean; // different seed?
     	}
+    }
+    
+    
+    
+    public CustomNeuralNetworkIris(int inputs, int[] hiddenL, int outputs, models.TrainedModel TrainedModel) {
+    	
+    	// initialize class variables
+    	
+    	numInputNeurons = inputs;
+    	numOutputNeurons = outputs; 
+    	
+    	for (int i=0; i<hiddenL.length; i++){
+    		switch(i){
+    			case 1: 
+    	//			weights1 = new double[hiddenL[i]][inputs];
+    	//			bias1 = new double[hiddenL[i]];
+    				numHiddenNeuronsLayer1 = hiddenL[i];
+    				break;
+    			case 2: 
+    	//			weights2 = new double[hiddenL[i]][hiddenL[i-1]];
+    	//			bias2 = new double[hiddenL[i]];
+    				numHiddenNeuronsLayer2 = hiddenL[i];
+    				break;
+    			case 3: 
+    	//			weights3 = new double[hiddenL[i]][hiddenL[i-1]];
+    	//			bias3 = new double[hiddenL[i]];
+    				numHiddenNeuronsLayer3 = hiddenL[i];
+    	//			weights4 = new double[outputs][hiddenL[i]]; 
+    	//			bias4 = new double[outputs];
+    				break;
+    			default: 
+    	//			weights4 = new double[outputs][hiddenL[hiddenL.length]];
+    	//			bias4 = new double[outputs];
+    				break;
+    		}
+    	}
+    	
+    	weights1 = TrainedModel.getWeights(1);
+    	bias1 = TrainedModel.getBias(1);
+    	weights2 = TrainedModel.getWeights(2);
+    	bias2 = TrainedModel.getBias(2);
+    	weights3 = TrainedModel.getWeights(3);
+    	bias3 = TrainedModel.getBias(3);
+    	weights4 = TrainedModel.getWeights(4);
+    	bias4 = TrainedModel.getBias(4);
     }
 
     // Feed forward algorithm
