@@ -42,8 +42,9 @@ class Model():
             self.Layers.append(tf.nn.sigmoid(layerNN(self.Layers[i - 1], self.W[i], self.b[i])))
         self.y = layerNN(self.Layers[-1], self.W[-1], self.b[-1])
         # Hardcoded activation function last layer
-        self.y[:1] = tf.nn.tanh(self.y)
-        self.y[-1] = tf.nn.sigmoid(self.y[-1])
+        self.y = tf.nn.tanh(self.y)
+        # self.y[:1] = tf.nn.tanh(self.y)
+        # self.y[-1] = tf.nn.sigmoid(self.y[-1])
 
 
         # define the loss
