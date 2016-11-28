@@ -150,7 +150,8 @@ public class CustomNeuralNetworkIris implements Serializable {
     			a.getTrackEdgeSensors()[14],
     			a.getTrackEdgeSensors()[15],
     			a.getTrackEdgeSensors()[16],
-    			a.getTrackEdgeSensors()[17],};
+    			a.getTrackEdgeSensors()[17],
+    			a.getTrackEdgeSensors()[18]};
     	System.out.println(Arrays.toString(input));
     	
     	
