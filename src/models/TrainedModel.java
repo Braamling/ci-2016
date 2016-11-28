@@ -61,26 +61,26 @@ public class TrainedModel {
 
 	public void setWeights(int layer, double[][] weights){
 		switch (layer) {
-	    case 1:  _weight1 = weights;
+	    case 0:  _weight1 = weights;
 	    		break;
-	    case 2:  _weight2 = weights;
+	    case 1:  _weight2 = weights;
 	    		break;
-	    case 3:  _weight3 = weights;
+	    case 2:  _weight3 = weights;
 	    		break;
-	    case 4:  _weight4 = weights;
+	    case 3:  _weight4 = weights;
 	    		break;
 		}
 	}
 	
     public void setBias(int layer, double[] bias){
 		switch (layer) {
-	    case 1:  _bias1 = bias;
+	    case 0:  _bias1 = bias;
 	    		break;
-	    case 2:  _bias2 = bias;
+	    case 1:  _bias2 = bias;
 	    		break;
-	    case 3:  _bias3 = bias;
+	    case 2:  _bias3 = bias;
 	    		break;
-	    case 4:  _bias4 = bias;
+	    case 3:  _bias4 = bias;
 	    		break;
 		}
 	}
