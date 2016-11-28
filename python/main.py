@@ -5,6 +5,7 @@ from math import sqrt
 import numpy as np
 import tensorflow as tf
 import snakeoil2
+import json
 
 def drive_tensorflow(c, sess, mdl):
     S= c.S.d
@@ -20,17 +21,17 @@ def drive_tensorflow(c, sess, mdl):
 
 
     # Automatic Transmission
-    # R['gear']=1
-    # if S['speedX']>50:
-    #     R['gear']=2
-    # if S['speedX']>80:
-    #     R['gear']=3
-    # if S['speedX']>110:
-    #     R['gear']=4
-    # if S['speedX']>140:
-    #     R['gear']=5
-    # if S['speedX']>170:
-    #     R['gear']=6
+    R['gear']=1
+    if S['speedX']>50:
+        R['gear']=2
+    if S['speedX']>80:
+        R['gear']=3
+    if S['speedX']>110:
+        R['gear']=4
+    if S['speedX']>140:
+        R['gear']=5
+    if S['speedX']>170:
+        R['gear']=6
 
 def drive(sess, mdl):
     C = snakeoil2.Client()
@@ -50,6 +51,18 @@ def train(sess, mdl, saver, model_name, input_s, output_s):
 
     learn_track = LearnTrack(train_set, test_set, valid_set, model_name)
     learn_track.train(sess, mdl, saver, epochs=5000, batch_size=100)
+
+def export_weights_to_json(sess, mdl):
+    weights_list, bias_list  = sess.run([mdl.W, mdl.b])
+
+    d = {}
+    for i in range(len(weights_list)):
+        w = weights_list[i].tolist()
+        b = bias_list[i].tolist()
+        d[i] = {'weights': w, 'bias': b}
+
+    with open('weights_nn1.json', 'w') as outfile:
+        json.dump(d, outfile, indent=4)
 
 def main():
     input_s = 22
@@ -80,10 +93,11 @@ def main():
     #print(sess.run(mdl.W))
     #print(sess.run(mdl.b))
 
-    #train(sess, mdl, saver, model_name, input_s, output_s)
+    train(sess, mdl, saver, model_name, input_s, output_s)
 
-    drive(sess, mdl)
+    #drive(sess, mdl)
 
+    export_weights_to_json(sess, mdl)
 
 if __name__ == '__main__':
 	main()
