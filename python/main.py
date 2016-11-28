@@ -55,11 +55,11 @@ def train(sess, mdl, saver, model_name, input_s, output_s):
 def export_weights_to_json(sess, mdl):
     weights_list, bias_list  = sess.run([mdl.W, mdl.b])
 
-    d = {}
+    d = []
     for i in range(len(weights_list)):
         w = weights_list[i].tolist()
         b = bias_list[i].tolist()
-        d[i] = {'weights': w, 'bias': b}
+        d.append({'weights': w, 'bias': b})
 
     with open('weights_nn1.json', 'w') as outfile:
         json.dump(d, outfile, indent=4)
@@ -67,8 +67,8 @@ def export_weights_to_json(sess, mdl):
 def main():
     input_s = 22
     output_s = 3
-    n_hidden_neurons = [100, 50, 20]
-    model_name = 'h100_50_20_l_008_test4/'
+    n_hidden_neurons = [100, 50]
+    model_name = 'h100_50_l_0001_test1/'
     batch_size = 100
 
     # Load model structure
@@ -93,7 +93,7 @@ def main():
     #print(sess.run(mdl.W))
     #print(sess.run(mdl.b))
 
-    train(sess, mdl, saver, model_name, input_s, output_s)
+    # train(sess, mdl, saver, model_name, input_s, output_s)
 
     #drive(sess, mdl)
 
