@@ -7,6 +7,7 @@ import cicontest.algorithm.abstracts.DriversUtils;
 import cicontest.torcs.controller.Driver;
 import cicontest.torcs.controller.Human;
 import race.TorcsConfiguration;
+import utils.PredictionTools;
 
 public class DefaultDriverAlgorithm extends AbstractAlgorithm {
 
@@ -28,6 +29,8 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
             //Start a race
             DefaultRace race = new DefaultRace();
             race.setTrack("aalborg" , "road");
+            PredictionTools predictor = new PredictionTools("./python/test.json");
+
             race.laps = 1;
 
             //for speedup set withGUI to false

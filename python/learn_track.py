@@ -10,6 +10,7 @@ class LearnTrack():
     mdl = 0
     def __init__(self, train_set, test_set, valid_set, model_dir_name):
         self._train_set = train_set
+        self._train_set.shuffle()
         self._test_set = test_set
         self._valid_set = valid_set
         self.model_name = model_dir_name
@@ -62,7 +63,6 @@ class LearnTrack():
             # reset the pointer for batches
             self._current_pointer = 0
             self._current_pointer_val = 0
-
 
     def next_batch(self, size):
         prev_pointer = self._current_pointer

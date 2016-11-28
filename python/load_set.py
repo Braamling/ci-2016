@@ -51,5 +51,25 @@ class LoadSet():
     def get_data_len(self):
         return self._data_len
 
+    def getLength(self):
+        return len(self._input)
+
+    def shuffle(self):
+        # Prepare two same shapped input and output arrays 
+        new_input = np.empty((self.getLength(), self._input_s))
+        new_output = np.empty((self.getLength(), self._output_s))
+
+        # Shuffle the indices of the input and output array
+        shuffled_indices = range(0, self.getLength())
+        random.shuffle(shuffled_indices)
+
+        # Reorder the input and output arrays
+        for i, i_ in enumerate(shuffled_indices):
+            new_input[i], self._input[i_]
+            new_output[i], self._output[i_]
+
+        # Store the shuffled arrays into the object
+        self._input = new_input
+        self._output = new_output
 
 

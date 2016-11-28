@@ -49,7 +49,7 @@ def train(sess, mdl, saver, model_name, input_s, output_s):
     print("Loaded data")
 
     learn_track = LearnTrack(train_set, test_set, valid_set, model_name)
-    learn_track.train(sess, mdl, saver, epochs=5000, batch_size=100)
+    learn_track.train(sess, mdl, saver, epochs=85, batch_size=100)
 
 def main():
     input_s = 22
