@@ -7,18 +7,26 @@ import cicontest.torcs.controller.extras.AutomatedClutch;
 import cicontest.torcs.controller.extras.AutomatedGearbox;
 import cicontest.torcs.controller.extras.AutomatedRecovering;
 import cicontest.torcs.genome.IGenome;
+import models.TrainedModel;
 import scr.Action;
 import scr.SensorModel;
 import training.CustomNeuralNetwork;
+import training.CustomNeuralNetworkIris;
 import utils.PredictionTools;
 
 public class DefaultDriver extends AbstractDriver {
 
-    private CustomNeuralNetwork neuralNetwork;
+    private CustomNeuralNetworkIris neuralNetwork;
 
     public DefaultDriver() {
         initialize();
-        neuralNetwork = new CustomNeuralNetwork(9, 8, 2);
+        PredictionTools predictor = new PredictionTools("./python/weights_nn1.json");
+        
+        TrainedModel trainedModel = predictor.getModel();
+        int[] hidden_layers = {100, 50, 20};
+        neuralNetwork = new CustomNeuralNetworkIris(22, hidden_layers, 3, trainedModel);
+        
+
 //        neuralNetwork = neuralNetwork.loadGenome();
     }
 

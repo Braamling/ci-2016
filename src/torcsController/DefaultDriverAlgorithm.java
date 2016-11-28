@@ -29,7 +29,7 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
             //Start a race
             DefaultRace race = new DefaultRace();
             race.setTrack("aalborg" , "road");
-            PredictionTools predictor = new PredictionTools("./python/test.json");
+            
 
             race.laps = 1;
 

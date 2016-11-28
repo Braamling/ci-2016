@@ -6,6 +6,8 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Random;
 
+import models.TrainedModel;
+
 
 public class CustomNeuralNetworkIris implements Serializable {
 
@@ -93,47 +95,35 @@ public class CustomNeuralNetworkIris implements Serializable {
     
     
     
-    public CustomNeuralNetworkIris(int inputs, int[] hiddenL, int outputs, models.TrainedModel TrainedModel) {
+    public CustomNeuralNetworkIris(int inputs, int[] hiddenL, int outputs, TrainedModel trainedModel) {
     	
     	// initialize class variables
-    	
     	numInputNeurons = inputs;
     	numOutputNeurons = outputs; 
     	
     	for (int i=0; i<hiddenL.length; i++){
     		switch(i){
     			case 1: 
-    	//			weights1 = new double[hiddenL[i]][inputs];
-    	//			bias1 = new double[hiddenL[i]];
     				numHiddenNeuronsLayer1 = hiddenL[i];
     				break;
     			case 2: 
-    	//			weights2 = new double[hiddenL[i]][hiddenL[i-1]];
-    	//			bias2 = new double[hiddenL[i]];
     				numHiddenNeuronsLayer2 = hiddenL[i];
     				break;
     			case 3: 
-    	//			weights3 = new double[hiddenL[i]][hiddenL[i-1]];
-    	//			bias3 = new double[hiddenL[i]];
     				numHiddenNeuronsLayer3 = hiddenL[i];
-    	//			weights4 = new double[outputs][hiddenL[i]]; 
-    	//			bias4 = new double[outputs];
     				break;
     			default: 
-    	//			weights4 = new double[outputs][hiddenL[hiddenL.length]];
-    	//			bias4 = new double[outputs];
     				break;
     		}
     	}
-    	
-    	weights1 = TrainedModel.getWeights(1);
-    	bias1 = TrainedModel.getBias(1);
-    	weights2 = TrainedModel.getWeights(2);
-    	bias2 = TrainedModel.getBias(2);
-    	weights3 = TrainedModel.getWeights(3);
-    	bias3 = TrainedModel.getBias(3);
-    	weights4 = TrainedModel.getWeights(4);
-    	bias4 = TrainedModel.getBias(4);
+    	weights1 = trainedModel.getWeights(1);
+    	bias1 = trainedModel.getBias(1);
+    	weights2 = trainedModel.getWeights(2);
+    	bias2 = trainedModel.getBias(2);
+    	weights3 = trainedModel.getWeights(3);
+    	bias3 = trainedModel.getBias(3);
+    	weights4 = trainedModel.getWeights(4);
+    	bias4 = trainedModel.getBias(4);
     }
 
     // Feed forward algorithm

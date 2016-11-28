@@ -11,6 +11,10 @@ public class TrainedModel {
 	public double[] _bias3;
 	public double[] _bias4;
 	
+	public TrainedModel(){
+		
+	}
+	
 	public TrainedModel(double[][] weight1, double[][] weight2, double[][] weight3, 
 						double[][] weight4, double[] bias1, double[] bias2, 
 						double[] bias3, double[] bias4){
@@ -52,6 +56,32 @@ public class TrainedModel {
 				return _bias4;
 			default:
 				return _bias4;
+		}
+	}
+
+	public void setWeights(int layer, double[][] weights){
+		switch (layer) {
+	    case 1:  _weight1 = weights;
+	    		break;
+	    case 2:  _weight2 = weights;
+	    		break;
+	    case 3:  _weight3 = weights;
+	    		break;
+	    case 4:  _weight4 = weights;
+	    		break;
+		}
+	}
+	
+    public void setBias(int layer, double[] bias){
+		switch (layer) {
+	    case 1:  _bias1 = bias;
+	    		break;
+	    case 2:  _bias2 = bias;
+	    		break;
+	    case 3:  _bias3 = bias;
+	    		break;
+	    case 4:  _bias4 = bias;
+	    		break;
 		}
 	}
 }
