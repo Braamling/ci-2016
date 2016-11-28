@@ -72,4 +72,3 @@ class LoadSet():
         self._input = new_input
         self._output = new_output
 
-

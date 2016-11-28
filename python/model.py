@@ -32,7 +32,7 @@ class Model():
             self.W.append(weight_variable([self.n_hidden_neurons[i - 1], self.n_hidden_neurons[i]] ))
             self.b.append(bias_variable([self.n_hidden_neurons[i]] ))
         self.W.append(weight_variable([self.n_hidden_neurons[-1], self._output_s] ))
-        self.b.append(self._output_s)
+        self.b.append(bias_variable([self._output_s]))
 
         # Initialize layers
         self.Layers = []
@@ -40,7 +40,11 @@ class Model():
         self.Layers[0] = tf.nn.sigmoid(self.Layers[0])
         for i in range(1, len(self.n_hidden_neurons)):
             self.Layers.append(tf.nn.sigmoid(layerNN(self.Layers[i - 1], self.W[i], self.b[i])))
-        self.y = tf.nn.tanh(layerNN(self.Layers[-1], self.W[-1], self.b[-1]))
+        self.y = layerNN(self.Layers[-1], self.W[-1], self.b[-1])
+        # Hardcoded activation function last layer
+        self.y = tf.nn.tanh(self.y)
+        # self.y[:1] = tf.nn.tanh(self.y)
+        # self.y[-1] = tf.nn.sigmoid(self.y[-1])
 
 
         # define the loss
