@@ -24,6 +24,16 @@ class Model():
         self.y_ = tf.placeholder(tf.float32, [None, self._output_s])
 
         # initialize the weights and biases for each layer
+        # W = weight_variable([self._input_s, self.n_hidden_neurons[0]])
+        # b = bias_variable([self.n_hidden_neurons[0]])
+        # W2 = weight_variable([self.n_hidden_neurons[0], self.n_hidden_neurons[0]])
+        # b2 = bias_variable([self.n_hidden_neurons[0]])
+        # W3 = weight_variable([self.n_hidden_neurons[0], self._output_s])
+        # b3 = bias_variable([self._output_s])
+        # l = tf.nn.sigmoid(layerNN(self.x, W, b))
+        # l2 = tf.nn.sigmoid(layerNN(l, W2, b2))
+        # self.y = tf.nn.tanh(layerNN(l2, W3, b3))
+
         self.W = []
         self.b = []
         self.W.append(weight_variable([self._input_s, self.n_hidden_neurons[0]]))
@@ -48,13 +58,15 @@ class Model():
 
 
         # define the loss
-        self.reg_losses = tf.get_collection(tf.GraphKeys.REGULARIZATION_LOSSES)
-        self.reg_constant = 0.01
-        self.loss = (tf.nn.l2_loss(self.y - self.y_) / batch_size) + self.reg_constant * sum(self.reg_losses)
-        self.train_step = tf.train.AdamOptimizer(0.001, epsilon=0.1).minimize(self.loss)
+        # self.reg_losses = tf.get_collection(tf.GraphKeys.REGULARIZATION_LOSSES)
+        # self.reg_constant = 0.01
+        self.loss = tf.nn.l2_loss(self.y - self.y_) #/ batch_size) #+ self.reg_constant * sum(self.reg_losses)
+        self.train_step = tf.train.AdamOptimizer(0.0001, epsilon=0.1).minimize(self.loss)
 
     def feedforward(self, sess, input):
         values = sess.run(self.y, feed_dict={self.x: [input], self.y_: np.zeros((len(input), self._output_s))})
         return values[0]
 
-
+    def get_loss(self, sess, input, output):
+        loss = sess.run(self.loss, feed_dict={self.x: input, self.y_: output})
+        return loss

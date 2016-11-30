@@ -16,7 +16,6 @@ class LearnTrack():
 
     def train(self, sess, mdl, saver, epochs, batch_size):
 
-        batch_size = 100
         n_batches = len(self._train_set.getInput()) / batch_size
         n_batches_val = len(self._valid_set.getInput()) / batch_size
         n_batches_test = len(self._test_set.getInput()) / batch_size
@@ -33,7 +32,7 @@ class LearnTrack():
             t_loss = 0.0
 
             # Train the network on the training set
-            for batch in range(n_batches):
+            for i in range(n_batches+1):
                 batch_xs, batch_ys = self.next_batch(batch_size)
                 (_, train_loss) = sess.run([mdl.train_step, mdl.loss], feed_dict={mdl.x: batch_xs, mdl.y_: batch_ys})
                 t_loss += train_loss
@@ -42,7 +41,7 @@ class LearnTrack():
 
             # Run a feedforward through the validation set
             v_loss = 0.0
-            for i, batch in enumerate(range(n_batches_val)):
+            for i in range(n_batches_val+1):
                 batch_xs, batch_ys = self.next_val_batch(batch_size)
                 valid_loss, correct, pred = sess.run([mdl.loss, mdl.y, mdl.y_], feed_dict={mdl.x: batch_xs, mdl.y_: batch_ys})
                 v_loss += valid_loss
@@ -51,8 +50,7 @@ class LearnTrack():
             v_loss *= 1.0 / n_batches_val
             print (" The validation loss for epoch %d and is %g" % (epoch, v_loss))
 
-            # Save the best model out of all the epochs after 500 epochs(it converges after 500)
-            if v_loss < smallest_valid_error and epoch > 800:
+            if v_loss < smallest_valid_error and epoch > 10000:
                 saver.save(sess, self.model_name + 'model.ckpt')
                 tf.train.write_graph(sess.graph_def, '.', 'trained_model.proto', as_text=False)
                 tf.train.write_graph(sess.graph_def, '.', 'trained_model.txt', as_text=True)
@@ -67,17 +65,23 @@ class LearnTrack():
     def next_batch(self, size):
         prev_pointer = self._current_pointer
         self._current_pointer += size
+        if (self._current_pointer > self._train_set.get_len):
+            self._current_pointer = self._train_set.get_len-1
         return self._train_set.getInput()[prev_pointer: self._current_pointer],\
             self._train_set.getOutput()[prev_pointer: self._current_pointer]
 
     def next_val_batch(self, size):
         prev_pointer = self._current_pointer_val
         self._current_pointer_val += size
+        if (self._current_pointer_val > self._valid_set.get_len):
+            self._current_pointer_val = self._valid_set.get_len - 1
         return self._valid_set.getInput()[prev_pointer: self._current_pointer_val], \
                self._valid_set.getOutput()[prev_pointer: self._current_pointer_val]
 
     def next_test_batch(self, size):
         prev_pointer = self._current_pointer_test
         self._current_pointer_test += size
+        if (self._current_pointer_test > self._test_set.get_len):
+            self._current_pointer_test = self._test_set.get_len - 1
         return self._test_set.getInput()[prev_pointer: self._current_pointer_test], \
                self._test_set.getOutput()[prev_pointer: self._current_pointer_test]

@@ -12,45 +12,57 @@ def drive_tensorflow(c, sess, mdl):
     R= c.R.d
 
     # print vars()
-    input = np.asarray([sqrt(S['speedX']**2 + S['speedY']**2)] + [S['trackPos']] + S['track'] + [0.])
-
+    input = np.asarray([S['speedX']] + [S['trackPos']]  + [S['angle']]  + S['track'])
+    print(input)
     response = mdl.feedforward(sess, input)
-    R['accel'] = response[0]
-    R['break'] = response[1]
-    R['steer'] = response[2]
-
+    print response
 
     # Automatic Transmission
-    R['gear']=1
-    if S['speedX']>50:
-        R['gear']=2
-    if S['speedX']>80:
-        R['gear']=3
-    if S['speedX']>110:
-        R['gear']=4
-    if S['speedX']>140:
-        R['gear']=5
-    if S['speedX']>170:
-        R['gear']=6
+    R['gear'] = 1
+    if S['speedX'] > 50:
+        R['gear'] = 2
+    if S['speedX'] > 80:
+        R['gear'] = 3
+    if S['speedX'] > 110:
+        R['gear'] = 4
+    if S['speedX'] > 140:
+        R['gear'] = 5
+    if S['speedX'] > 170:
+        R['gear'] = 6
+
+    # if abs(response[1]-1) < abs(response[0]-1):
+    #     response[1] = 1
+    #     response[0] = 0
+    # else:
+    #     response[1] = 0
+    #     response[0] = 1
+    R['accel'] = response[0]
+    R['brake'] = response[1]
+    R['steer'] = response[2]
 
 def drive(sess, mdl):
+    # C = snakeoil2.Client()
     C = snakeoil2.Client()
-
     for step in xrange(C.maxSteps, 0, -1):
         C.get_servers_input()
         drive_tensorflow(C, sess, mdl)
         C.respond_to_server()
     C.shutdown()
 
-def train(sess, mdl, saver, model_name, input_s, output_s):
-    train_set = LoadSet("../resources/train_data/train.csv", input_s, output_s)
-    test_set = LoadSet("../resources/train_data/test.csv", input_s, output_s)
-    valid_set = LoadSet("../resources/train_data/valid.csv", input_s, output_s)
+def train(sess, mdl, saver, model_name, input_s, output_s, batch_size):
+    train_set = LoadSet("../resources/train_data/test.csv", input_s, output_s)
+    test_set = LoadSet("../resources/train_data/aalborg.csv", input_s, output_s)
+    valid_set = LoadSet("../resources/train_data/aalborg.csv", input_s, output_s)
 
     print("Loaded data")
 
     learn_track = LearnTrack(train_set, test_set, valid_set, model_name)
-    learn_track.train(sess, mdl, saver, epochs=5000, batch_size=100)
+    learn_track.train(sess, mdl, saver, epochs=100000, batch_size=batch_size)
+    # start = 2074
+    # for i in range(40):
+    #     print train_set.getInput()[start+i]
+    #     print train_set.getOutput()[start + i]
+    #     print mdl.feedforward(sess, train_set.getInput()[start+i])
 
 def export_weights_to_json(sess, mdl):
     weights_list, bias_list  = sess.run([mdl.W, mdl.b])
@@ -67,9 +79,9 @@ def export_weights_to_json(sess, mdl):
 def main():
     input_s = 22
     output_s = 3
-    n_hidden_neurons = [100, 50]
-    model_name = 'h100_50_l_0001_test1/'
-    batch_size = 100
+    n_hidden_neurons = [100, 50, 20]
+    model_name = 'aalborg_overfit/'
+    batch_size = 4000
 
     # Load model structure
     mdl = Model(input_s, output_s, n_hidden_neurons, model_name, batch_size)
@@ -90,14 +102,11 @@ def main():
     else:
         print "No checkpoint found, training from scratch!"
 
-    #print(sess.run(mdl.W))
-    #print(sess.run(mdl.b))
+    # train(sess, mdl, saver, model_name, input_s, output_s, batch_size)
 
-    # train(sess, mdl, saver, model_name, input_s, output_s)
+    drive(sess, mdl)
 
-    #drive(sess, mdl)
-
-    export_weights_to_json(sess, mdl)
+    # export_weights_to_json(sess, mdl)
 
 if __name__ == '__main__':
 	main()
