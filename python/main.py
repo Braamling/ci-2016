@@ -50,7 +50,7 @@ def drive(sess, mdl):
     C.shutdown()
 
 def train(sess, mdl, saver, model_name, input_s, output_s, batch_size):
-    train_set = LoadSet("../resources/train_data/test.csv", input_s, output_s)
+    train_set = LoadSet("../resources/train_data/aalborg.csv", input_s, output_s)
     test_set = LoadSet("../resources/train_data/aalborg.csv", input_s, output_s)
     valid_set = LoadSet("../resources/train_data/aalborg.csv", input_s, output_s)
 
@@ -80,7 +80,7 @@ def main():
     input_s = 22
     output_s = 3
     n_hidden_neurons = [100, 50, 20]
-    model_name = 'aalborg_overfit/'
+    model_name = 'aalborg_overfit/' #'h100_50_20_l_008_test4'
     batch_size = 4000
 
     # Load model structure
@@ -102,9 +102,9 @@ def main():
     else:
         print "No checkpoint found, training from scratch!"
 
-    # train(sess, mdl, saver, model_name, input_s, output_s, batch_size)
+    train(sess, mdl, saver, model_name, input_s, output_s, batch_size)
 
-    drive(sess, mdl)
+    # drive(sess, mdl)
 
     # export_weights_to_json(sess, mdl)
 

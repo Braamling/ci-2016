@@ -35,11 +35,11 @@ class LoadSet():
 
     def shuffle(self):
         # Prepare two same shapped input and output arrays 
-        new_input = np.empty((self.getLength(), self._input_s))
-        new_output = np.empty((self.getLength(), self._output_s))
+        new_input = np.empty((self.get_len(), self._input_s))
+        new_output = np.empty((self.get_len(), self._output_s))
 
         # Shuffle the indices of the input and output array
-        shuffled_indices = range(0, self.getLength())
+        shuffled_indices = range(0, self.get_len())
         random.shuffle(shuffled_indices)
 
         # Reorder the input and output arrays
@@ -56,11 +56,11 @@ class LoadSet():
 
     def shuffle(self):
         # Prepare two same shapped input and output arrays 
-        new_input = np.empty((self.getLength(), self._input_s))
-        new_output = np.empty((self.getLength(), self._output_s))
+        new_input = np.empty((self.get_len(), self._input_s))
+        new_output = np.empty((self.get_len(), self._output_s))
 
         # Shuffle the indices of the input and output array
-        shuffled_indices = range(0, self.getLength())
+        shuffled_indices = range(0, self.get_len())
         random.shuffle(shuffled_indices)
 
         # Reorder the input and output arrays
