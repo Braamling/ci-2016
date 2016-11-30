@@ -173,6 +173,7 @@ class Client():
                 sockdata,addr= self.so.recvfrom(1024)
             except socket.error, emsg:
                 print "Waiting for data.............."
+                print emsg.message
             if '***identified***' in sockdata:
                 print "Client connected.............."
                 continue

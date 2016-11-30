@@ -4,22 +4,25 @@ import csv
 import random
 
 class LoadSet():
-
     def __init__(self, filename, input_s, output_s):
         self._input_s = input_s
         self._output_s = output_s
         self._input = np.empty((0, input_s))
         self._output = np.empty((0, output_s))
         self._filename = filename
+        self._len = 0
 
         with open(filename, 'rb') as csvfile:
             file = csv.reader(csvfile, delimiter=',')
             next(file, None)
+            counter = 0
             for row in file:
                 values = map(float, row)
                 if len(values) is input_s + output_s:
+                    counter+=1
                     self._input = np.append(self._input, np.array([values[output_s:]]), axis=0)
                     self._output = np.append(self._output, np.array([values[:output_s]]), axis=0)
+            self._len = counter
 
     def getInput(self):
         return self._input
@@ -27,7 +30,7 @@ class LoadSet():
     def getOutput(self):
         return self._output
 
-    def getLength(self):
+    def get_len(self):
         return len(self._input)
 
     def shuffle(self):
@@ -51,9 +54,6 @@ class LoadSet():
     def get_data_len(self):
         return self._data_len
 
-    def getLength(self):
-        return len(self._input)
-
     def shuffle(self):
         # Prepare two same shapped input and output arrays 
         new_input = np.empty((self.getLength(), self._input_s))
@@ -71,4 +71,5 @@ class LoadSet():
         # Store the shuffled arrays into the object
         self._input = new_input
         self._output = new_output
+
 
