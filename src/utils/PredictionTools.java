@@ -23,9 +23,6 @@ public class PredictionTools {
 		JSONParser parser = new JSONParser();
 		TrainedModel trained_model = new TrainedModel();
         try {
- 
-//        	JSONObject jsonObject = (JSONObject)parser.parse(new FileReader(
-//                    filename));
             
             JSONArray hidden_layer_arr = (JSONArray) parser.parse(new FileReader(
                     filename));
@@ -42,11 +39,11 @@ public class PredictionTools {
                   int layer_y = ((JSONArray)weight.get(0)).size();
 
                   double[] hidden_layer_bias_arr = new double[bias.size()];
-                  double[][] hidden_layer_weights_arr = new double[layer_x][layer_y];
+                  double[][] hidden_layer_weights_arr = new double[layer_y][layer_x];
 
                   for(int j = 0; j < layer_x; j++){
                 	  for(int k = 0; k < layer_y; k++){
-                		  hidden_layer_weights_arr[j][k] = (double)((JSONArray)weight.get(j)).get(k);
+                		  hidden_layer_weights_arr[k][j] = (double)((JSONArray)weight.get(j)).get(k);
                 	  }
                   }
                   

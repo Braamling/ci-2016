@@ -48,17 +48,21 @@ public class DefaultDriver extends AbstractDriver {
 
     @Override
     public double getAcceleration(SensorModel sensors) {
-        double[] sensorArray = new double[4];
         double[] output = neuralNetwork.getOutput(sensors);
-        return output[1];
+        return output[0];
     }
 
     @Override
     public double getSteering(SensorModel sensors) {
         double[] output = neuralNetwork.getOutput(sensors);
-        return output[0];
+        return output[2];
     }
 
+    public double getBreak(SensorModel sensors) {
+        double[] output = neuralNetwork.getOutput(sensors);
+        return output[1];
+    }
+    
     @Override
     public String getDriverName() {
         return "Habris";
@@ -94,27 +98,6 @@ public class DefaultDriver extends AbstractDriver {
         System.out.println(sensors.toString());
         action.steering = DriversUtils.alignToTrackAxis(sensors, 0.5);
         
-        
-//        if (sensors.getSpeed() > 60.0D) {
-//            action.accelerate = 0.0D;
-//            action.brake = 0.0D;
-//        }
-//
-//        if (sensors.getSpeed() > 70.0D) {
-//            action.accelerate = 0.0D;
-//            action.brake = -1.0D;
-//        }
-//
-//        if (sensors.getSpeed() <= 60.0D) {
-//            action.accelerate = (80.0D - sensors.getSpeed()) / 80.0D;
-//            action.brake = 0.0D;
-//        }
-//
-//        if (sensors.getSpeed() < 30.0D) {
-//            action.accelerate = 1.0D;
-//            action.brake = 0.0D;
-//        }
-
         action.accelerate = 10.0D;
         action.brake = 0.0D;
         
@@ -133,7 +116,13 @@ public class DefaultDriver extends AbstractDriver {
         }
     	action.steering = getSteering(sensors);
     	action.accelerate = getAcceleration(sensors);
-    	action.brake = 0;
+    	action.brake = getBreak(sensors);
+    	
+        System.out.println("--------------" + getDriverName() + "--------------");
+        System.out.println("Steering: " + action.steering);
+        System.out.println("Acceleration: " + action.accelerate);
+        System.out.println("Brake: " + action.brake);
+        System.out.println("-----------------------------------------------");
     	
     	return action;
     }

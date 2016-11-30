@@ -21,77 +21,78 @@ public class CustomNeuralNetworkIris implements Serializable {
     private double[]bias3;
     private double[]bias4;
     private int numInputNeurons;
+    private int[] _hiddenL;
     private int numHiddenNeuronsLayer1;
     private int numHiddenNeuronsLayer2;
     private int numHiddenNeuronsLayer3;
     private int numOutputNeurons;
     private Random r = new Random();
     
-    public CustomNeuralNetworkIris(int inputs, int hidden, int hidden2, int hidden3, int outputs) {
-    	// This should be a parameter..
-    	double sigma = 1;
-    	double mean = 0;
-    	
-    	// initialize class variables
-    	weights1 = new double[hidden][inputs]; 
-    	weights2 = new double[hidden2][hidden];
-    	weights3 = new double[hidden3][hidden2];
-    	weights4 = new double[outputs][hidden3];
-    	bias1 = new double[hidden];
-    	bias2 = new double[hidden2];
-    	bias3 = new double[hidden3];
-    	bias4 = new double[outputs];
-    	numInputNeurons = inputs;
-    	numHiddenNeuronsLayer1 = hidden;
-    	numHiddenNeuronsLayer2 = hidden2;
-    	numHiddenNeuronsLayer3 = hidden3;
-    	numOutputNeurons = outputs;
-    	
-    	// initialize weights 1 with Gaussian distributed values with sigma and mean
-    	for (int i=0; i< hidden; i++){
-    		for (int j=0; j<inputs; j++){
-    			weights1[i][j] = r.nextGaussian() * sigma + mean;
-    		}
-    	}
-    	
-    	// initialize weights of layer 2
-    	for (int i=0; i< hidden2; i++){
-    		for (int j=0; j<hidden; j++){
-    			weights2[i][j] = r.nextGaussian() * sigma + mean;
-    		}
-    	}
-    	
-    	// initialize weights of layer 3
-    	for (int i=0; i< hidden3; i++){
-    		for (int j=0; j< hidden2; j++){
-    			weights3[i][j] = r.nextGaussian() * sigma + mean;
-    		}
-    	}
-    	
-    	// initialize weights 4 with Gaussian distributed values with sigma and mean
-    	for (int i=0; i< outputs; i++){
-    		for (int j=0; j<hidden3; j++){
-    			weights2[i][j] = r.nextGaussian() * sigma + mean; //different seed?
-    		}
-    	}
-    	
-    	// initialize bias with Gaussian distributed values with sigma and mean
-    	for (int i=0; i< hidden; i++){
-    		bias1[i] = r.nextGaussian() * sigma + mean; // different seed?
-    	}
-    	
-    	for (int i=0; i< hidden2; i++){
-    		bias2[i] = r.nextGaussian() * sigma + mean; 
-    	}
-    	
-    	for (int i=0; i< hidden3; i++){
-    		bias3[i] = r.nextGaussian() * sigma + mean;
-    	}
-    	
-    	for (int i=0; i< outputs; i++){
-    		bias4[i] = r.nextGaussian() * sigma + mean; // different seed?
-    	}
-    }
+//    public CustomNeuralNetworkIris(int inputs, int hidden, int hidden2, int hidden3, int outputs) {
+//    	// This should be a parameter..
+//    	double sigma = 1;
+//    	double mean = 0;
+//    	
+//    	// initialize class variables
+//    	weights1 = new double[hidden][inputs]; 
+//    	weights2 = new double[hidden2][hidden];
+//    	weights3 = new double[hidden3][hidden2];
+//    	weights4 = new double[outputs][hidden3];
+//    	bias1 = new double[hidden];
+//    	bias2 = new double[hidden2];
+//    	bias3 = new double[hidden3];
+//    	bias4 = new double[outputs];
+//    	numInputNeurons = inputs;
+//    	numHiddenNeuronsLayer1 = hidden;
+//    	numHiddenNeuronsLayer2 = hidden2;
+//    	numHiddenNeuronsLayer3 = hidden3;
+//    	numOutputNeurons = outputs;
+//    	
+//    	// initialize weights 1 with Gaussian distributed values with sigma and mean
+//    	for (int i=0; i< hidden; i++){
+//    		for (int j=0; j<inputs; j++){
+//    			weights1[i][j] = r.nextGaussian() * sigma + mean;
+//    		}
+//    	}
+//    	
+//    	// initialize weights of layer 2
+//    	for (int i=0; i< hidden2; i++){
+//    		for (int j=0; j<hidden; j++){
+//    			weights2[i][j] = r.nextGaussian() * sigma + mean;
+//    		}
+//    	}
+//    	
+//    	// initialize weights of layer 3
+//    	for (int i=0; i< hidden3; i++){
+//    		for (int j=0; j< hidden2; j++){
+//    			weights3[i][j] = r.nextGaussian() * sigma + mean;
+//    		}
+//    	}
+//    	
+//    	// initialize weights 4 with Gaussian distributed values with sigma and mean
+//    	for (int i=0; i< outputs; i++){
+//    		for (int j=0; j<hidden3; j++){
+//    			weights2[i][j] = r.nextGaussian() * sigma + mean; //different seed?
+//    		}
+//    	}
+//    	
+//    	// initialize bias with Gaussian distributed values with sigma and mean
+//    	for (int i=0; i< hidden; i++){
+//    		bias1[i] = r.nextGaussian() * sigma + mean; // different seed?
+//    	}
+//    	
+//    	for (int i=0; i< hidden2; i++){
+//    		bias2[i] = r.nextGaussian() * sigma + mean; 
+//    	}
+//    	
+//    	for (int i=0; i< hidden3; i++){
+//    		bias3[i] = r.nextGaussian() * sigma + mean;
+//    	}
+//    	
+//    	for (int i=0; i< outputs; i++){
+//    		bias4[i] = r.nextGaussian() * sigma + mean; // different seed?
+//    	}
+//    }
     
     
     
@@ -101,21 +102,8 @@ public class CustomNeuralNetworkIris implements Serializable {
     	numInputNeurons = inputs;
     	numOutputNeurons = outputs; 
     	
-    	for (int i=0; i<hiddenL.length; i++){
-    		switch(i){
-    			case 1: 
-    				numHiddenNeuronsLayer1 = hiddenL[i];
-    				break;
-    			case 2: 
-    				numHiddenNeuronsLayer2 = hiddenL[i];
-    				break;
-    			case 3: 
-    				numHiddenNeuronsLayer3 = hiddenL[i];
-    				break;
-    			default: 
-    				break;
-    		}
-    	}
+    	_hiddenL = hiddenL;
+    	
     	weights1 = trainedModel.getWeights(1);
     	bias1 = trainedModel.getBias(1);
     	weights2 = trainedModel.getWeights(2);
@@ -152,26 +140,13 @@ public class CustomNeuralNetworkIris implements Serializable {
     			a.getTrackEdgeSensors()[16],
     			a.getTrackEdgeSensors()[17],
     			a.getTrackEdgeSensors()[18]};
+    	
+    	
     	System.out.println(Arrays.toString(input));
     	
-    	
-    	
-    	
-    	//double[] input = {
-    	//		a.getTrackEdgeSensors()[0],
-    	//		a.getTrackEdgeSensors()[2],
-    	//		a.getTrackEdgeSensors()[4],
-    	//		a.getTrackEdgeSensors()[6],
-    	//		a.getTrackEdgeSensors()[8],
-    	//		a.getTrackEdgeSensors()[10],
-    	//		a.getTrackEdgeSensors()[12],
-    	//		a.getTrackEdgeSensors()[14],
-    	//		a.getTrackEdgeSensors()[16],};
-    	//System.out.println(Arrays.toString(input));
-    	
-    	double[] h1 = new double[numHiddenNeuronsLayer1];
-    	double[] h2 = new double[numHiddenNeuronsLayer2];
-    	double[] h3 = new double[numHiddenNeuronsLayer3];
+    	double[] h1 = new double[_hiddenL[0]];
+    	double[] h2 = new double[_hiddenL[1]];
+    	double[] h3 = new double[_hiddenL[2]];
     	double[] output = new double[numOutputNeurons];
     	
     	// put SensorModel a in input
@@ -180,7 +155,7 @@ public class CustomNeuralNetworkIris implements Serializable {
     }
     
     public double[] calculateOutput(double[] input, double[] output, double[] h1, double[] h2, double[] h3){
-    	for (int i=0; i< numHiddenNeuronsLayer1; i++){
+    	for (int i=0; i< _hiddenL[0]; i++){
     		for (int j=0; j<numInputNeurons; j++){
     			h1[i] += input[j] * weights1[i][j];
     		}
@@ -189,8 +164,10 @@ public class CustomNeuralNetworkIris implements Serializable {
     		h1[i] = 1 / (1 + Math.exp(-tempH)); // Possibly use ReLU instead
     	}
     	
-    	for (int i=0; i< numHiddenNeuronsLayer2; i++){
-    		for (int j=0; j< numHiddenNeuronsLayer1; j++){
+    	
+    	
+    	for (int i=0; i< _hiddenL[1]; i++){
+    		for (int j=0; j< _hiddenL[0]; j++){
     			h2[i] += h1[j] * weights2[i][j];
     		}
     		
@@ -198,8 +175,10 @@ public class CustomNeuralNetworkIris implements Serializable {
     		h2[i] = 1/(1 + Math.exp(-tempH)); 
     	}
     	
-    	for (int i=0; i< numHiddenNeuronsLayer3; i++){
-    		for (int j=0; j< numHiddenNeuronsLayer2; j++){
+    	
+    	
+    	for (int i=0; i< _hiddenL[2]; i++){
+    		for (int j=0; j< _hiddenL[1]; j++){
     			h3[i] += h2[j] * weights3[i][j];
     		}
     		
@@ -208,7 +187,7 @@ public class CustomNeuralNetworkIris implements Serializable {
     	}
     	
     	for (int i=0; i< numOutputNeurons; i++){
-    		for (int j=0; j<numHiddenNeuronsLayer3; j++){
+    		for (int j=0; j<_hiddenL[2]; j++){
     			output[i] += h3[j] * weights4[i][j];
     		}
     		
@@ -216,6 +195,8 @@ public class CustomNeuralNetworkIris implements Serializable {
     		output[i] = (Math.exp(tempH * 2.0)-1.0)/(Math.exp(tempH * 2.0)+1.0);
     		//output[i] = 1 / (1 + Math.exp(-tempH)); // Possibly use ReLU instead
     	}
+    	
+    	System.out.println(output[0] + ": " + output[1] + ": " + output[2]);
     	
         return output;
     }
