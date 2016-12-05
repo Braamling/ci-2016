@@ -4,6 +4,7 @@ import java.io.File;
 import cicontest.algorithm.abstracts.AbstractAlgorithm;
 import cicontest.algorithm.abstracts.DriversUtils;
 import cicontest.torcs.controller.Driver;
+import models.GAModel;
 import race.TorcsConfiguration;
 
 public class DefaultDriverAlgorithm extends AbstractAlgorithm {
@@ -11,7 +12,9 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
     private static final long serialVersionUID = 654963126362653L;
 
     DefaultDriverGenome[] drivers = new DefaultDriverGenome[1];
-    int [] results = new int[1];
+    private int [] results = new int[1];
+    private GAModel _gaModel;
+//    private DefaultRace _race;
 
     public Class<? extends Driver> getDriverClass(){
         return DefaultDriver.class;
@@ -19,25 +22,51 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
 
     public void run(boolean continue_from_checkpoint) {
         if(!continue_from_checkpoint){
+        	_gaModel = new GAModel();
+        	System.out.println(_gaModel.getIndividual());
+        	_gaModel.individualPlusPlus();
             //init NN
             DefaultDriverGenome genome = new  DefaultDriverGenome();
             drivers[0] = genome;
-
+            
+            DefaultRace race;
             //Start a race
-            DefaultRace race = new DefaultRace();
+            race = new DefaultRace();
             race.setTrack("aalborg" , "road");
 
             race.laps = 3;
-            while(true){
-            	results = race.runRace(drivers, false);	
-            }
+            
+            results = race.runRace(drivers, false, _gaModel);	
+            
+            
+            
 
             // Save genome/nn
             //DriversUtils.storeGenome(drivers[0]);
+        }else{
+        	_gaModel = new GAModel();
+        	System.out.println(_gaModel.getIndividual());
+        	_gaModel.individualPlusPlus();
+        	
+        	DefaultDriverGenome genome = new  DefaultDriverGenome();
+            drivers[0] = genome;
+        	
+            DefaultRace race;
+            //Start a race
+            race = new DefaultRace();
+            race.setTrack("aalborg" , "road");
+
+            race.laps = 3;
+            
+            while(true){
+                results = race.runRace(drivers, false, _gaModel);	
+                DriversUtils.createCheckpoint(this);
+                System.out.println(_gaModel.getIndividual());
+            }           
         }
             // create a checkpoint this allows you to continue this run later
-            //DriversUtils.createCheckpoint(this);
-            //DriversUtils.clearCheckpoint();
+//            DriversUtils.createCheckpoint(this);
+//            DriversUtils.clearCheckpoint();
     }
 
     public static void main(String[] args) {
@@ -65,10 +94,10 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
             if(DriversUtils.hasCheckpoint()){
                 DriversUtils.loadCheckpoint().run(true);
             } else {
-                algorithm.run();
+                algorithm.run(true);
             }
         } else {
-            algorithm.run();
+            algorithm.run(true);
         }
     }
 

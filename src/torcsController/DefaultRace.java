@@ -4,6 +4,7 @@ import cicontest.algorithm.abstracts.AbstractRace;
 import cicontest.algorithm.abstracts.DriversUtils;
 import cicontest.torcs.controller.Driver;
 import cicontest.torcs.controller.Human;
+import models.GAModel;
 
 public class DefaultRace extends AbstractRace {
 
@@ -15,13 +16,12 @@ public class DefaultRace extends AbstractRace {
 		}
 		return runQualification(driversList, withGUI);
 	}
-
 	
-	public int[] runRace(DefaultDriverGenome[] drivers, boolean withGUI){
+	public int[] runRace(DefaultDriverGenome[] drivers, boolean withGUI, GAModel gaModel){
 		int size = Math.min(10, drivers.length);
 		DefaultDriver[] driversList = new DefaultDriver[size];
 		for(int i=0; i<size; i++){
-			driversList[i] = new DefaultDriver();
+			driversList[i] = new DefaultDriver(gaModel);
 			driversList[i].loadGenome(drivers[i]);
 		}
 		return runRace(driversList, withGUI, true);

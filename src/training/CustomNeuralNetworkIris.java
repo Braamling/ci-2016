@@ -65,8 +65,6 @@ public class CustomNeuralNetworkIris implements Serializable {
     			a.getTrackEdgeSensors()[18]};
     	
     	
-    	System.out.println(Arrays.toString(input));
-    	
     	double[] h1 = new double[_hiddenL[0]];
     	double[] h2 = new double[_hiddenL[1]];
     	double[] h3 = new double[_hiddenL[2]];
@@ -118,7 +116,7 @@ public class CustomNeuralNetworkIris implements Serializable {
     		output[i] = (Math.exp(tempH * 2.0)-1.0)/(Math.exp(tempH * 2.0)+1.0);
     	}
     	
-    	System.out.println(output[0] + ": " + output[1] + ": " + output[2]);
+//    	System.out.println(output[0] + ": " + output[1] + ": " + output[2]);
     	
         return output;
     }

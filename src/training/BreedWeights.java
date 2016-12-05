@@ -1,13 +1,6 @@
 package training;
 
-import scr.SensorModel;
-
-import java.io.*;
-import java.util.Arrays;
-import java.util.Random;
-
 import models.TrainedModel;
-import training.CustomNeuralNetworkIris;
 
 public class BreedWeights {
 	
@@ -16,11 +9,15 @@ public class BreedWeights {
 	private TrainedModel parent2;
 	public TrainedModel kid1;
 	public TrainedModel kid2;
-	private int[] breedMethod; //each number is linked to a crossing method for breeding accompanied with a number for n points 
+	private int _breedMethod;
+	private int _stepSize;//each number is linked to a crossing method for breeding accompanied with a number for n points 
 	// [1,n] = n-point cross over, with n as the step size 
 	
+	public BreedWeights(TrainedModel trainedModel1, TrainedModel trainedModel2,  int method){
+		this(trainedModel1, trainedModel2,  method, 0);
+	}
 	
-	public BreedWeights(TrainedModel trainedModel1, TrainedModel trainedModel2,  int[] method){
+	public BreedWeights(TrainedModel trainedModel1, TrainedModel trainedModel2,  int method, int stepSize){
 		parent1 = trainedModel1;
 		parent2 = trainedModel2;
 		kid1 = parent1.getClone();
@@ -28,17 +25,17 @@ public class BreedWeights {
 		totalSize = parent1.getTotalSize();
 		//weightsKid1 = new double[totalSize];
 		//weightsKid2 = new double[totalSize];
-		breedMethod = method;
+		_breedMethod = method;
+		_stepSize = stepSize;
+		breedWeights();
 	}
 	
 	public void breedWeights(){
-		int type = breedMethod[0];
-		int n = breedMethod[1];
 		// n-point crossover
-		if (type == 1){
+		if (_breedMethod == 1){
 			int flag = 1;
-			for (int i=0; i<totalSize; i+= n){
-				int step = i+n;
+			for (int i=0; i<totalSize; i+= _stepSize){
+				int step = i+_stepSize;
 				if (flag == 0){
 					flag = 1;
 				} else {
@@ -55,7 +52,7 @@ public class BreedWeights {
 				}
 			}
 		// uniform crossover
-		} else if (type == 2){
+		} else if (_breedMethod == 2){
 			int counter = 0;
 			for (int i=0; i<totalSize; i++){
 				double valP1 = parent1.getStretchedIndexValue(i);

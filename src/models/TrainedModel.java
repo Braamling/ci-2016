@@ -269,8 +269,8 @@ public class TrainedModel {
 		 // try-with-resources statement based on post comment below :)
 		 try (FileWriter file = new FileWriter(filename)) {
 			 file.write(output.toJSONString());
-			 System.out.println("Successfully Copied JSON Object to File...");
-			 System.out.println("\nJSON Object: " + output);
+//			 System.out.println("Successfully Copied JSON Object to File...");
+//			 System.out.println("\nJSON Object: " + output);
 		 } catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -293,9 +293,7 @@ public class TrainedModel {
 	    	for( int index: indices){
 	    		double value = getStretchedIndexValue(index);
 
-	    		System.out.println(value);
 	    		value = value + randomDouble(-shift_max, shift_max);
-	    		System.out.println(value);
 	    		
 	    		setStretchedIndexValue(index, value);   		
 	    		
