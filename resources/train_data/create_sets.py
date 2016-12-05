@@ -51,9 +51,9 @@ def main():
     l = interpolate(l)
     l_1 = interpolate(l_1)
     l_2 = interpolate(l_2)
-    l = interpolate(l)
-    l_1 = interpolate(l_1)
-    l_2 = interpolate(l_2)
+    # l = interpolate(l)
+    # l_1 = interpolate(l_1)
+    # l_2 = interpolate(l_2)
 
     # write a train, test and valid set
     with open("aalborg-extended.csv", "wb") as f:
