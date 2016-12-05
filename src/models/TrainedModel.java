@@ -1,8 +1,10 @@
 package models;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -35,6 +37,12 @@ public class TrainedModel {
 		_bias3 = bias3;
 		_bias4 = bias4;	
 
+	}
+	
+	public TrainedModel getClone(){
+		return new TrainedModel(_weight1.clone(), _weight2.clone(), _weight3.clone(), 
+							    _weight4.clone(),_bias1.clone(),_bias2.clone(),
+							    _bias3.clone(),_bias4.clone());
 	}
 
 	public double[][] getWeights(int layer){
@@ -268,5 +276,74 @@ public class TrainedModel {
 			e.printStackTrace();
 		}
 	 }
+	 
+	   /**
+	     * 
+	     * @param shift_max Maximum shift per hidden unit
+	     * @param shift_percentage Maximum amount of hidden units to shift.
+	     */
+	    public void variate(float shift_max, float shift_percentage) {    	
+	    	int modelSize = getTotalSize();
+	    	System.out.println(modelSize);
+	    	
+	    	int shift_amount = (int) (((float)modelSize) * shift_percentage);
+	    	
+	    	int[] indices = getRandomHiddenUnitIndices(modelSize, shift_amount);
+	    	
+	    	for( int index: indices){
+	    		double value = getStretchedIndexValue(index);
+
+	    		System.out.println(value);
+	    		value = value + randomDouble(-shift_max, shift_max);
+	    		System.out.println(value);
+	    		
+	    		setStretchedIndexValue(index, value);   		
+	    		
+	    	}
+	    }
+	    
+	    /**
+	     * 
+	     * @param shift_max Maximum shift per hidden unit
+	     * @param shift_percentage Maximum amount of hidden units to shift.
+	     */
+	    public void mutate(float mutate_range, float mutate_percentage) {    	
+	    	int modelSize = getTotalSize();
+	    	System.out.println(modelSize);
+	    	
+	    	int shift_amount = (int) (((float)modelSize) * mutate_percentage);
+	    	
+	    	int[] indices = getRandomHiddenUnitIndices(modelSize, shift_amount);
+	    	
+	    	for( int index: indices){
+	    		double value = randomDouble(-mutate_range, mutate_range);
+	    		System.out.println(value);
+	    		
+	    		setStretchedIndexValue(index, value);   		
+	    		
+	    	}
+	    }
+	    
+	    public int[] getRandomHiddenUnitIndices(int networkLength, int amount) {
+	        ArrayList<Integer> list = new ArrayList<Integer>();
+	        
+	        for (int i=1; i<networkLength; i++) {
+	            list.add(new Integer(i));
+	        }
+	        
+	        int[] indices = new int[amount];
+	        
+	        Collections.shuffle(list);
+	        for (int i=0; i<amount; i++) {
+	        	indices[i] = (list.get(i));
+	        }
+	        
+	        return indices;
+	    }
+	    
+	    private double randomDouble(double min, double max){
+	        Random rand = new Random();
+	        return rand.nextDouble() * (max - min) + min;
+	    }
 
 }

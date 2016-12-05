@@ -4,12 +4,6 @@ import scr.SensorModel;
 
 import java.io.*;
 import java.util.Arrays;
-import java.util.Random;
-
-import org.json.simple.JSONArray;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 import models.TrainedModel;
 
@@ -30,10 +24,19 @@ public class CustomNeuralNetworkIris implements Serializable {
     	
     	_hiddenL = hiddenL;
     	_trainedModel = trainedModel;
-    	variate(.05F, .5F);
-    	_trainedModel.storeJson("test123456.json");
+    	
+//    	for(int i = 0; i < 30; i++){
+//    		TrainedModel new_model = _trainedModel.getClone();
+//    		new_model.variate(.05F, .5F);
+//        	_trainedModel.storeJson("resources/variations/var_" + i + ".json");
+//    	}
     }
-
+    
+    public CustomNeuralNetworkIris getClone(){
+    	return new CustomNeuralNetworkIris(numInputNeurons, _hiddenL.clone(), 
+    			                           numOutputNeurons, _trainedModel.getClone());
+    }
+    
     // Feed forward algorithm
     public double[] getOutput(SensorModel a) {
     	//Initialize intermediate variables
@@ -170,74 +173,6 @@ public class CustomNeuralNetworkIris implements Serializable {
         return null;
     }
     
-    /**
-     * 
-     * @param shift_max Maximum shift per hidden unit
-     * @param shift_percentage Maximum amount of hidden units to shift.
-     */
-    public void variate(float shift_max, float shift_percentage) {    	
-    	int modelSize = _trainedModel.getTotalSize();
-    	System.out.println(modelSize);
-    	
-    	int shift_amount = (int) (((float)modelSize) * shift_percentage);
-    	
-    	int[] indices = getRandomHiddenUnitIndices(modelSize, shift_amount);
-    	
-    	for( int index: indices){
-    		double value = _trainedModel.getStretchedIndexValue(index);
-
-    		System.out.println(value);
-    		value = value + randomDouble(-shift_max, shift_max);
-    		System.out.println(value);
-    		
-    		_trainedModel.setStretchedIndexValue(index, value);   		
-    		
-    	}
-    }
-    
-    /**
-     * 
-     * @param shift_max Maximum shift per hidden unit
-     * @param shift_percentage Maximum amount of hidden units to shift.
-     */
-    public void mutate(float mutate_range, float mutate_percentage) {    	
-    	int modelSize = _trainedModel.getTotalSize();
-    	System.out.println(modelSize);
-    	
-    	int shift_amount = (int) (((float)modelSize) * mutate_percentage);
-    	
-    	int[] indices = getRandomHiddenUnitIndices(modelSize, shift_amount);
-    	
-    	for( int index: indices){
-    		double value = randomDouble(-mutate_range, mutate_range);
-    		System.out.println(value);
-    		
-    		_trainedModel.setStretchedIndexValue(index, value);   		
-    		
-    	}
-    }
-    
-    public int[] getRandomHiddenUnitIndices(int networkLength, int amount) {
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        
-        for (int i=1; i<networkLength; i++) {
-            list.add(new Integer(i));
-        }
-        
-        int[] indices = new int[amount];
-        
-        Collections.shuffle(list);
-        for (int i=0; i<amount; i++) {
-        	indices[i] = (list.get(i));
-        }
-        
-        return indices;
-    }
-    
-    private double randomDouble(double min, double max){
-        Random rand = new Random();
-        return rand.nextDouble() * (max - min) + min;
-    }
     
 	 public void storeJson(String filename){
 		 _trainedModel.storeJson(filename);
