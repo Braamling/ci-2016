@@ -27,6 +27,7 @@ public class TrainedModel {
 		_bias2 = bias2;
 		_bias3 = bias3;
 		_bias4 = bias4;	
+	
 	}
 	
 	public double[][] getWeights(int layer){
@@ -61,27 +62,157 @@ public class TrainedModel {
 
 	public void setWeights(int layer, double[][] weights){
 		switch (layer) {
-	    case 0:  _weight1 = weights;
+	    case 1:  _weight1 = weights;
 	    		break;
-	    case 1:  _weight2 = weights;
+	    case 2:  _weight2 = weights;
 	    		break;
-	    case 2:  _weight3 = weights;
+	    case 3:  _weight3 = weights;
 	    		break;
-	    case 3:  _weight4 = weights;
+	    case 4:  _weight4 = weights;
 	    		break;
 		}
 	}
 	
     public void setBias(int layer, double[] bias){
 		switch (layer) {
-	    case 0:  _bias1 = bias;
+	    case 1:  _bias1 = bias;
 	    		break;
-	    case 1:  _bias2 = bias;
+	    case 2:  _bias2 = bias;
 	    		break;
-	    case 2:  _bias3 = bias;
+	    case 3:  _bias3 = bias;
 	    		break;
-	    case 3:  _bias4 = bias;
+	    case 4:  _bias4 = bias;
 	    		break;
 		}
 	}
+       
+    public int getTotalSize(){
+    	int weight_size = _weight1.length + _weight2.length + _weight3.length + _weight4.length;
+    	int bias_size = _bias1.length + _bias2.length + _bias3.length + _bias4.length;
+    	
+    	return weight_size + bias_size;
+    }
+    
+    /**
+     * Get the value of a hidden unit in the network mapped to an 1d array.
+     * 
+     * @param index
+     * @return
+     */
+    public double getStretchedIndexValue(int index){		
+    	int[] sizes = {_weight1.length * _weight1[0].length, _weight2.length * _weight2[0].length, 
+				   _weight3.length * _weight3[0].length, _weight4.length * _weight4[0].length, 
+				   _bias1.length, _bias2.length, _bias3.length, _bias4.length};
+    	
+    	
+    	// Search for the correct weight of bias value corresponding to the index
+    	for (int i = 0; i < sizes.length; i++) { 
+    		if((index - sizes[i]) < 0){
+    			if(i < sizes.length/2){
+    				double[][] weights = getWeights(i + 1);
+    				for(int j = 0; j < weights.length; j++){
+    					if(index - weights[0].length < 0){
+    						return weights[j][index];
+    					}else{
+    						index -= weights[0].length;
+    					}
+    				}
+    			}else{
+    				System.out.println(i - ((sizes.length/2) - 1));
+    				System.out.println(i);
+    				
+    				return getBias(i - ((sizes.length/2) - 1))[index];
+    			}
+    			
+    		}else{
+    			index -= sizes[i];
+    		}
+    	}
+    	
+    	return 0.0;
+    }
+    
+    /**
+     * Set a hidden unit in the network to a specific value. The index is the whole network
+     * mapped to a 1d array.
+     * 
+     * @param index
+     * @param value
+     */
+    public void setStretchedIndexValue(int index, double value){
+
+    	int[] sizes = {_weight1.length * _weight1[0].length, _weight2.length * _weight2[0].length, 
+    			_weight3.length * _weight3[0].length, _weight4.length * _weight4[0].length, 
+    			_bias1.length, _bias2.length, _bias3.length, _bias4.length};
+
+
+    	// Search for the correct weight of bias value corresponding to the index
+    	for (int i = 0; i < sizes.length; i++) { 
+    		if((index - sizes[i]) < 0){
+    			if(i < (sizes.length/2)){
+    				double[][] weights = getWeights(i + 1);
+    				// Search in the 2d hidden layer for the 1d index.
+    				for(int j = 0; j < weights.length; j++){
+    					if(index - weights[0].length < 0){
+    						weights[j][index] = value;
+    						setWeights(i + 1, weights);
+    					}else{
+    						index -= weights[0].length;
+    					}
+    				}
+    			}else{
+    				double[] bias = getBias(i - ((sizes.length/2) - 1));
+    				bias[index] = value;
+    				setBias(i - ((sizes.length/2) - 1), bias);
+    			}
+
+    		}else{
+    			index -= sizes[i];
+    		}
+    	}
+
+    }
+    
+    public String doubleArrayToString(double[] array){
+    	StringBuilder stringBuilder = new StringBuilder();
+    	
+
+    	for (int i = 0; i < array.length; i++){
+    		stringBuilder.append(array[i] + " - ");
+    	}
+    	
+    	return stringBuilder.toString();
+    	
+    }
+    
+    public String doubleArrayToString(double[][] array){
+    	StringBuilder stringBuilder = new StringBuilder();
+    	
+
+    	for (int i = 0; i < array.length; i++){
+        	for (int j = 0; j < array[0].length; j++){
+        		stringBuilder.append(array[i][j] + " - ");
+        	}
+    	}
+    	
+    	return stringBuilder.toString();
+    	
+    }
+    
+    @Override
+    public String toString(){
+    	StringBuilder stringBuilder = new StringBuilder();
+
+		stringBuilder.append(doubleArrayToString(_weight1));
+		stringBuilder.append(doubleArrayToString(_weight2));
+		stringBuilder.append(doubleArrayToString(_weight3));
+		stringBuilder.append(doubleArrayToString(_weight4));	
+		stringBuilder.append(doubleArrayToString(_bias1));
+		stringBuilder.append(doubleArrayToString(_bias2));
+		stringBuilder.append(doubleArrayToString(_bias3));
+		stringBuilder.append(doubleArrayToString(_bias4));	
+		
+		return stringBuilder.toString();
+    	
+    }
 }

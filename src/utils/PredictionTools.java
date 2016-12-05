@@ -37,7 +37,7 @@ public class PredictionTools {
                   
 			      int layer_x = weight.size();
                   int layer_y = ((JSONArray)weight.get(0)).size();
-
+                  
                   double[] hidden_layer_bias_arr = new double[bias.size()];
                   double[][] hidden_layer_weights_arr = new double[layer_y][layer_x];
 
@@ -53,8 +53,8 @@ public class PredictionTools {
                   }
                   
                   // Set the bias into the trained model
-                  trained_model.setBias(i, hidden_layer_bias_arr);
-                  trained_model.setWeights(i, hidden_layer_weights_arr);
+                  trained_model.setBias(i+1, hidden_layer_bias_arr);
+                  trained_model.setWeights(i+1, hidden_layer_weights_arr);
 
             }
             
