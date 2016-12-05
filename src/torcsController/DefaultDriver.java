@@ -10,13 +10,14 @@ import cicontest.torcs.genome.IGenome;
 import models.TrainedModel;
 import scr.Action;
 import scr.SensorModel;
-import training.CustomNeuralNetwork;
 import training.CustomNeuralNetworkIris;
 import utils.PredictionTools;
 
 public class DefaultDriver extends AbstractDriver {
 
     private CustomNeuralNetworkIris neuralNetwork;
+    private double[] _output;
+//    private double[] _prev_steering = new double[10];
 
     public DefaultDriver() {
         initialize();
@@ -45,22 +46,65 @@ public class DefaultDriver extends AbstractDriver {
             System.err.println("Invalid Genome assigned");
         }
     }
+    
+    public void getOutput(SensorModel sensors){
+        _output = neuralNetwork.getOutput(sensors);
+
+    }
 
     @Override
     public double getAcceleration(SensorModel sensors) {
-        double[] output = neuralNetwork.getOutput(sensors);
-        return output[0];
+//    	if(_output[0] > _output[1]){
+//    		return _output[1] + _output[0];
+//    	}
+//    	return 0.0;
+    	return _output[0];
     }
-
+    
+    private double getPercentageOffTrack(SensorModel sensors){
+    	int offTrackSensors = 0;
+    	for( int i = 0; i < 19; i++){
+    		if(sensors.getTrackEdgeSensors()[i] == -1){
+    			offTrackSensors++;
+    		}
+    	}
+    	
+    	return (double)offTrackSensors / 19.0;
+    }
+    
     @Override
     public double getSteering(SensorModel sensors) {
-        double[] output = neuralNetwork.getOutput(sensors);
-        return output[2];
+//    	Double steering = 0.0;
+//    	for (int i = 0; i < 9; i++){
+//    		steering += _prev_steering[i] * (i + 1);
+//    		_prev_steering[i] = _prev_steering[i + 1];
+//    	}
+//    	
+//    	steering += _output[2] * 10;
+//    	_prev_steering[9] = _output[2];
+//    	
+//    	steering = steering/ (10 + 55);
+//
+//        return steering;
+    	
+    	double percentageOffTrack = getPercentageOffTrack(sensors);
+    	
+    	if (percentageOffTrack > .5){
+    		_output[0] = 0.0;
+    		_output[1] = 0.0;
+    		_output[2] = DriversUtils.alignToTrackAxis(sensors, 0.5);
+
+    	}
+    	
+    	return _output[2];
     }
 
     public double getBreak(SensorModel sensors) {
-        double[] output = neuralNetwork.getOutput(sensors);
-        return output[1];
+//    	if(_output[1] > _output[0]){
+//    		return _output[1] + _output[0];
+//    	}
+//    	return 0.0;
+        return _output[1];
     }
     
     @Override
@@ -114,6 +158,8 @@ public class DefaultDriver extends AbstractDriver {
     	if (action == null) {
             action = new Action();
         }
+    	
+    	getOutput(sensors);
     	action.steering = getSteering(sensors);
     	action.accelerate = getAcceleration(sensors);
     	action.brake = getBreak(sensors);

@@ -6,6 +6,8 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.json.simple.JSONArray;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -19,7 +21,6 @@ public class CustomNeuralNetworkIris implements Serializable {
     private int[] _hiddenL;
     private int numOutputNeurons;
     private TrainedModel _trainedModel;
-    private Random r = new Random();
     
     public CustomNeuralNetworkIris(int inputs, int[] hiddenL, int outputs, TrainedModel trainedModel) {
     	
@@ -29,12 +30,13 @@ public class CustomNeuralNetworkIris implements Serializable {
     	
     	_hiddenL = hiddenL;
     	_trainedModel = trainedModel;
+    	_trainedModel.storeJson("test123456.json");
     	
-    	System.out.println("Shift trained");
-    	System.out.println(_trainedModel.toString());
+//    	System.out.println("Shift trained");
+//    	System.out.println(_trainedModel.toString());
 //    	shiftWeights(.0001F, .03F);
 //    	shiftWeights(.000000001F, .01F);
-    	System.out.println(_trainedModel);
+//    	System.out.println(_trainedModel);
     }
 
     // Feed forward algorithm
@@ -215,11 +217,12 @@ public class CustomNeuralNetworkIris implements Serializable {
     
     private double randomDouble(double min, double max){
         Random rand = new Random();
-        
-//        return 0.9F;
         return rand.nextDouble() * (max - min) + min;
     }
-
+    
+	 public void storeJson(String filename){
+		 _trainedModel.storeJson(filename);
+	 }
     
 
 }
