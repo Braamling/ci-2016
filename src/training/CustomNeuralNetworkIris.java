@@ -30,13 +30,8 @@ public class CustomNeuralNetworkIris implements Serializable {
     	
     	_hiddenL = hiddenL;
     	_trainedModel = trainedModel;
+    	variate(.05F, .5F);
     	_trainedModel.storeJson("test123456.json");
-    	
-//    	System.out.println("Shift trained");
-//    	System.out.println(_trainedModel.toString());
-//    	shiftWeights(.0001F, .03F);
-//    	shiftWeights(.000000001F, .01F);
-//    	System.out.println(_trainedModel);
     }
 
     // Feed forward algorithm
@@ -180,7 +175,7 @@ public class CustomNeuralNetworkIris implements Serializable {
      * @param shift_max Maximum shift per hidden unit
      * @param shift_percentage Maximum amount of hidden units to shift.
      */
-    public void shiftWeights(float shift_max, float shift_percentage) {    	
+    public void variate(float shift_max, float shift_percentage) {    	
     	int modelSize = _trainedModel.getTotalSize();
     	System.out.println(modelSize);
     	
@@ -190,8 +185,32 @@ public class CustomNeuralNetworkIris implements Serializable {
     	
     	for( int index: indices){
     		double value = _trainedModel.getStretchedIndexValue(index);
-    		
+
+    		System.out.println(value);
     		value = value + randomDouble(-shift_max, shift_max);
+    		System.out.println(value);
+    		
+    		_trainedModel.setStretchedIndexValue(index, value);   		
+    		
+    	}
+    }
+    
+    /**
+     * 
+     * @param shift_max Maximum shift per hidden unit
+     * @param shift_percentage Maximum amount of hidden units to shift.
+     */
+    public void mutate(float mutate_range, float mutate_percentage) {    	
+    	int modelSize = _trainedModel.getTotalSize();
+    	System.out.println(modelSize);
+    	
+    	int shift_amount = (int) (((float)modelSize) * mutate_percentage);
+    	
+    	int[] indices = getRandomHiddenUnitIndices(modelSize, shift_amount);
+    	
+    	for( int index: indices){
+    		double value = randomDouble(-mutate_range, mutate_range);
+    		System.out.println(value);
     		
     		_trainedModel.setStretchedIndexValue(index, value);   		
     		

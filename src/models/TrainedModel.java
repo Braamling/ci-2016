@@ -163,6 +163,7 @@ public class TrainedModel {
 						 if(index - weights[0].length < 0){
 							 weights[j][index] = value;
 							 setWeights(i + 1, weights);
+							 return;
 						 }else{
 							 index -= weights[0].length;
 						 }
