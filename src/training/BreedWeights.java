@@ -14,8 +14,8 @@ public class BreedWeights {
 	private int totalSize;
 	private TrainedModel parent1;
 	private TrainedModel parent2;
-	private TrainedModel kid1;
-	private TrainedModel kid2;
+	public TrainedModel kid1;
+	public TrainedModel kid2;
 	private int[] breedMethod; //each number is linked to a crossing method for breeding accompanied with a number for n points 
 	// [1,n] = n-point cross over, with n as the step size 
 	
@@ -23,10 +23,8 @@ public class BreedWeights {
 	public BreedWeights(TrainedModel trainedModel1, TrainedModel trainedModel2,  int[] method){
 		parent1 = trainedModel1;
 		parent2 = trainedModel2;
-		TrainedModel kid1 = new TrainedModel();
-		TrainedModel kid1 = (TrainedModel) parent1.clone();
-		TrainedModel kid1 = TrainedModel(parent1.getWeights(1),parent1.getWeights(2), parent1.getWeights(3), parent1.getWeights(4), parent1.getBias(1), parent1.getBias(2), parent1.getBias(3), parent1.getBias(4));
-		TrainedModel kid2 = TrainedModel(parent1.getWeights(1),parent1.getWeights(2), parent1.getWeights(3), parent1.getWeights(4), parent1.getBias(1), parent1.getBias(2), parent1.getBias(3), parent1.getBias(4));
+		kid1 = parent1.getClone();
+		kid2 = parent2.getClone();
 		totalSize = parent1.getTotalSize();
 		//weightsKid1 = new double[totalSize];
 		//weightsKid2 = new double[totalSize];
@@ -62,10 +60,7 @@ public class BreedWeights {
 			for (int i=0; i<totalSize; i++){
 				double valP1 = parent1.getStretchedIndexValue(i);
 				double valP2 = parent2.getStretchedIndexValue(i);
-				if (valP1 == valP2){
-					kid1.setStretchedIndexValue(i, parent1.getStretchedIndexValue(i));
-					kid2.setStretchedIndexValue(i, parent1.getStretchedIndexValue(i));
-				} else {
+				if (valP1 != valP2){
 					// if even
 					// kid1 gets parent1 and kid2 gets parent2
 					if((counter % 2) == 0){
@@ -88,12 +83,15 @@ public class BreedWeights {
 		}
 	}
 	
+	
 	public TrainedModel getKids(int i){
 		if (i == 1){
 			return kid1;
 		} else if(i == 2){
 			return kid2;
 		}
+		// default
+		return kid1;
 	}
 	
 	
