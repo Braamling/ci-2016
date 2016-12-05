@@ -26,25 +26,24 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
             //Start a race
             DefaultRace race = new DefaultRace();
             race.setTrack("aalborg" , "road");
-            
 
-            race.laps = 1;
-
-            //for speedup set withGUI to false
-            results = race.runRace(drivers, false);
+            race.laps = 3;
+            while(true){
+            	results = race.runRace(drivers, false);	
+            }
 
             // Save genome/nn
-            DriversUtils.storeGenome(drivers[0]);
+            //DriversUtils.storeGenome(drivers[0]);
         }
             // create a checkpoint this allows you to continue this run later
-            DriversUtils.createCheckpoint(this);
+            //DriversUtils.createCheckpoint(this);
             //DriversUtils.clearCheckpoint();
     }
 
     public static void main(String[] args) {
 
         //Set path to torcs.properties
-        TorcsConfiguration.getInstance().initialize(new File("./torcs.properties"));
+        TorcsConfiguration.getInstance().initialize(new File("torcs.properties"));
 		/*
 		 *
 		 * Start without arguments to run the algorithm
