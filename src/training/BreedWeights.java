@@ -11,61 +11,91 @@ import training.CustomNeuralNetworkIris;
 
 public class BreedWeights {
 	
-	private int layers;
-	private int[] hiddenNodes;
-	private double[] weightsParent1;
-	private double[] weightsParent2;
-	private double[][] w1Parent1;
-	private double[][] w2Parent1;
-	private double[][] w3Parent1;
-	private double[][] w4Parent1;
-	private double[][] w1Parent2;
-	private double[][] w2Parent2;
-	private double[][] w3Parent2;
-	private double[][] w4Parent2;
+	private int totalSize;
+	private TrainedModel parent1;
+	private TrainedModel parent2;
+	private TrainedModel kid1;
+	private TrainedModel kid2;
 	private int[] breedMethod; //each number is linked to a crossing method for breeding accompanied with a number for n points 
 	// [1,n] = n-point cross over, with n as the step size 
 	
-	public BreedWeights(CustomNeuralNetworkIris neuralNetwork1, CustomNeuralNetworkIris neuralNetwork2, int[] method){
-		// initialize the values
-		hiddenNodes = neuralNetwork1.getLayers();
-		layers = hiddenNodes.length;
-		weightsParent1 = new double[layers];
-		weightsParent2 = new double[layers];
-		
-		w1Parent1 = neuralNetwork1.getWeights(1);
-		w2Parent1 = neuralNetwork1.getWeights(2);
-		w3Parent1 = neuralNetwork1.getWeights(3);
-		w4Parent1 = neuralNetwork1.getWeights(4);
-		
-		w1Parent2 = neuralNetwork2.getWeights(1);
-		w2Parent2 = neuralNetwork2.getWeights(2);
-		w3Parent2 = neuralNetwork2.getWeights(3);
-		w4Parent2 = neuralNetwork2.getWeights(4);
-		
+	
+	public BreedWeights(TrainedModel trainedModel1, TrainedModel trainedModel2,  int[] method){
+		parent1 = trainedModel1;
+		parent2 = trainedModel2;
+		TrainedModel kid1 = new TrainedModel();
+		TrainedModel kid1 = (TrainedModel) parent1.clone();
+		TrainedModel kid1 = TrainedModel(parent1.getWeights(1),parent1.getWeights(2), parent1.getWeights(3), parent1.getWeights(4), parent1.getBias(1), parent1.getBias(2), parent1.getBias(3), parent1.getBias(4));
+		TrainedModel kid2 = TrainedModel(parent1.getWeights(1),parent1.getWeights(2), parent1.getWeights(3), parent1.getWeights(4), parent1.getBias(1), parent1.getBias(2), parent1.getBias(3), parent1.getBias(4));
+		totalSize = parent1.getTotalSize();
+		//weightsKid1 = new double[totalSize];
+		//weightsKid2 = new double[totalSize];
 		breedMethod = method;
 	}
 	
-	public double[][] breedWeights(int layer, int kids){
-		if(layer == 1){
-			double[][] newWeightLayer = breedWeightsOneLayer(w1Parent1, w1Parent2, breedMethod, kids);
-			
-		}
-			
-		
-	}
-	
-	
-	private double[][] breedWeightsOneLayer(double[][] wp1, double[][] wp2, int[] method, int kinds){
-		// n point cross over 
-		double[][] newWeights = new double[wp1.length][wp1[1].length];
-		if(method[0] == 1){
-			int n = method[1];
-			for(int i=0; i<wp1.length; i++){
-				for (int j=0; j<wp1[1].length; j+= n){
-					
+	public void breedWeights(){
+		int type = breedMethod[0];
+		int n = breedMethod[1];
+		// n-point crossover
+		if (type == 1){
+			int flag = 1;
+			for (int i=0; i<totalSize; i+= n){
+				int step = i+n;
+				if (flag == 0){
+					flag = 1;
+				} else {
+					flag = 0;
 				}
+				for (int j=i; j<step; j++){
+					if (flag == 0){
+						kid1.setStretchedIndexValue(j, parent1.getStretchedIndexValue(j));
+						kid2.setStretchedIndexValue(j, parent2.getStretchedIndexValue(j));
+					} else {
+						kid1.setStretchedIndexValue(j, parent2.getStretchedIndexValue(j));
+						kid2.setStretchedIndexValue(j, parent1.getStretchedIndexValue(j));
+					}
+				}
+			}
+		// uniform crossover
+		} else if (type == 2){
+			int counter = 0;
+			for (int i=0; i<totalSize; i++){
+				double valP1 = parent1.getStretchedIndexValue(i);
+				double valP2 = parent2.getStretchedIndexValue(i);
+				if (valP1 == valP2){
+					kid1.setStretchedIndexValue(i, parent1.getStretchedIndexValue(i));
+					kid2.setStretchedIndexValue(i, parent1.getStretchedIndexValue(i));
+				} else {
+					// if even
+					// kid1 gets parent1 and kid2 gets parent2
+					if((counter % 2) == 0){
+						kid1.setStretchedIndexValue(i, parent1.getStretchedIndexValue(i));
+						kid2.setStretchedIndexValue(i, parent2.getStretchedIndexValue(i));
+					// some 'randomness' to prevent structural pattern
+					} else if((counter % 3) == 0) {
+						kid1.setStretchedIndexValue(i, parent2.getStretchedIndexValue(i));
+						kid2.setStretchedIndexValue(i, parent1.getStretchedIndexValue(i));
+					} else if((counter % 9) == 0) {
+						kid1.setStretchedIndexValue(i, parent1.getStretchedIndexValue(i));
+						kid2.setStretchedIndexValue(i, parent2.getStretchedIndexValue(i));
+					} else {
+						kid1.setStretchedIndexValue(i, parent2.getStretchedIndexValue(i));
+						kid2.setStretchedIndexValue(i, parent1.getStretchedIndexValue(i));
+					}
+				}
+				counter++;
 			}
 		}
 	}
+	
+	public TrainedModel getKids(int i){
+		if (i == 1){
+			return kid1;
+		} else if(i == 2){
+			return kid2;
+		}
+	}
+	
+	
+
 }
