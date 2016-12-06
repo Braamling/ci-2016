@@ -987,7 +987,7 @@ node {
             size: 2
           }
         }
-        tensor_content: "\024\000\000\000\n\000\000\000"
+        tensor_content: "\024\000\000\000\003\000\000\000"
       }
     }
   }
@@ -1110,7 +1110,7 @@ node {
           size: 20
         }
         dim {
-          size: 10
+          size: 3
         }
       }
     }
@@ -1189,7 +1189,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
           dim {
-            size: 10
+            size: 3
           }
         }
         float_val: 0.10000000149
@@ -1217,7 +1217,7 @@ node {
     value {
       shape {
         dim {
-          size: 10
+          size: 3
         }
       }
     }
@@ -1276,523 +1276,6 @@ node {
     value {
       list {
         s: "loc:@Variable_7"
-      }
-    }
-  }
-}
-node {
-  name: "truncated_normal_4/shape"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 2
-          }
-        }
-        tensor_content: "\n\000\000\000\005\000\000\000"
-      }
-    }
-  }
-}
-node {
-  name: "truncated_normal_4/mean"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 0.0
-      }
-    }
-  }
-}
-node {
-  name: "truncated_normal_4/stddev"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 0.10000000149
-      }
-    }
-  }
-}
-node {
-  name: "truncated_normal_4/TruncatedNormal"
-  op: "TruncatedNormal"
-  input: "truncated_normal_4/shape"
-  attr {
-    key: "T"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "seed"
-    value {
-      i: 0
-    }
-  }
-  attr {
-    key: "seed2"
-    value {
-      i: 0
-    }
-  }
-}
-node {
-  name: "truncated_normal_4/mul"
-  op: "Mul"
-  input: "truncated_normal_4/TruncatedNormal"
-  input: "truncated_normal_4/stddev"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "truncated_normal_4"
-  op: "Add"
-  input: "truncated_normal_4/mul"
-  input: "truncated_normal_4/mean"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "Variable_8"
-  op: "Variable"
-  attr {
-    key: "container"
-    value {
-      s: ""
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "shape"
-    value {
-      shape {
-        dim {
-          size: 10
-        }
-        dim {
-          size: 5
-        }
-      }
-    }
-  }
-  attr {
-    key: "shared_name"
-    value {
-      s: ""
-    }
-  }
-}
-node {
-  name: "Variable_8/Assign"
-  op: "Assign"
-  input: "Variable_8"
-  input: "truncated_normal_4"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_8"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "Variable_8/read"
-  op: "Identity"
-  input: "Variable_8"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_8"
-      }
-    }
-  }
-}
-node {
-  name: "Const_4"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-          dim {
-            size: 5
-          }
-        }
-        float_val: 0.10000000149
-      }
-    }
-  }
-}
-node {
-  name: "Variable_9"
-  op: "Variable"
-  attr {
-    key: "container"
-    value {
-      s: ""
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "shape"
-    value {
-      shape {
-        dim {
-          size: 5
-        }
-      }
-    }
-  }
-  attr {
-    key: "shared_name"
-    value {
-      s: ""
-    }
-  }
-}
-node {
-  name: "Variable_9/Assign"
-  op: "Assign"
-  input: "Variable_9"
-  input: "Const_4"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_9"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "Variable_9/read"
-  op: "Identity"
-  input: "Variable_9"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_9"
-      }
-    }
-  }
-}
-node {
-  name: "truncated_normal_5/shape"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 2
-          }
-        }
-        tensor_content: "\005\000\000\000\003\000\000\000"
-      }
-    }
-  }
-}
-node {
-  name: "truncated_normal_5/mean"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 0.0
-      }
-    }
-  }
-}
-node {
-  name: "truncated_normal_5/stddev"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 0.10000000149
-      }
-    }
-  }
-}
-node {
-  name: "truncated_normal_5/TruncatedNormal"
-  op: "TruncatedNormal"
-  input: "truncated_normal_5/shape"
-  attr {
-    key: "T"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "seed"
-    value {
-      i: 0
-    }
-  }
-  attr {
-    key: "seed2"
-    value {
-      i: 0
-    }
-  }
-}
-node {
-  name: "truncated_normal_5/mul"
-  op: "Mul"
-  input: "truncated_normal_5/TruncatedNormal"
-  input: "truncated_normal_5/stddev"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "truncated_normal_5"
-  op: "Add"
-  input: "truncated_normal_5/mul"
-  input: "truncated_normal_5/mean"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "Variable_10"
-  op: "Variable"
-  attr {
-    key: "container"
-    value {
-      s: ""
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "shape"
-    value {
-      shape {
-        dim {
-          size: 5
-        }
-        dim {
-          size: 3
-        }
-      }
-    }
-  }
-  attr {
-    key: "shared_name"
-    value {
-      s: ""
-    }
-  }
-}
-node {
-  name: "Variable_10/Assign"
-  op: "Assign"
-  input: "Variable_10"
-  input: "truncated_normal_5"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_10"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "Variable_10/read"
-  op: "Identity"
-  input: "Variable_10"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_10"
       }
     }
   }
@@ -1975,124 +1458,9 @@ node {
   }
 }
 node {
-  name: "Sigmoid_3"
-  op: "Sigmoid"
-  input: "add_3"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "MatMul_4"
-  op: "MatMul"
-  input: "Sigmoid_3"
-  input: "Variable_8/read"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "transpose_a"
-    value {
-      b: false
-    }
-  }
-  attr {
-    key: "transpose_b"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "add_4"
-  op: "Add"
-  input: "MatMul_4"
-  input: "Variable_9/read"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "Sigmoid_4"
-  op: "Sigmoid"
-  input: "add_4"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "MatMul_5"
-  op: "MatMul"
-  input: "Sigmoid_4"
-  input: "Variable_10/read"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "transpose_a"
-    value {
-      b: false
-    }
-  }
-  attr {
-    key: "transpose_b"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "add_5/y"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 3.0
-      }
-    }
-  }
-}
-node {
-  name: "add_5"
-  op: "Add"
-  input: "MatMul_5"
-  input: "add_5/y"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
   name: "Tanh"
   op: "Tanh"
-  input: "add_5"
+  input: "add_3"
   attr {
     key: "T"
     value {
@@ -2116,72 +1484,6 @@ node {
   name: "L2Loss"
   op: "L2Loss"
   input: "sub"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "div/y"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 100.0
-      }
-    }
-  }
-}
-node {
-  name: "div"
-  op: "Div"
-  input: "L2Loss"
-  input: "div/y"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "add_6/y"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 0.0
-      }
-    }
-  }
-}
-node {
-  name: "add_6"
-  op: "Add"
-  input: "div"
-  input: "add_6/y"
   attr {
     key: "T"
     value {
@@ -2245,440 +1547,10 @@ node {
   }
 }
 node {
-  name: "gradients/add_6_grad/Shape"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_6_grad/Shape_1"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_6_grad/BroadcastGradientArgs"
-  op: "BroadcastGradientArgs"
-  input: "gradients/add_6_grad/Shape"
-  input: "gradients/add_6_grad/Shape_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_6_grad/Sum"
-  op: "Sum"
-  input: "gradients/Fill"
-  input: "gradients/add_6_grad/BroadcastGradientArgs"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "gradients/add_6_grad/Reshape"
-  op: "Reshape"
-  input: "gradients/add_6_grad/Sum"
-  input: "gradients/add_6_grad/Shape"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tshape"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_6_grad/Sum_1"
-  op: "Sum"
-  input: "gradients/Fill"
-  input: "gradients/add_6_grad/BroadcastGradientArgs:1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "gradients/add_6_grad/Reshape_1"
-  op: "Reshape"
-  input: "gradients/add_6_grad/Sum_1"
-  input: "gradients/add_6_grad/Shape_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tshape"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_6_grad/tuple/group_deps"
-  op: "NoOp"
-  input: "^gradients/add_6_grad/Reshape"
-  input: "^gradients/add_6_grad/Reshape_1"
-}
-node {
-  name: "gradients/add_6_grad/tuple/control_dependency"
-  op: "Identity"
-  input: "gradients/add_6_grad/Reshape"
-  input: "^gradients/add_6_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/add_6_grad/Reshape"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_6_grad/tuple/control_dependency_1"
-  op: "Identity"
-  input: "gradients/add_6_grad/Reshape_1"
-  input: "^gradients/add_6_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/add_6_grad/Reshape_1"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/div_grad/Shape"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "gradients/div_grad/Shape_1"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "gradients/div_grad/BroadcastGradientArgs"
-  op: "BroadcastGradientArgs"
-  input: "gradients/div_grad/Shape"
-  input: "gradients/div_grad/Shape_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/div_grad/truediv"
-  op: "Div"
-  input: "gradients/add_6_grad/tuple/control_dependency"
-  input: "div/y"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "gradients/div_grad/Sum"
-  op: "Sum"
-  input: "gradients/div_grad/truediv"
-  input: "gradients/div_grad/BroadcastGradientArgs"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "gradients/div_grad/Reshape"
-  op: "Reshape"
-  input: "gradients/div_grad/Sum"
-  input: "gradients/div_grad/Shape"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tshape"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/div_grad/Neg"
-  op: "Neg"
-  input: "L2Loss"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "gradients/div_grad/Square"
-  op: "Square"
-  input: "div/y"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "gradients/div_grad/truediv_1"
-  op: "Div"
-  input: "gradients/div_grad/Neg"
-  input: "gradients/div_grad/Square"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "gradients/div_grad/mul"
-  op: "Mul"
-  input: "gradients/add_6_grad/tuple/control_dependency"
-  input: "gradients/div_grad/truediv_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "gradients/div_grad/Sum_1"
-  op: "Sum"
-  input: "gradients/div_grad/mul"
-  input: "gradients/div_grad/BroadcastGradientArgs:1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "gradients/div_grad/Reshape_1"
-  op: "Reshape"
-  input: "gradients/div_grad/Sum_1"
-  input: "gradients/div_grad/Shape_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tshape"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/div_grad/tuple/group_deps"
-  op: "NoOp"
-  input: "^gradients/div_grad/Reshape"
-  input: "^gradients/div_grad/Reshape_1"
-}
-node {
-  name: "gradients/div_grad/tuple/control_dependency"
-  op: "Identity"
-  input: "gradients/div_grad/Reshape"
-  input: "^gradients/div_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/div_grad/Reshape"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/div_grad/tuple/control_dependency_1"
-  op: "Identity"
-  input: "gradients/div_grad/Reshape_1"
-  input: "^gradients/div_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/div_grad/Reshape_1"
-      }
-    }
-  }
-}
-node {
   name: "gradients/L2Loss_grad/mul"
   op: "Mul"
   input: "sub"
-  input: "gradients/div_grad/tuple/control_dependency"
+  input: "gradients/Fill"
   attr {
     key: "T"
     value {
@@ -2886,582 +1758,6 @@ node {
   }
 }
 node {
-  name: "gradients/add_5_grad/Shape"
-  op: "Shape"
-  input: "MatMul_5"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "out_type"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_5_grad/Shape_1"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_5_grad/BroadcastGradientArgs"
-  op: "BroadcastGradientArgs"
-  input: "gradients/add_5_grad/Shape"
-  input: "gradients/add_5_grad/Shape_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_5_grad/Sum"
-  op: "Sum"
-  input: "gradients/Tanh_grad/TanhGrad"
-  input: "gradients/add_5_grad/BroadcastGradientArgs"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "gradients/add_5_grad/Reshape"
-  op: "Reshape"
-  input: "gradients/add_5_grad/Sum"
-  input: "gradients/add_5_grad/Shape"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tshape"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_5_grad/Sum_1"
-  op: "Sum"
-  input: "gradients/Tanh_grad/TanhGrad"
-  input: "gradients/add_5_grad/BroadcastGradientArgs:1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "gradients/add_5_grad/Reshape_1"
-  op: "Reshape"
-  input: "gradients/add_5_grad/Sum_1"
-  input: "gradients/add_5_grad/Shape_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tshape"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_5_grad/tuple/group_deps"
-  op: "NoOp"
-  input: "^gradients/add_5_grad/Reshape"
-  input: "^gradients/add_5_grad/Reshape_1"
-}
-node {
-  name: "gradients/add_5_grad/tuple/control_dependency"
-  op: "Identity"
-  input: "gradients/add_5_grad/Reshape"
-  input: "^gradients/add_5_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/add_5_grad/Reshape"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_5_grad/tuple/control_dependency_1"
-  op: "Identity"
-  input: "gradients/add_5_grad/Reshape_1"
-  input: "^gradients/add_5_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/add_5_grad/Reshape_1"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/MatMul_5_grad/MatMul"
-  op: "MatMul"
-  input: "gradients/add_5_grad/tuple/control_dependency"
-  input: "Variable_10/read"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "transpose_a"
-    value {
-      b: false
-    }
-  }
-  attr {
-    key: "transpose_b"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "gradients/MatMul_5_grad/MatMul_1"
-  op: "MatMul"
-  input: "Sigmoid_4"
-  input: "gradients/add_5_grad/tuple/control_dependency"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "transpose_a"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "transpose_b"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "gradients/MatMul_5_grad/tuple/group_deps"
-  op: "NoOp"
-  input: "^gradients/MatMul_5_grad/MatMul"
-  input: "^gradients/MatMul_5_grad/MatMul_1"
-}
-node {
-  name: "gradients/MatMul_5_grad/tuple/control_dependency"
-  op: "Identity"
-  input: "gradients/MatMul_5_grad/MatMul"
-  input: "^gradients/MatMul_5_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/MatMul_5_grad/MatMul"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/MatMul_5_grad/tuple/control_dependency_1"
-  op: "Identity"
-  input: "gradients/MatMul_5_grad/MatMul_1"
-  input: "^gradients/MatMul_5_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/MatMul_5_grad/MatMul_1"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/Sigmoid_4_grad/SigmoidGrad"
-  op: "SigmoidGrad"
-  input: "Sigmoid_4"
-  input: "gradients/MatMul_5_grad/tuple/control_dependency"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
-  name: "gradients/add_4_grad/Shape"
-  op: "Shape"
-  input: "MatMul_4"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "out_type"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_4_grad/Shape_1"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 1
-          }
-        }
-        int_val: 5
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_4_grad/BroadcastGradientArgs"
-  op: "BroadcastGradientArgs"
-  input: "gradients/add_4_grad/Shape"
-  input: "gradients/add_4_grad/Shape_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_4_grad/Sum"
-  op: "Sum"
-  input: "gradients/Sigmoid_4_grad/SigmoidGrad"
-  input: "gradients/add_4_grad/BroadcastGradientArgs"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "gradients/add_4_grad/Reshape"
-  op: "Reshape"
-  input: "gradients/add_4_grad/Sum"
-  input: "gradients/add_4_grad/Shape"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tshape"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_4_grad/Sum_1"
-  op: "Sum"
-  input: "gradients/Sigmoid_4_grad/SigmoidGrad"
-  input: "gradients/add_4_grad/BroadcastGradientArgs:1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "gradients/add_4_grad/Reshape_1"
-  op: "Reshape"
-  input: "gradients/add_4_grad/Sum_1"
-  input: "gradients/add_4_grad/Shape_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tshape"
-    value {
-      type: DT_INT32
-    }
-  }
-}
-node {
-  name: "gradients/add_4_grad/tuple/group_deps"
-  op: "NoOp"
-  input: "^gradients/add_4_grad/Reshape"
-  input: "^gradients/add_4_grad/Reshape_1"
-}
-node {
-  name: "gradients/add_4_grad/tuple/control_dependency"
-  op: "Identity"
-  input: "gradients/add_4_grad/Reshape"
-  input: "^gradients/add_4_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/add_4_grad/Reshape"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/add_4_grad/tuple/control_dependency_1"
-  op: "Identity"
-  input: "gradients/add_4_grad/Reshape_1"
-  input: "^gradients/add_4_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/add_4_grad/Reshape_1"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/MatMul_4_grad/MatMul"
-  op: "MatMul"
-  input: "gradients/add_4_grad/tuple/control_dependency"
-  input: "Variable_8/read"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "transpose_a"
-    value {
-      b: false
-    }
-  }
-  attr {
-    key: "transpose_b"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "gradients/MatMul_4_grad/MatMul_1"
-  op: "MatMul"
-  input: "Sigmoid_3"
-  input: "gradients/add_4_grad/tuple/control_dependency"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "transpose_a"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "transpose_b"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "gradients/MatMul_4_grad/tuple/group_deps"
-  op: "NoOp"
-  input: "^gradients/MatMul_4_grad/MatMul"
-  input: "^gradients/MatMul_4_grad/MatMul_1"
-}
-node {
-  name: "gradients/MatMul_4_grad/tuple/control_dependency"
-  op: "Identity"
-  input: "gradients/MatMul_4_grad/MatMul"
-  input: "^gradients/MatMul_4_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/MatMul_4_grad/MatMul"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/MatMul_4_grad/tuple/control_dependency_1"
-  op: "Identity"
-  input: "gradients/MatMul_4_grad/MatMul_1"
-  input: "^gradients/MatMul_4_grad/tuple/group_deps"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@gradients/MatMul_4_grad/MatMul_1"
-      }
-    }
-  }
-}
-node {
-  name: "gradients/Sigmoid_3_grad/SigmoidGrad"
-  op: "SigmoidGrad"
-  input: "Sigmoid_3"
-  input: "gradients/MatMul_4_grad/tuple/control_dependency"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-}
-node {
   name: "gradients/add_3_grad/Shape"
   op: "Shape"
   input: "MatMul_3"
@@ -3497,7 +1793,7 @@ node {
             size: 1
           }
         }
-        int_val: 10
+        int_val: 3
       }
     }
   }
@@ -3517,7 +1813,7 @@ node {
 node {
   name: "gradients/add_3_grad/Sum"
   op: "Sum"
-  input: "gradients/Sigmoid_3_grad/SigmoidGrad"
+  input: "gradients/Tanh_grad/TanhGrad"
   input: "gradients/add_3_grad/BroadcastGradientArgs"
   attr {
     key: "T"
@@ -3559,7 +1855,7 @@ node {
 node {
   name: "gradients/add_3_grad/Sum_1"
   op: "Sum"
-  input: "gradients/Sigmoid_3_grad/SigmoidGrad"
+  input: "gradients/Tanh_grad/TanhGrad"
   input: "gradients/add_3_grad/BroadcastGradientArgs:1"
   attr {
     key: "T"
@@ -6274,7 +4570,7 @@ node {
             size: 20
           }
           dim {
-            size: 10
+            size: 3
           }
         }
         float_val: 0.0
@@ -6313,7 +4609,7 @@ node {
           size: 20
         }
         dim {
-          size: 10
+          size: 3
         }
       }
     }
@@ -6395,7 +4691,7 @@ node {
             size: 20
           }
           dim {
-            size: 10
+            size: 3
           }
         }
         float_val: 0.0
@@ -6434,7 +4730,7 @@ node {
           size: 20
         }
         dim {
-          size: 10
+          size: 3
         }
       }
     }
@@ -6513,7 +4809,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
           dim {
-            size: 10
+            size: 3
           }
         }
         float_val: 0.0
@@ -6549,7 +4845,7 @@ node {
     value {
       shape {
         dim {
-          size: 10
+          size: 3
         }
       }
     }
@@ -6628,7 +4924,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
           dim {
-            size: 10
+            size: 3
           }
         }
         float_val: 0.0
@@ -6664,7 +4960,7 @@ node {
     value {
       shape {
         dim {
-          size: 10
+          size: 3
         }
       }
     }
@@ -6728,720 +5024,6 @@ node {
   }
 }
 node {
-  name: "zeros_16"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-          dim {
-            size: 10
-          }
-          dim {
-            size: 5
-          }
-        }
-        float_val: 0.0
-      }
-    }
-  }
-}
-node {
-  name: "Variable_8/Adam"
-  op: "Variable"
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_8"
-      }
-    }
-  }
-  attr {
-    key: "container"
-    value {
-      s: ""
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "shape"
-    value {
-      shape {
-        dim {
-          size: 10
-        }
-        dim {
-          size: 5
-        }
-      }
-    }
-  }
-  attr {
-    key: "shared_name"
-    value {
-      s: ""
-    }
-  }
-}
-node {
-  name: "Variable_8/Adam/Assign"
-  op: "Assign"
-  input: "Variable_8/Adam"
-  input: "zeros_16"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_8"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "Variable_8/Adam/read"
-  op: "Identity"
-  input: "Variable_8/Adam"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_8"
-      }
-    }
-  }
-}
-node {
-  name: "zeros_17"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-          dim {
-            size: 10
-          }
-          dim {
-            size: 5
-          }
-        }
-        float_val: 0.0
-      }
-    }
-  }
-}
-node {
-  name: "Variable_8/Adam_1"
-  op: "Variable"
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_8"
-      }
-    }
-  }
-  attr {
-    key: "container"
-    value {
-      s: ""
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "shape"
-    value {
-      shape {
-        dim {
-          size: 10
-        }
-        dim {
-          size: 5
-        }
-      }
-    }
-  }
-  attr {
-    key: "shared_name"
-    value {
-      s: ""
-    }
-  }
-}
-node {
-  name: "Variable_8/Adam_1/Assign"
-  op: "Assign"
-  input: "Variable_8/Adam_1"
-  input: "zeros_17"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_8"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "Variable_8/Adam_1/read"
-  op: "Identity"
-  input: "Variable_8/Adam_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_8"
-      }
-    }
-  }
-}
-node {
-  name: "zeros_18"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-          dim {
-            size: 5
-          }
-        }
-        float_val: 0.0
-      }
-    }
-  }
-}
-node {
-  name: "Variable_9/Adam"
-  op: "Variable"
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_9"
-      }
-    }
-  }
-  attr {
-    key: "container"
-    value {
-      s: ""
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "shape"
-    value {
-      shape {
-        dim {
-          size: 5
-        }
-      }
-    }
-  }
-  attr {
-    key: "shared_name"
-    value {
-      s: ""
-    }
-  }
-}
-node {
-  name: "Variable_9/Adam/Assign"
-  op: "Assign"
-  input: "Variable_9/Adam"
-  input: "zeros_18"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_9"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "Variable_9/Adam/read"
-  op: "Identity"
-  input: "Variable_9/Adam"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_9"
-      }
-    }
-  }
-}
-node {
-  name: "zeros_19"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-          dim {
-            size: 5
-          }
-        }
-        float_val: 0.0
-      }
-    }
-  }
-}
-node {
-  name: "Variable_9/Adam_1"
-  op: "Variable"
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_9"
-      }
-    }
-  }
-  attr {
-    key: "container"
-    value {
-      s: ""
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "shape"
-    value {
-      shape {
-        dim {
-          size: 5
-        }
-      }
-    }
-  }
-  attr {
-    key: "shared_name"
-    value {
-      s: ""
-    }
-  }
-}
-node {
-  name: "Variable_9/Adam_1/Assign"
-  op: "Assign"
-  input: "Variable_9/Adam_1"
-  input: "zeros_19"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_9"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "Variable_9/Adam_1/read"
-  op: "Identity"
-  input: "Variable_9/Adam_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_9"
-      }
-    }
-  }
-}
-node {
-  name: "zeros_20"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-          dim {
-            size: 5
-          }
-          dim {
-            size: 3
-          }
-        }
-        float_val: 0.0
-      }
-    }
-  }
-}
-node {
-  name: "Variable_10/Adam"
-  op: "Variable"
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_10"
-      }
-    }
-  }
-  attr {
-    key: "container"
-    value {
-      s: ""
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "shape"
-    value {
-      shape {
-        dim {
-          size: 5
-        }
-        dim {
-          size: 3
-        }
-      }
-    }
-  }
-  attr {
-    key: "shared_name"
-    value {
-      s: ""
-    }
-  }
-}
-node {
-  name: "Variable_10/Adam/Assign"
-  op: "Assign"
-  input: "Variable_10/Adam"
-  input: "zeros_20"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_10"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "Variable_10/Adam/read"
-  op: "Identity"
-  input: "Variable_10/Adam"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_10"
-      }
-    }
-  }
-}
-node {
-  name: "zeros_21"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-          dim {
-            size: 5
-          }
-          dim {
-            size: 3
-          }
-        }
-        float_val: 0.0
-      }
-    }
-  }
-}
-node {
-  name: "Variable_10/Adam_1"
-  op: "Variable"
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_10"
-      }
-    }
-  }
-  attr {
-    key: "container"
-    value {
-      s: ""
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "shape"
-    value {
-      shape {
-        dim {
-          size: 5
-        }
-        dim {
-          size: 3
-        }
-      }
-    }
-  }
-  attr {
-    key: "shared_name"
-    value {
-      s: ""
-    }
-  }
-}
-node {
-  name: "Variable_10/Adam_1/Assign"
-  op: "Assign"
-  input: "Variable_10/Adam_1"
-  input: "zeros_21"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_10"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "Variable_10/Adam_1/read"
-  op: "Identity"
-  input: "Variable_10/Adam_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_10"
-      }
-    }
-  }
-}
-node {
   name: "Adam/learning_rate"
   op: "Const"
   attr {
@@ -7457,7 +5039,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 0.0010000000475
+        float_val: 0.000500000023749
       }
     }
   }
@@ -7798,108 +5380,6 @@ node {
   }
 }
 node {
-  name: "Adam/update_Variable_8/ApplyAdam"
-  op: "ApplyAdam"
-  input: "Variable_8"
-  input: "Variable_8/Adam"
-  input: "Variable_8/Adam_1"
-  input: "beta1_power/read"
-  input: "beta2_power/read"
-  input: "Adam/learning_rate"
-  input: "Adam/beta1"
-  input: "Adam/beta2"
-  input: "Adam/epsilon"
-  input: "gradients/MatMul_4_grad/tuple/control_dependency_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_8"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "Adam/update_Variable_9/ApplyAdam"
-  op: "ApplyAdam"
-  input: "Variable_9"
-  input: "Variable_9/Adam"
-  input: "Variable_9/Adam_1"
-  input: "beta1_power/read"
-  input: "beta2_power/read"
-  input: "Adam/learning_rate"
-  input: "Adam/beta1"
-  input: "Adam/beta2"
-  input: "Adam/epsilon"
-  input: "gradients/add_4_grad/tuple/control_dependency_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_9"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "Adam/update_Variable_10/ApplyAdam"
-  op: "ApplyAdam"
-  input: "Variable_10"
-  input: "Variable_10/Adam"
-  input: "Variable_10/Adam_1"
-  input: "beta1_power/read"
-  input: "beta2_power/read"
-  input: "Adam/learning_rate"
-  input: "Adam/beta1"
-  input: "Adam/beta2"
-  input: "Adam/epsilon"
-  input: "gradients/MatMul_5_grad/tuple/control_dependency_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_10"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: false
-    }
-  }
-}
-node {
   name: "Adam/mul"
   op: "Mul"
   input: "beta1_power/read"
@@ -7912,9 +5392,6 @@ node {
   input: "^Adam/update_Variable_5/ApplyAdam"
   input: "^Adam/update_Variable_6/ApplyAdam"
   input: "^Adam/update_Variable_7/ApplyAdam"
-  input: "^Adam/update_Variable_8/ApplyAdam"
-  input: "^Adam/update_Variable_9/ApplyAdam"
-  input: "^Adam/update_Variable_10/ApplyAdam"
   attr {
     key: "T"
     value {
@@ -7975,9 +5452,6 @@ node {
   input: "^Adam/update_Variable_5/ApplyAdam"
   input: "^Adam/update_Variable_6/ApplyAdam"
   input: "^Adam/update_Variable_7/ApplyAdam"
-  input: "^Adam/update_Variable_8/ApplyAdam"
-  input: "^Adam/update_Variable_9/ApplyAdam"
-  input: "^Adam/update_Variable_10/ApplyAdam"
   attr {
     key: "T"
     value {
@@ -8036,9 +5510,6 @@ node {
   input: "^Adam/update_Variable_5/ApplyAdam"
   input: "^Adam/update_Variable_6/ApplyAdam"
   input: "^Adam/update_Variable_7/ApplyAdam"
-  input: "^Adam/update_Variable_8/ApplyAdam"
-  input: "^Adam/update_Variable_9/ApplyAdam"
-  input: "^Adam/update_Variable_10/ApplyAdam"
   input: "^Adam/Assign"
   input: "^Adam/Assign_1"
 }
@@ -8053,9 +5524,6 @@ node {
   input: "^Variable_5/Assign"
   input: "^Variable_6/Assign"
   input: "^Variable_7/Assign"
-  input: "^Variable_8/Assign"
-  input: "^Variable_9/Assign"
-  input: "^Variable_10/Assign"
   input: "^beta1_power/Assign"
   input: "^beta2_power/Assign"
   input: "^Variable/Adam/Assign"
@@ -8074,12 +5542,6 @@ node {
   input: "^Variable_6/Adam_1/Assign"
   input: "^Variable_7/Adam/Assign"
   input: "^Variable_7/Adam_1/Assign"
-  input: "^Variable_8/Adam/Assign"
-  input: "^Variable_8/Adam_1/Assign"
-  input: "^Variable_9/Adam/Assign"
-  input: "^Variable_9/Adam_1/Assign"
-  input: "^Variable_10/Adam/Assign"
-  input: "^Variable_10/Adam_1/Assign"
 }
 node {
   name: "save/Const"
@@ -8118,7 +5580,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 35
+            size: 26
           }
         }
         string_val: "Variable"
@@ -8127,9 +5589,6 @@ node {
         string_val: "Variable_1"
         string_val: "Variable_1/Adam"
         string_val: "Variable_1/Adam_1"
-        string_val: "Variable_10"
-        string_val: "Variable_10/Adam"
-        string_val: "Variable_10/Adam_1"
         string_val: "Variable_2"
         string_val: "Variable_2/Adam"
         string_val: "Variable_2/Adam_1"
@@ -8148,12 +5607,6 @@ node {
         string_val: "Variable_7"
         string_val: "Variable_7/Adam"
         string_val: "Variable_7/Adam_1"
-        string_val: "Variable_8"
-        string_val: "Variable_8/Adam"
-        string_val: "Variable_8/Adam_1"
-        string_val: "Variable_9"
-        string_val: "Variable_9/Adam"
-        string_val: "Variable_9/Adam_1"
         string_val: "beta1_power"
         string_val: "beta2_power"
       }
@@ -8176,18 +5629,9 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 35
+            size: 26
           }
         }
-        string_val: ""
-        string_val: ""
-        string_val: ""
-        string_val: ""
-        string_val: ""
-        string_val: ""
-        string_val: ""
-        string_val: ""
-        string_val: ""
         string_val: ""
         string_val: ""
         string_val: ""
@@ -8230,9 +5674,6 @@ node {
   input: "Variable_1"
   input: "Variable_1/Adam"
   input: "Variable_1/Adam_1"
-  input: "Variable_10"
-  input: "Variable_10/Adam"
-  input: "Variable_10/Adam_1"
   input: "Variable_2"
   input: "Variable_2/Adam"
   input: "Variable_2/Adam_1"
@@ -8251,27 +5692,12 @@ node {
   input: "Variable_7"
   input: "Variable_7/Adam"
   input: "Variable_7/Adam_1"
-  input: "Variable_8"
-  input: "Variable_8/Adam"
-  input: "Variable_8/Adam_1"
-  input: "Variable_9"
-  input: "Variable_9/Adam"
-  input: "Variable_9/Adam_1"
   input: "beta1_power"
   input: "beta2_power"
   attr {
     key: "T"
     value {
       list {
-        type: DT_FLOAT
-        type: DT_FLOAT
-        type: DT_FLOAT
-        type: DT_FLOAT
-        type: DT_FLOAT
-        type: DT_FLOAT
-        type: DT_FLOAT
-        type: DT_FLOAT
-        type: DT_FLOAT
         type: DT_FLOAT
         type: DT_FLOAT
         type: DT_FLOAT
@@ -8896,7 +6322,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_10"
+        string_val: "Variable_2"
       }
     }
   }
@@ -8944,7 +6370,7 @@ node {
 node {
   name: "save/Assign_6"
   op: "Assign"
-  input: "Variable_10"
+  input: "Variable_2"
   input: "save/restore_slice_6"
   attr {
     key: "T"
@@ -8956,7 +6382,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_10"
+        s: "loc:@Variable_2"
       }
     }
   }
@@ -8989,7 +6415,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_10/Adam"
+        string_val: "Variable_2/Adam"
       }
     }
   }
@@ -9037,7 +6463,7 @@ node {
 node {
   name: "save/Assign_7"
   op: "Assign"
-  input: "Variable_10/Adam"
+  input: "Variable_2/Adam"
   input: "save/restore_slice_7"
   attr {
     key: "T"
@@ -9049,7 +6475,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_10"
+        s: "loc:@Variable_2"
       }
     }
   }
@@ -9082,7 +6508,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_10/Adam_1"
+        string_val: "Variable_2/Adam_1"
       }
     }
   }
@@ -9130,7 +6556,7 @@ node {
 node {
   name: "save/Assign_8"
   op: "Assign"
-  input: "Variable_10/Adam_1"
+  input: "Variable_2/Adam_1"
   input: "save/restore_slice_8"
   attr {
     key: "T"
@@ -9142,7 +6568,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_10"
+        s: "loc:@Variable_2"
       }
     }
   }
@@ -9175,7 +6601,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_2"
+        string_val: "Variable_3"
       }
     }
   }
@@ -9223,7 +6649,7 @@ node {
 node {
   name: "save/Assign_9"
   op: "Assign"
-  input: "Variable_2"
+  input: "Variable_3"
   input: "save/restore_slice_9"
   attr {
     key: "T"
@@ -9235,7 +6661,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_2"
+        s: "loc:@Variable_3"
       }
     }
   }
@@ -9268,7 +6694,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_2/Adam"
+        string_val: "Variable_3/Adam"
       }
     }
   }
@@ -9316,7 +6742,7 @@ node {
 node {
   name: "save/Assign_10"
   op: "Assign"
-  input: "Variable_2/Adam"
+  input: "Variable_3/Adam"
   input: "save/restore_slice_10"
   attr {
     key: "T"
@@ -9328,7 +6754,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_2"
+        s: "loc:@Variable_3"
       }
     }
   }
@@ -9361,7 +6787,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_2/Adam_1"
+        string_val: "Variable_3/Adam_1"
       }
     }
   }
@@ -9409,7 +6835,7 @@ node {
 node {
   name: "save/Assign_11"
   op: "Assign"
-  input: "Variable_2/Adam_1"
+  input: "Variable_3/Adam_1"
   input: "save/restore_slice_11"
   attr {
     key: "T"
@@ -9421,7 +6847,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_2"
+        s: "loc:@Variable_3"
       }
     }
   }
@@ -9454,7 +6880,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_3"
+        string_val: "Variable_4"
       }
     }
   }
@@ -9502,7 +6928,7 @@ node {
 node {
   name: "save/Assign_12"
   op: "Assign"
-  input: "Variable_3"
+  input: "Variable_4"
   input: "save/restore_slice_12"
   attr {
     key: "T"
@@ -9514,7 +6940,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_3"
+        s: "loc:@Variable_4"
       }
     }
   }
@@ -9547,7 +6973,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_3/Adam"
+        string_val: "Variable_4/Adam"
       }
     }
   }
@@ -9595,7 +7021,7 @@ node {
 node {
   name: "save/Assign_13"
   op: "Assign"
-  input: "Variable_3/Adam"
+  input: "Variable_4/Adam"
   input: "save/restore_slice_13"
   attr {
     key: "T"
@@ -9607,7 +7033,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_3"
+        s: "loc:@Variable_4"
       }
     }
   }
@@ -9640,7 +7066,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_3/Adam_1"
+        string_val: "Variable_4/Adam_1"
       }
     }
   }
@@ -9688,7 +7114,7 @@ node {
 node {
   name: "save/Assign_14"
   op: "Assign"
-  input: "Variable_3/Adam_1"
+  input: "Variable_4/Adam_1"
   input: "save/restore_slice_14"
   attr {
     key: "T"
@@ -9700,7 +7126,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_3"
+        s: "loc:@Variable_4"
       }
     }
   }
@@ -9733,7 +7159,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_4"
+        string_val: "Variable_5"
       }
     }
   }
@@ -9781,7 +7207,7 @@ node {
 node {
   name: "save/Assign_15"
   op: "Assign"
-  input: "Variable_4"
+  input: "Variable_5"
   input: "save/restore_slice_15"
   attr {
     key: "T"
@@ -9793,7 +7219,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_4"
+        s: "loc:@Variable_5"
       }
     }
   }
@@ -9826,7 +7252,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_4/Adam"
+        string_val: "Variable_5/Adam"
       }
     }
   }
@@ -9874,7 +7300,7 @@ node {
 node {
   name: "save/Assign_16"
   op: "Assign"
-  input: "Variable_4/Adam"
+  input: "Variable_5/Adam"
   input: "save/restore_slice_16"
   attr {
     key: "T"
@@ -9886,7 +7312,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_4"
+        s: "loc:@Variable_5"
       }
     }
   }
@@ -9919,7 +7345,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_4/Adam_1"
+        string_val: "Variable_5/Adam_1"
       }
     }
   }
@@ -9967,7 +7393,7 @@ node {
 node {
   name: "save/Assign_17"
   op: "Assign"
-  input: "Variable_4/Adam_1"
+  input: "Variable_5/Adam_1"
   input: "save/restore_slice_17"
   attr {
     key: "T"
@@ -9979,7 +7405,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_4"
+        s: "loc:@Variable_5"
       }
     }
   }
@@ -10012,7 +7438,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_5"
+        string_val: "Variable_6"
       }
     }
   }
@@ -10060,7 +7486,7 @@ node {
 node {
   name: "save/Assign_18"
   op: "Assign"
-  input: "Variable_5"
+  input: "Variable_6"
   input: "save/restore_slice_18"
   attr {
     key: "T"
@@ -10072,7 +7498,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_5"
+        s: "loc:@Variable_6"
       }
     }
   }
@@ -10105,7 +7531,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_5/Adam"
+        string_val: "Variable_6/Adam"
       }
     }
   }
@@ -10153,7 +7579,7 @@ node {
 node {
   name: "save/Assign_19"
   op: "Assign"
-  input: "Variable_5/Adam"
+  input: "Variable_6/Adam"
   input: "save/restore_slice_19"
   attr {
     key: "T"
@@ -10165,7 +7591,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_5"
+        s: "loc:@Variable_6"
       }
     }
   }
@@ -10198,7 +7624,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_5/Adam_1"
+        string_val: "Variable_6/Adam_1"
       }
     }
   }
@@ -10246,7 +7672,7 @@ node {
 node {
   name: "save/Assign_20"
   op: "Assign"
-  input: "Variable_5/Adam_1"
+  input: "Variable_6/Adam_1"
   input: "save/restore_slice_20"
   attr {
     key: "T"
@@ -10258,7 +7684,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_5"
+        s: "loc:@Variable_6"
       }
     }
   }
@@ -10291,7 +7717,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_6"
+        string_val: "Variable_7"
       }
     }
   }
@@ -10339,7 +7765,7 @@ node {
 node {
   name: "save/Assign_21"
   op: "Assign"
-  input: "Variable_6"
+  input: "Variable_7"
   input: "save/restore_slice_21"
   attr {
     key: "T"
@@ -10351,7 +7777,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_6"
+        s: "loc:@Variable_7"
       }
     }
   }
@@ -10384,7 +7810,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_6/Adam"
+        string_val: "Variable_7/Adam"
       }
     }
   }
@@ -10432,7 +7858,7 @@ node {
 node {
   name: "save/Assign_22"
   op: "Assign"
-  input: "Variable_6/Adam"
+  input: "Variable_7/Adam"
   input: "save/restore_slice_22"
   attr {
     key: "T"
@@ -10444,7 +7870,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_6"
+        s: "loc:@Variable_7"
       }
     }
   }
@@ -10477,7 +7903,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_6/Adam_1"
+        string_val: "Variable_7/Adam_1"
       }
     }
   }
@@ -10525,7 +7951,7 @@ node {
 node {
   name: "save/Assign_23"
   op: "Assign"
-  input: "Variable_6/Adam_1"
+  input: "Variable_7/Adam_1"
   input: "save/restore_slice_23"
   attr {
     key: "T"
@@ -10537,7 +7963,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_6"
+        s: "loc:@Variable_7"
       }
     }
   }
@@ -10570,7 +7996,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_7"
+        string_val: "beta1_power"
       }
     }
   }
@@ -10618,7 +8044,7 @@ node {
 node {
   name: "save/Assign_24"
   op: "Assign"
-  input: "Variable_7"
+  input: "beta1_power"
   input: "save/restore_slice_24"
   attr {
     key: "T"
@@ -10630,7 +8056,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@Variable_7"
+        s: "loc:@Variable"
       }
     }
   }
@@ -10663,7 +8089,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
         }
-        string_val: "Variable_7/Adam"
+        string_val: "beta2_power"
       }
     }
   }
@@ -10711,845 +8137,8 @@ node {
 node {
   name: "save/Assign_25"
   op: "Assign"
-  input: "Variable_7/Adam"
-  input: "save/restore_slice_25"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_7"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/restore_slice_26/tensor_name"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: "Variable_7/Adam_1"
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_26/shape_and_slice"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: ""
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_26"
-  op: "RestoreSlice"
-  input: "save/Const"
-  input: "save/restore_slice_26/tensor_name"
-  input: "save/restore_slice_26/shape_and_slice"
-  attr {
-    key: "dt"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "preferred_shard"
-    value {
-      i: -1
-    }
-  }
-}
-node {
-  name: "save/Assign_26"
-  op: "Assign"
-  input: "Variable_7/Adam_1"
-  input: "save/restore_slice_26"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_7"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/restore_slice_27/tensor_name"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: "Variable_8"
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_27/shape_and_slice"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: ""
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_27"
-  op: "RestoreSlice"
-  input: "save/Const"
-  input: "save/restore_slice_27/tensor_name"
-  input: "save/restore_slice_27/shape_and_slice"
-  attr {
-    key: "dt"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "preferred_shard"
-    value {
-      i: -1
-    }
-  }
-}
-node {
-  name: "save/Assign_27"
-  op: "Assign"
-  input: "Variable_8"
-  input: "save/restore_slice_27"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_8"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/restore_slice_28/tensor_name"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: "Variable_8/Adam"
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_28/shape_and_slice"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: ""
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_28"
-  op: "RestoreSlice"
-  input: "save/Const"
-  input: "save/restore_slice_28/tensor_name"
-  input: "save/restore_slice_28/shape_and_slice"
-  attr {
-    key: "dt"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "preferred_shard"
-    value {
-      i: -1
-    }
-  }
-}
-node {
-  name: "save/Assign_28"
-  op: "Assign"
-  input: "Variable_8/Adam"
-  input: "save/restore_slice_28"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_8"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/restore_slice_29/tensor_name"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: "Variable_8/Adam_1"
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_29/shape_and_slice"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: ""
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_29"
-  op: "RestoreSlice"
-  input: "save/Const"
-  input: "save/restore_slice_29/tensor_name"
-  input: "save/restore_slice_29/shape_and_slice"
-  attr {
-    key: "dt"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "preferred_shard"
-    value {
-      i: -1
-    }
-  }
-}
-node {
-  name: "save/Assign_29"
-  op: "Assign"
-  input: "Variable_8/Adam_1"
-  input: "save/restore_slice_29"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_8"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/restore_slice_30/tensor_name"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: "Variable_9"
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_30/shape_and_slice"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: ""
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_30"
-  op: "RestoreSlice"
-  input: "save/Const"
-  input: "save/restore_slice_30/tensor_name"
-  input: "save/restore_slice_30/shape_and_slice"
-  attr {
-    key: "dt"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "preferred_shard"
-    value {
-      i: -1
-    }
-  }
-}
-node {
-  name: "save/Assign_30"
-  op: "Assign"
-  input: "Variable_9"
-  input: "save/restore_slice_30"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_9"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/restore_slice_31/tensor_name"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: "Variable_9/Adam"
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_31/shape_and_slice"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: ""
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_31"
-  op: "RestoreSlice"
-  input: "save/Const"
-  input: "save/restore_slice_31/tensor_name"
-  input: "save/restore_slice_31/shape_and_slice"
-  attr {
-    key: "dt"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "preferred_shard"
-    value {
-      i: -1
-    }
-  }
-}
-node {
-  name: "save/Assign_31"
-  op: "Assign"
-  input: "Variable_9/Adam"
-  input: "save/restore_slice_31"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_9"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/restore_slice_32/tensor_name"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: "Variable_9/Adam_1"
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_32/shape_and_slice"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: ""
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_32"
-  op: "RestoreSlice"
-  input: "save/Const"
-  input: "save/restore_slice_32/tensor_name"
-  input: "save/restore_slice_32/shape_and_slice"
-  attr {
-    key: "dt"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "preferred_shard"
-    value {
-      i: -1
-    }
-  }
-}
-node {
-  name: "save/Assign_32"
-  op: "Assign"
-  input: "Variable_9/Adam_1"
-  input: "save/restore_slice_32"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable_9"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/restore_slice_33/tensor_name"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: "beta1_power"
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_33/shape_and_slice"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: ""
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_33"
-  op: "RestoreSlice"
-  input: "save/Const"
-  input: "save/restore_slice_33/tensor_name"
-  input: "save/restore_slice_33/shape_and_slice"
-  attr {
-    key: "dt"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "preferred_shard"
-    value {
-      i: -1
-    }
-  }
-}
-node {
-  name: "save/Assign_33"
-  op: "Assign"
-  input: "beta1_power"
-  input: "save/restore_slice_33"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_class"
-    value {
-      list {
-        s: "loc:@Variable"
-      }
-    }
-  }
-  attr {
-    key: "use_locking"
-    value {
-      b: true
-    }
-  }
-  attr {
-    key: "validate_shape"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "save/restore_slice_34/tensor_name"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: "beta2_power"
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_34/shape_and_slice"
-  op: "Const"
-  attr {
-    key: "dtype"
-    value {
-      type: DT_STRING
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_STRING
-        tensor_shape {
-        }
-        string_val: ""
-      }
-    }
-  }
-}
-node {
-  name: "save/restore_slice_34"
-  op: "RestoreSlice"
-  input: "save/Const"
-  input: "save/restore_slice_34/tensor_name"
-  input: "save/restore_slice_34/shape_and_slice"
-  attr {
-    key: "dt"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "preferred_shard"
-    value {
-      i: -1
-    }
-  }
-}
-node {
-  name: "save/Assign_34"
-  op: "Assign"
   input: "beta2_power"
-  input: "save/restore_slice_34"
+  input: "save/restore_slice_25"
   attr {
     key: "T"
     value {
@@ -11606,15 +8195,6 @@ node {
   input: "^save/Assign_23"
   input: "^save/Assign_24"
   input: "^save/Assign_25"
-  input: "^save/Assign_26"
-  input: "^save/Assign_27"
-  input: "^save/Assign_28"
-  input: "^save/Assign_29"
-  input: "^save/Assign_30"
-  input: "^save/Assign_31"
-  input: "^save/Assign_32"
-  input: "^save/Assign_33"
-  input: "^save/Assign_34"
 }
 versions {
   producer: 15

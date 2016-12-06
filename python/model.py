@@ -23,17 +23,6 @@ class Model():
         self.x = tf.placeholder(tf.float32, [None, self._input_s])
         self.y_ = tf.placeholder(tf.float32, [None, self._output_s])
 
-        # initialize the weights and biases for each layer
-        # W = weight_variable([self._input_s, self.n_hidden_neurons[0]])
-        # b = bias_variable([self.n_hidden_neurons[0]])
-        # W2 = weight_variable([self.n_hidden_neurons[0], self.n_hidden_neurons[0]])
-        # b2 = bias_variable([self.n_hidden_neurons[0]])
-        # W3 = weight_variable([self.n_hidden_neurons[0], self._output_s])
-        # b3 = bias_variable([self._output_s])
-        # l = tf.nn.sigmoid(layerNN(self.x, W, b))
-        # l2 = tf.nn.sigmoid(layerNN(l, W2, b2))
-        # self.y = tf.nn.tanh(layerNN(l2, W3, b3))
-
         self.W = []
         self.b = []
         self.W.append(weight_variable([self._input_s, self.n_hidden_neurons[0]]))

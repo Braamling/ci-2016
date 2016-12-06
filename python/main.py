@@ -50,9 +50,9 @@ def drive(sess, mdl):
     C.shutdown()
 
 def train(sess, mdl, saver, model_name, input_s, output_s, batch_size):
-    train_set = LoadSet("../resources/train_data/aalborg.csv", input_s, output_s)
-    test_set = LoadSet("../resources/train_data/aalborg.csv", input_s, output_s)
-    valid_set = LoadSet("../resources/train_data/aalborg.csv", input_s, output_s)
+    train_set = LoadSet("../resources/train_data/train-extended.csv", input_s, output_s)
+    test_set = train_set #LoadSet("../resources/train_data/aalborg.csv", input_s, output_s)
+    valid_set = LoadSet("../resources/train_data/valid-extended.csv", input_s, output_s)
 
     print("Loaded data")
 
@@ -73,15 +73,15 @@ def export_weights_to_json(sess, mdl):
         b = bias_list[i].tolist()
         d.append({'weights': w, 'bias': b})
 
-    with open('weights_nn1.json', 'w') as outfile:
+    with open('weights_nn2.json', 'w') as outfile:
         json.dump(d, outfile, indent=4)
 
 def main():
     input_s = 22
     output_s = 3
     n_hidden_neurons = [100, 50, 20]
-    model_name = 'aalborg_overfit/' #'h100_50_20_l_008_test4'
-    batch_size = 4000
+    model_name = 'bigger_dataset/' #'h100_50_20_l_008_test4'
+    batch_size = 7000
 
     # Load model structure
     mdl = Model(input_s, output_s, n_hidden_neurons, model_name, batch_size)
@@ -102,11 +102,11 @@ def main():
     else:
         print "No checkpoint found, training from scratch!"
 
-    train(sess, mdl, saver, model_name, input_s, output_s, batch_size)
+    # train(sess, mdl, saver, model_name, input_s, output_s, batch_size)
 
-    # drive(sess, mdl)
+    drive(sess, mdl)
 
-    # export_weights_to_json(sess, mdl)
+    export_weights_to_json(sess, mdl)
 
 if __name__ == '__main__':
 	main()

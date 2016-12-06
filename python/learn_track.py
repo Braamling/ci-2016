@@ -10,7 +10,7 @@ class LearnTrack():
     mdl = 0
     def __init__(self, train_set, test_set, valid_set, model_dir_name):
         self._train_set = train_set
-        self._train_set.shuffle()
+        # self._train_set.shuffle()
         self._test_set = test_set
         self._valid_set = valid_set
         self.model_name = model_dir_name
@@ -51,7 +51,7 @@ class LearnTrack():
             v_loss *= 1.0 / n_batches_val
             print (" The validation loss for epoch %d and is %g" % (epoch, v_loss))
 
-            if v_loss < smallest_valid_error and epoch > 10000:
+            if v_loss < smallest_valid_error and epoch > 300:
                 saver.save(sess, self.model_name + 'model.ckpt')
                 tf.train.write_graph(sess.graph_def, '.', 'trained_model.proto', as_text=False)
                 tf.train.write_graph(sess.graph_def, '.', 'trained_model.txt', as_text=True)
