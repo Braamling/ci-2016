@@ -24,7 +24,7 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
         if(!continue_from_checkpoint){
         	_gaModel = new GAModel();
         	System.out.println(_gaModel.getIndividual());
-        	_gaModel.individualPlusPlus();
+        	//_gaModel.individualPlusPlus();
             //init NN
             DefaultDriverGenome genome = new  DefaultDriverGenome();
             drivers[0] = genome;
@@ -46,7 +46,7 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
         }else{
         	_gaModel = new GAModel();
         	System.out.println(_gaModel.getIndividual());
-        	_gaModel.individualPlusPlus();
+        	//_gaModel.individualPlusPlus();
         	
         	DefaultDriverGenome genome = new  DefaultDriverGenome();
             drivers[0] = genome;

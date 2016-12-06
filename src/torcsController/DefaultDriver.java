@@ -16,8 +16,8 @@ import training.CustomNeuralNetworkIris;
 import utils.PredictionTools;
 import java.util.Arrays;
 import java.util.Collections;
-
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+import java.util.List;
+//import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 
 public class DefaultDriver extends AbstractDriver {
@@ -35,7 +35,6 @@ public class DefaultDriver extends AbstractDriver {
     public DefaultDriver(GAModel gaModel){
     	_gaModel = gaModel;
         initialize();
-        updatePaths();
        
 		LoadNewNN(_loadPath + "var_" + Integer.toString(_gaModel.getIndividual()) + ".json");
 
@@ -58,7 +57,8 @@ public class DefaultDriver extends AbstractDriver {
     	int[] result = new int[nummin];
     	
     	for(int i = 0; i < nummin; i++){
-    		double min = Collections.min(Arrays.asList(orig));
+    		List<Double> placeholder = Arrays.asList(orig);
+    		double min = Collections.min(placeholder);
     		int index = Arrays.asList(orig).indexOf(min);
     		
     		result[i] = index;
@@ -76,7 +76,6 @@ public class DefaultDriver extends AbstractDriver {
     }
     
     private void createNewGeneration(int [] parentIndices){
-    	updatePaths();
     	for(int i=0; i < parentIndices.length; i++){
     		
     		// Retrieve the two parents
@@ -89,15 +88,15 @@ public class DefaultDriver extends AbstractDriver {
             
             // Breed two kids and store them
             BreedWeights breedWeights = new BreedWeights(trainedModel1, trainedModel2, 2);
-            breedWeights.getKids(1).storeJson(_loadPath + "var_" 
+            breedWeights.getKids(1).storeJson(_savePath + "var_" 
 					+ Integer.toString(i) + ".json");
-            breedWeights.getKids(2).storeJson(_loadPath + "var_" 
+            breedWeights.getKids(2).storeJson(_savePath + "var_" 
 					+ Integer.toString(10 + i) + ".json");
             
-            trainedModel1.storeJson(_loadPath + "var_" 
+            trainedModel1.storeJson(_savePath + "var_" 
 					+ Integer.toString(20 + i) + ".json");
     	}
-    	
+    	updatePaths();
     	
     }
 
@@ -240,13 +239,15 @@ public class DefaultDriver extends AbstractDriver {
     }
     
     private void updatePaths(){
-    	// Where to load and store the variations
-    	_loadPath = "./resources/variations/";
-    	_savePath = "./resources/variations2/";
-//    	if (_gaModel.getGenerations() % 2 == 0){
-//    		_loadPath = "./resources/variations/";
-//    		_savePath = "./resources/variations2/";
-//    	}
+//    	 Where to load and store the variations
+    	if (_loadPath == "./resources/variations/"){
+    		_loadPath = "./resources/variations2/";
+    		_savePath = "./resources/variations/";
+    	} else {
+    		_loadPath = "./resources/variations/";
+    		_savePath = "./resources/variations2/";
+    	}
+    	
     }
     
 
@@ -255,14 +256,14 @@ public class DefaultDriver extends AbstractDriver {
     	if(sensors.getLaps() == 1 || sensors.getTime() >96 && _done == false){
     		double lastLapTime = sensors.getTime();
         	_gaModel.setGenResult(_gaModel.getIndividual(), lastLapTime);
-    		
+    		System.out.println(Arrays.toString(_gaModel.getGenResults()));
     		// Give the score
     		System.out.println("The laptime of individual " + 
     						   Integer.toString(_gaModel.getIndividual()) + 
     						   " is " + Double.toString(lastLapTime));
     		
     		// Store the trained model
-    		neuralNetwork.storeJson(_savePath + "var_" + Integer.toString(_gaModel.getIndividual()) + ".json");    		
+    		// neuralNetwork.storeJson(_savePath + "var_" + Integer.toString(_gaModel.getIndividual()) + ".json");    		
     		
     		// Uber best just to store.
     		if(lastLapTime < _gaModel.getBestResult()){
