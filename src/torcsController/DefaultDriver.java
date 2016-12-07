@@ -34,7 +34,7 @@ public class DefaultDriver extends AbstractDriver {
 	private double _speed; 
 	private int _stepsAmount;
 	
-	private boolean _done;
+	private boolean _done = false;
 
     public DefaultDriver(GAModel gaModel){
     	_gaModel = gaModel;
@@ -276,6 +276,7 @@ public class DefaultDriver extends AbstractDriver {
      */
     private Action checkGenerations(Action action, SensorModel sensors){
     	if((sensors.getLaps() == 1 || sensors.getTime() > 200) && _done == false){
+    		_done = true;
     		double avgSpeed = (_speed / _stepsAmount)*100;
     		double performance = sensors.getTime() - avgSpeed/2 ;
     		System.out.println("avg_speed: " + avgSpeed);
@@ -304,7 +305,6 @@ public class DefaultDriver extends AbstractDriver {
     		
     		System.out.println("New individual start");
     		action.restartRace = true;
-    		
     	}
     	
     	return action;
