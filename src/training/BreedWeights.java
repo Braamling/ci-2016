@@ -23,8 +23,6 @@ public class BreedWeights {
 		kid1 = parent1.getClone();
 		kid2 = parent2.getClone();
 		totalSize = parent1.getTotalSize();
-		//weightsKid1 = new double[totalSize];
-		//weightsKid2 = new double[totalSize];
 		_breedMethod = method;
 		_stepSize = stepSize;
 		breedWeights();
@@ -50,6 +48,8 @@ public class BreedWeights {
 						kid2.setStretchedIndexValue(j, parent1.getStretchedIndexValue(j));
 					}
 				}
+				kid1.mutate(0.01, 0.1);
+				kid2.mutate(0.01, 0.1);
 			}
 		// uniform crossover
 		} else if (_breedMethod == 2){

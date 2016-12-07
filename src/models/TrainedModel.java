@@ -282,7 +282,7 @@ public class TrainedModel {
 	     * @param shift_max Maximum shift per hidden unit
 	     * @param shift_percentage Maximum amount of hidden units to shift.
 	     */
-	    public void variate(float shift_max, float shift_percentage) {    	
+	    public void variate(double shift_max, double shift_percentage) {    	
 	    	int modelSize = getTotalSize();
 	    	System.out.println(modelSize);
 	    	
@@ -305,7 +305,7 @@ public class TrainedModel {
 	     * @param shift_max Maximum shift per hidden unit
 	     * @param shift_percentage Maximum amount of hidden units to shift.
 	     */
-	    public void mutate(float mutate_range, float mutate_percentage) {    	
+	    public void mutate(double mutate_range, double mutate_percentage) {    	
 	    	int modelSize = getTotalSize();
 	    	System.out.println(modelSize);
 	    	

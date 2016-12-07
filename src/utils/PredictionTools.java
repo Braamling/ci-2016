@@ -1,6 +1,10 @@
 package utils;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.File;
  
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,12 +23,44 @@ public class PredictionTools {
 		return _trainedModel;
 	}
 	
-	private TrainedModel loadWeights(String filename){
+	static public void createVariations(){
+		for(int i = 0; i < 30; i++){
+			TrainedModel model = loadWeights("./resources/variations/best_i.json");
+			model.variate(0.01, 0.1);
+			model.storeJson("./resources/variations/var_" + i + ".json");
+		}
+	}
+	
+	static private String readFileStream(String filename){
+		File file = new File(filename);
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(file);
+			byte[] data = new byte[(int) file.length()];
+			fis.read(data);
+			fis.close();
+			return new String(data, "UTF-8");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+		
+	}
+	
+	static private TrainedModel loadWeights(String filename){
 		JSONParser parser = new JSONParser();
 		TrainedModel trained_model = new TrainedModel();
         try {
             
-            JSONArray hidden_layer_arr = (JSONArray) parser.parse(new FileReader(
+//            JSONArray hidden_layer_arr = (JSONArray) parser.parse(new FileReader(
+//                    filename));
+            
+            JSONArray hidden_layer_arr = (JSONArray) parser.parse(readFileStream(
                     filename));
             
             for(int i = 0; i < hidden_layer_arr.size(); i++)

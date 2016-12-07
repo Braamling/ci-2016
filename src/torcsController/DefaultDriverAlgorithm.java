@@ -6,6 +6,7 @@ import cicontest.algorithm.abstracts.DriversUtils;
 import cicontest.torcs.controller.Driver;
 import models.GAModel;
 import race.TorcsConfiguration;
+import utils.PredictionTools;
 
 public class DefaultDriverAlgorithm extends AbstractAlgorithm {
 
@@ -36,13 +37,7 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
 
             race.laps = 3;
             
-            results = race.runRace(drivers, false, _gaModel);	
-            
-            
-            
-
-            // Save genome/nn
-            //DriversUtils.storeGenome(drivers[0]);
+            results = race.runRace(drivers, false);	
         }else{
         	_gaModel = new GAModel();
         	System.out.println(_gaModel.getIndividual());
@@ -90,14 +85,20 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
             new DefaultRace().showBestRace();
         } else if(args.length > 0 && args[0].equals("-human")){
             new DefaultRace().raceBest();
+        } else if(args.length > 0 && args[0].equals("-variate")){
+        	PredictionTools.createVariations();           
+        } else if(args.length > 0 && args[0].equals("-generate")){
+        	algorithm.run(true);
         } else if(args.length > 0 && args[0].equals("-continue")){
-            if(DriversUtils.hasCheckpoint()){
-                DriversUtils.loadCheckpoint().run(true);
-            } else {
-                algorithm.run(true);
-            }
-        } else {
+//            if(DriversUtils.hasCheckpoint()){
+//                DriversUtils.loadCheckpoint().run(true);
+//            } else {
+//                algorithm.run(true);
+//            }
+//        } else {
             algorithm.run(true);
+        }else{
+            algorithm.run();
         }
     }
 

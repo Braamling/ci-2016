@@ -12,7 +12,7 @@ import models.TrainedModel;
 import scr.Action;
 import scr.SensorModel;
 import training.BreedWeights;
-import training.CustomNeuralNetworkIris;
+import training.CustomNeuralNetwork;
 import utils.PredictionTools;
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,27 +22,30 @@ import java.util.List;
 
 public class DefaultDriver extends AbstractDriver {
 
-    private CustomNeuralNetworkIris neuralNetwork;
+    private CustomNeuralNetwork neuralNetwork;
     private double[] _output;
 //    private double[] _prev_steering = new double[10];
     private GAModel _gaModel;
     
 	private String _loadPath = "./resources/variations/";
 	private String _savePath = "./resources/variations2/";
+	private double _max_speed; 
 	
 	private boolean _done = false;
 
     public DefaultDriver(GAModel gaModel){
     	_gaModel = gaModel;
         initialize();
+        _max_speed = 0;
        
 		LoadNewNN(_loadPath + "var_" + Integer.toString(_gaModel.getIndividual()) + ".json");
 
     }
     
     public DefaultDriver() {
-    	_gaModel = new GAModel();
+    	_gaModel = null;
         initialize();
+        _max_speed = 0;
         LoadNewNN("./python/weights_nn1.json");
     }
 
@@ -72,11 +75,11 @@ public class DefaultDriver extends AbstractDriver {
     	PredictionTools predictor = new PredictionTools(path);
         TrainedModel trainedModel = predictor.getModel();
         int[] hidden_layers = {100, 50, 20};
-        neuralNetwork = new CustomNeuralNetworkIris(22, hidden_layers, 3, trainedModel);
+        neuralNetwork = new CustomNeuralNetwork(22, hidden_layers, 3, trainedModel);
     }
     
     private void createNewGeneration(int [] parentIndices){
-    	for(int i=0; i < parentIndices.length; i++){
+    	for(int i=0; i < parentIndices.length - 1; i++){
     		
     		// Retrieve the two parents
     		PredictionTools predictor1 = new PredictionTools(_loadPath + "var_" 
@@ -116,11 +119,11 @@ public class DefaultDriver extends AbstractDriver {
 
     @Override
     public double getAcceleration(SensorModel sensors) {
-//    	if(_output[0] > _output[1]){
-//    		return _output[1] + _output[0];
-//    	}
-//    	return 0.0;
-    	return _output[0];
+    	if(_output[0] > _output[1]){
+    		return _output[1] + _output[0];
+    	}
+    	return 0.0;
+//    	return _output[0];
     }
     
     private double getPercentageOffTrack(SensorModel sensors){
@@ -162,11 +165,11 @@ public class DefaultDriver extends AbstractDriver {
     }
 
     public double getBreak(SensorModel sensors) {
-//    	if(_output[1] > _output[0]){
-//    		return _output[1] + _output[0];
-//    	}
-//    	return 0.0;
-        return _output[1];
+    	if(_output[1] > _output[0]){
+    		return _output[1] + _output[0];
+    	}
+    	return 0.0;
+//        return _output[1];
     }
     
     @Override
@@ -222,11 +225,19 @@ public class DefaultDriver extends AbstractDriver {
         }
     	
     	getOutput(sensors);
+    	
     	action.steering = getSteering(sensors);
     	action.accelerate = getAcceleration(sensors);
     	action.brake = getBreak(sensors);
     	
-    	checkGenerations(action, sensors);
+    	if(_gaModel != null){
+        	checkGenerations(action, sensors);
+    	}
+    	
+    	if (_max_speed < sensors.getSpeed()){
+    		_max_speed = sensors.getSpeed();
+    	}
+    	
     	
 //    	
 //        System.out.println("--------------" + getDriverName() + "--------------");
@@ -251,24 +262,28 @@ public class DefaultDriver extends AbstractDriver {
     }
     
 
-    
+    /**
+     * Check whether a new individual or generation should be tested.
+     * 
+     * @param action
+     * @param sensors
+     * @return
+     */
     private Action checkGenerations(Action action, SensorModel sensors){
-    	if(sensors.getLaps() == 1 || sensors.getTime() >96 && _done == false){
-    		double lastLapTime = sensors.getTime();
-        	_gaModel.setGenResult(_gaModel.getIndividual(), lastLapTime);
+    	if(sensors.getLaps() == 1 || sensors.getTime() >200 && _done == false){
+    		double performance = sensors.getTime() - (_max_speed / 2);
+    		System.out.println("max_speed: " + _max_speed);
+        	_gaModel.setGenResult(_gaModel.getIndividual(), performance);
     		System.out.println(Arrays.toString(_gaModel.getGenResults()));
     		// Give the score
-    		System.out.println("The laptime of individual " + 
+    		System.out.println("The performace of individual " + 
     						   Integer.toString(_gaModel.getIndividual()) + 
-    						   " is " + Double.toString(lastLapTime));
-    		
-    		// Store the trained model
-    		// neuralNetwork.storeJson(_savePath + "var_" + Integer.toString(_gaModel.getIndividual()) + ".json");    		
+    						   " is " + Double.toString(performance));  		
     		
     		// Uber best just to store.
-    		if(lastLapTime < _gaModel.getBestResult()){
+    		if(performance < _gaModel.getBestResult()){
     			neuralNetwork.storeJson(_savePath + "best_i.json");
-    			_gaModel.setBestResult(lastLapTime);
+    			_gaModel.setBestResult(performance);
     		}
     		
     		// Generate 10 new children if all are tested  	

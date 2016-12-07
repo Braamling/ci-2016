@@ -17,11 +17,35 @@ public class DefaultRace extends AbstractRace {
 		return runQualification(driversList, withGUI);
 	}
 	
+	/**
+	 * Run race with Trained neural network
+	 * 
+	 * @param drivers
+	 * @param withGUI
+	 * @return
+	 */
+	public int[] runRace(DefaultDriverGenome[] drivers, boolean withGUI){
+		return runRace(drivers, withGUI, null);
+	}
+
+	/**
+	 * Train a evolutionary algorithm. Overloaded function without gaModel calls this method with 
+	 * gaModel set to null.
+	 * 
+	 * @param drivers
+	 * @param withGUI
+	 * @param gaModel
+	 * @return
+	 */
 	public int[] runRace(DefaultDriverGenome[] drivers, boolean withGUI, GAModel gaModel){
 		int size = Math.min(10, drivers.length);
 		DefaultDriver[] driversList = new DefaultDriver[size];
 		for(int i=0; i<size; i++){
-			driversList[i] = new DefaultDriver(gaModel);
+			if(gaModel != null){
+				driversList[i] = new DefaultDriver(gaModel);
+			}else{
+				driversList[i] = new DefaultDriver();
+			}
 			driversList[i].loadGenome(drivers[i]);
 		}
 		return runRace(driversList, withGUI, true);

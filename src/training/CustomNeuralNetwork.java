@@ -4,103 +4,115 @@ import scr.SensorModel;
 
 import java.io.*;
 import java.util.Arrays;
-import java.util.Random;
+
+import models.TrainedModel;
 
 
 public class CustomNeuralNetwork implements Serializable {
 
     private static final long serialVersionUID = -88L;
-    private double[][]weights1;
-    private double[][]weights2;
-    private double[]bias1;
-    private double[]bias2;
     private int numInputNeurons;
-    private int numHiddenNeurons;
+    private int[] _hiddenL;
     private int numOutputNeurons;
-    private Random r = new Random();
+    private TrainedModel _trainedModel;
     
-    public CustomNeuralNetwork(int inputs, int hidden, int outputs) {
-    	// This should be a parameter..
-    	double sigma = 1;
-    	double mean = 0;
+    public CustomNeuralNetwork(int inputs, int[] hiddenL, int outputs, TrainedModel trainedModel) {
     	
     	// initialize class variables
-    	weights1 = new double[hidden][inputs]; 
-    	weights2 = new double[outputs][hidden]; 
-    	bias1 = new double[hidden];
-    	bias2 = new double[outputs];
     	numInputNeurons = inputs;
-    	numHiddenNeurons = hidden;
-    	numOutputNeurons = outputs;
+    	numOutputNeurons = outputs; 
     	
-    	// initialize weights 1 with Gaussian distributed values with sigma and mean
-    	for (int i=0; i< hidden; i++){
-    		for (int j=0; j<inputs; j++){
-    			weights1[i][j] = r.nextGaussian() * sigma + mean;
-    		}
-    	}
-    	
-    	// initialize weights 2 with Gaussian distributed values with sigma and mean
-    	for (int i=0; i< outputs; i++){
-    		for (int j=0; j<hidden; j++){
-    			weights2[i][j] = r.nextGaussian() * sigma + mean; //different seed?
-    		}
-    	}
-    	
-    	// initialize bias with Gaussian distributed values with sigma and mean
-    	for (int i=0; i< hidden; i++){
-    		bias1[i] = r.nextGaussian() * sigma + mean; // different seed?
-    	}
-    	
-    	for (int i=0; i< outputs; i++){
-    		bias2[i] = r.nextGaussian() * sigma + mean; // different seed?
-    	}
+    	_hiddenL = hiddenL;
+    	_trainedModel = trainedModel;
     }
-
+    
+    public CustomNeuralNetwork getClone(){
+    	return new CustomNeuralNetwork(numInputNeurons, _hiddenL.clone(), 
+    			                           numOutputNeurons, _trainedModel.getClone());
+    }
+    
     // Feed forward algorithm
     public double[] getOutput(SensorModel a) {
     	//Initialize intermediate variables
     	double[] input = {
+    			a.getSpeed(),
+    			a.getTrackPosition(),
+    			a.getAngleToTrackAxis(),
     			a.getTrackEdgeSensors()[0],
+    			a.getTrackEdgeSensors()[1],
     			a.getTrackEdgeSensors()[2],
+    			a.getTrackEdgeSensors()[3],
     			a.getTrackEdgeSensors()[4],
+    			a.getTrackEdgeSensors()[5],
     			a.getTrackEdgeSensors()[6],
+    			a.getTrackEdgeSensors()[7],
     			a.getTrackEdgeSensors()[8],
+    			a.getTrackEdgeSensors()[9],
     			a.getTrackEdgeSensors()[10],
+    			a.getTrackEdgeSensors()[11],
     			a.getTrackEdgeSensors()[12],
+    			a.getTrackEdgeSensors()[13],
     			a.getTrackEdgeSensors()[14],
-    			a.getTrackEdgeSensors()[16],};
-    	System.out.println(Arrays.toString(input));
+    			a.getTrackEdgeSensors()[15],
+    			a.getTrackEdgeSensors()[16],
+    			a.getTrackEdgeSensors()[17],
+    			a.getTrackEdgeSensors()[18]};
     	
-    	double[] h = new double[numHiddenNeurons];
-    	double[] output = new double[numInputNeurons];
+    	double[] h1 = new double[_hiddenL[0]];
+    	double[] h2 = new double[_hiddenL[1]];
+    	double[] h3 = new double[_hiddenL[2]];
+    	double[] output = new double[numOutputNeurons];
     	
     	// put SensorModel a in input
     	
-    	return calculateOutput(input, output, h);
+    	return calculateOutput(input, output, h1, h2, h3);
     }
     
-    public double[] calculateOutput(double[] input, double[] output, double[] h){
-    	for (int i=0; i< numHiddenNeurons; i++){
+    public double[] calculateOutput(double[] input, double[] output, double[] h1, double[] h2, double[] h3){
+    	for (int i=0; i< _hiddenL[0]; i++){
     		for (int j=0; j<numInputNeurons; j++){
-    			h[i] += input[j] * weights1[i][j];
+    			h1[i] += input[j] * _trainedModel.getWeights(1)[i][j];
     		}
     		
-    		double tempH = h[i]  +bias1[i]; //add bias
-    		h[i] = 1 / (1 + Math.exp(-tempH)); // Possibly use ReLU instead
+    		double tempH = h1[i]  + _trainedModel.getBias(1)[i]; //add bias
+    		h1[i] = 1 / (1 + Math.exp(-tempH)); // Possibly use ReLU instead
+    	}
+    	
+    	
+    	
+    	for (int i=0; i< _hiddenL[1]; i++){
+    		for (int j=0; j< _hiddenL[0]; j++){
+    			h2[i] += h1[j] * _trainedModel.getWeights(2)[i][j];
+    		}
+    		
+    		double tempH = h2[i] + _trainedModel.getBias(2)[i]; 
+    		h2[i] = 1/(1 + Math.exp(-tempH)); 
+    	}
+    	
+    	
+    	
+    	for (int i=0; i< _hiddenL[2]; i++){
+    		for (int j=0; j< _hiddenL[1]; j++){
+    			h3[i] += h2[j] * _trainedModel.getWeights(3)[i][j];
+    		}
+    		
+    		double tempH = h3[i] + _trainedModel.getBias(3)[i];
+    		h3[i] = 1/(1 + Math.exp(-tempH));
     	}
     	
     	for (int i=0; i< numOutputNeurons; i++){
-    		for (int j=0; j<numHiddenNeurons; j++){
-    			output[i] += h[j] * weights2[i][j];
+    		for (int j=0; j<_hiddenL[2]; j++){
+    			output[i] += h3[j] * _trainedModel.getWeights(4)[i][j];
     		}
     		
-    		double tempH = output[i] + bias2[i]; //add bias
-    		//output[i] = 1 / (1 + Math.exp(-tempH)); // Possibly use ReLU instead
+    		double tempH = output[i] + _trainedModel.getBias(4)[i]; //add bias
+    		output[i] = (Math.exp(tempH * 2.0)-1.0)/(Math.exp(tempH * 2.0)+1.0);
     	}
     	
         return output;
     }
+    
+    
 
     //Store the state of this neural network
     public void storeGenome() {
@@ -149,6 +161,11 @@ public class CustomNeuralNetwork implements Serializable {
         }
         return null;
     }
+    
+    
+	 public void storeJson(String filename){
+		 _trainedModel.storeJson(filename);
+	 }
     
 
 }
