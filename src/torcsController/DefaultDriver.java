@@ -242,8 +242,8 @@ public class DefaultDriver extends AbstractDriver {
     	if (_speed < sensors.getSpeed()){
     		_speed = sensors.getSpeed();
     	}
-    	
-    	
+    	AutomatedRecovering recover = new AutomatedRecovering();
+    	recover.process(action, sensors);
 //    	
 //        System.out.println("--------------" + getDriverName() + "--------------");
 //        System.out.println("Steering: " + action.steering);
