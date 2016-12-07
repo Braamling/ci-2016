@@ -136,8 +136,8 @@ public class TrainedModel {
 						 }
 					 }
 				 }else{
-					 System.out.println(i - ((sizes.length/2) - 1));
-					 System.out.println(i);
+//					 System.out.println(i - ((sizes.length/2) - 1));
+//					 System.out.println(i);
 
 					 return getBias(i - ((sizes.length/2) - 1))[index];
 				 }
@@ -287,7 +287,7 @@ public class TrainedModel {
 	     */
 	    public void variate(double shift_max, double shift_percentage) {    	
 	    	int modelSize = getTotalSize();
-	    	System.out.println(modelSize);
+//	    	System.out.println(modelSize);
 	    	
 	    	int shift_amount = (int) (((float)modelSize) * shift_percentage);
 	    	
@@ -310,7 +310,7 @@ public class TrainedModel {
 	     */
 	    public void mutate(double mutate_range, double mutate_percentage) {    	
 	    	int modelSize = getTotalSize();
-	    	System.out.println(modelSize);
+//	    	System.out.println(modelSize);
 	    	
 	    	int shift_amount = (int) (((float)modelSize) * mutate_percentage);
 	    	
@@ -318,7 +318,7 @@ public class TrainedModel {
 	    	
 	    	for( int index: indices){
 	    		double value = randomDouble(-mutate_range, mutate_range);
-	    		System.out.println(value);
+//	    		System.out.println(value);
 	    		
 	    		setStretchedIndexValue(index, value);   		
 	    		
