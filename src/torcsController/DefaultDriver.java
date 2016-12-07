@@ -29,7 +29,7 @@ public class DefaultDriver extends AbstractDriver {
 //    private double[] _prev_steering = new double[10];
     private GAModel _gaModel;
     
-	private String _loadPath = "./resources/variations/";
+	private String _loadPath = "/variations/";
 	private String _savePath = "./resources/variations2/";
 	private double _max_speed; 
 	
@@ -120,10 +120,11 @@ public class DefaultDriver extends AbstractDriver {
 
     @Override
     public double getAcceleration(SensorModel sensors) {
-    	if(_output[0] > _output[1]){
-    		return _output[1] + _output[0];
-    	}
-    	return 0.0;
+//    	if(_output[0] > _output[1]){
+//    		return _output[1] + _output[0];
+//    	}
+//    	return 0.0;
+    	return _output[0];
     }
     
     private double getPercentageOffTrack(SensorModel sensors){
@@ -165,11 +166,11 @@ public class DefaultDriver extends AbstractDriver {
     }
 
     public double getBreak(SensorModel sensors) {
-    	if(_output[1] > _output[0]){
-    		return _output[1] + _output[0];
-    	}
-    	return 0.0;
-//        return _output[1];
+//    	if(_output[1] > _output[0]){
+//    		return _output[1] + _output[0];
+//    	}
+//    	return 0.0;
+        return _output[1];
     }
     
     @Override

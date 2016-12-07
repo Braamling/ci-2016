@@ -102,7 +102,10 @@ public class TrainedModel {
 	}
 
 	public int getTotalSize(){
-		int weight_size = _weight1.length + _weight2.length + _weight3.length + _weight4.length;
+		int weight_size = _weight1.length *_weight1[0].length +
+						   _weight2.length *_weight2[0].length + 
+						   _weight3.length * _weight3[0].length + 
+						   _weight4.length * _weight4[0].length;
 		int bias_size = _bias1.length + _bias2.length + _bias3.length + _bias4.length;
 
 		return weight_size + bias_size;

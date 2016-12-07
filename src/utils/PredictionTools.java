@@ -32,7 +32,7 @@ public class PredictionTools {
 	
 	public void createVariations(){
 		for(int i = 0; i < 30; i++){
-			TrainedModel model = loadWeights("./resources/variations/best_i.json");
+			TrainedModel model = loadWeights("/variations/best_i.json");
 			model.variate(0.01, 0.1);
 			model.storeJson("./resources/variations/var_" + i + ".json");
 		}
