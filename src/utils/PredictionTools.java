@@ -36,6 +36,7 @@ public class PredictionTools {
 			model.variate(0.01, 0.1);
 			model.storeJson("./resources/variations/var_" + i + ".json");
 		}
+		System.out.println("Variated new generation based on the best");
 	}
 	
 	private String readFileStream(String filename){

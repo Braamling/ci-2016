@@ -31,13 +31,15 @@ public class DefaultDriver extends AbstractDriver {
     
 	private String _loadPath = "/variations/";
 	private String _savePath = "./resources/variations2/";
-	private double _max_speed; 
+	private double _speed; 
+	private int _stepsAmount;
 	
 	private boolean _done;
 
     public DefaultDriver(GAModel gaModel){
     	_gaModel = gaModel;
         initialize();
+        _speed = 0;
        
 		LoadNewNN(_loadPath + "var_" + Integer.toString(_gaModel.getIndividual()) + ".json");
 
@@ -47,6 +49,7 @@ public class DefaultDriver extends AbstractDriver {
     	_gaModel = null;
         initialize();
         LoadNewNN("/weights_nn1.json");
+        _speed = 0;
     }
 
     private void initialize() {
@@ -54,7 +57,7 @@ public class DefaultDriver extends AbstractDriver {
         this.enableExtras(new AutomatedGearbox());
         this.enableExtras(new AutomatedRecovering());
         this.enableExtras(new ABS());
-        _max_speed = 0;
+        _speed = 0;
         _done = false;
     }
     
@@ -91,7 +94,7 @@ public class DefaultDriver extends AbstractDriver {
             TrainedModel trainedModel2 = predictor2.getModel();
             
             // Breed two kids and store them
-            BreedWeights breedWeights = new BreedWeights(trainedModel1, trainedModel2, 2);
+            BreedWeights breedWeights = new BreedWeights(trainedModel1, trainedModel2, 1, 5);
             breedWeights.getKids(1).storeJson(_savePath + "var_" 
 					+ Integer.toString(i) + ".json");
             breedWeights.getKids(2).storeJson(_savePath + "var_" 
@@ -234,9 +237,10 @@ public class DefaultDriver extends AbstractDriver {
     	if(_gaModel != null){
         	checkGenerations(action, sensors);
     	}
-    	
-    	if (_max_speed < sensors.getSpeed()){
-    		_max_speed = sensors.getSpeed();
+    	_speed += sensors.getSpeed()/100;
+    	_stepsAmount++;
+    	if (_speed < sensors.getSpeed()){
+    		_speed = sensors.getSpeed();
     	}
     	
     	
@@ -271,13 +275,10 @@ public class DefaultDriver extends AbstractDriver {
      * @return
      */
     private Action checkGenerations(Action action, SensorModel sensors){
-    	if(sensors.getLaps() == 1 || sensors.getTime() >200 && _done == false){
-    		_done = true;
-    		double performance = sensors.getTime() - (_max_speed / 2);
-    		System.out.println("max_speed: " + _max_speed);
-    		System.out.println(this);
-    		System.out.println(sensors.getDistanceFromStartLine());
-    		System.out.println(sensors.getDistanceRaced());
+    	if((sensors.getLaps() == 1 || sensors.getTime() > 200) && _done == false){
+    		double avgSpeed = (_speed / _stepsAmount)*100;
+    		double performance = sensors.getTime() - avgSpeed/2 ;
+    		System.out.println("avg_speed: " + avgSpeed);
         	_gaModel.setGenResult(_gaModel.getIndividual(), performance);
     		System.out.println(Arrays.toString(_gaModel.getGenResults()));
     		// Give the score

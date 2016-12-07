@@ -48,8 +48,8 @@ public class BreedWeights {
 						kid2.setStretchedIndexValue(j, parent1.getStretchedIndexValue(j));
 					}
 				}
-				kid1.mutate(0.01, 0.1);
-				kid2.mutate(0.01, 0.1);
+				kid1.mutate(0.1, 0.01);
+				kid2.mutate(0.1, 0.01);
 			}
 		// uniform crossover
 		} else if (_breedMethod == 2){

@@ -59,7 +59,7 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
             
             while(true){
                 results = race.runRace(drivers, false, _gaModel);	
-                DriversUtils.createCheckpoint(this);
+                //DriversUtils.createCheckpoint(this);
                 System.out.println(_gaModel.getIndividual());
             }           
         }
