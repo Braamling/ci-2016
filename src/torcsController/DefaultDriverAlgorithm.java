@@ -1,6 +1,10 @@
 package torcsController;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import cicontest.algorithm.abstracts.AbstractAlgorithm;
 import cicontest.algorithm.abstracts.DriversUtils;
 import cicontest.torcs.controller.Driver;
@@ -67,6 +71,9 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
     public static void main(String[] args) {
 
         //Set path to torcs.properties
+//        InputStream in = getClass().getResourceAsStream("/torcs.properties"); 
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+    	
         TorcsConfiguration.getInstance().initialize(new File("torcs.properties"));
 		/*
 		 *
@@ -86,7 +93,8 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
         } else if(args.length > 0 && args[0].equals("-human")){
             new DefaultRace().raceBest();
         } else if(args.length > 0 && args[0].equals("-variate")){
-        	PredictionTools.createVariations();           
+        	PredictionTools predict = new PredictionTools();
+        	predict.createVariations();           
         } else if(args.length > 0 && args[0].equals("-generate")){
         	algorithm.run(true);
         } else if(args.length > 0 && args[0].equals("-continue")){

@@ -10,7 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class TrainedModel {
-	public double[][] _weight1;
+	public double[][] _weight1;	
 	public double[][] _weight2;
 	public double[][] _weight3;
 	public double[][] _weight4;

@@ -14,6 +14,8 @@ import scr.SensorModel;
 import training.BreedWeights;
 import training.CustomNeuralNetwork;
 import utils.PredictionTools;
+
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -31,12 +33,11 @@ public class DefaultDriver extends AbstractDriver {
 	private String _savePath = "./resources/variations2/";
 	private double _max_speed; 
 	
-	private boolean _done = false;
+	private boolean _done;
 
     public DefaultDriver(GAModel gaModel){
     	_gaModel = gaModel;
         initialize();
-        _max_speed = 0;
        
 		LoadNewNN(_loadPath + "var_" + Integer.toString(_gaModel.getIndividual()) + ".json");
 
@@ -45,8 +46,7 @@ public class DefaultDriver extends AbstractDriver {
     public DefaultDriver() {
     	_gaModel = null;
         initialize();
-        _max_speed = 0;
-        LoadNewNN("./python/weights_nn1.json");
+        LoadNewNN("/weights_nn1.json");
     }
 
     private void initialize() {
@@ -54,6 +54,8 @@ public class DefaultDriver extends AbstractDriver {
         this.enableExtras(new AutomatedGearbox());
         this.enableExtras(new AutomatedRecovering());
         this.enableExtras(new ABS());
+        _max_speed = 0;
+        _done = false;
     }
     
     static int[] indexesOfMinElements(Double[] orig, int nummin) {
@@ -79,13 +81,12 @@ public class DefaultDriver extends AbstractDriver {
     }
     
     private void createNewGeneration(int [] parentIndices){
-    	for(int i=0; i < parentIndices.length - 1; i++){
-    		
+    	for(int i=0; i < parentIndices.length - 1; i++){    		
     		// Retrieve the two parents
     		PredictionTools predictor1 = new PredictionTools(_loadPath + "var_" 
     					+ Integer.toString(parentIndices[i]) + ".json");
     		PredictionTools predictor2 = new PredictionTools(_loadPath + "var_" 
-					+ Integer.toString(parentIndices[i] + 1) + ".json");
+					+ Integer.toString(parentIndices[i + 1]) + ".json");
             TrainedModel trainedModel1 = predictor1.getModel();
             TrainedModel trainedModel2 = predictor2.getModel();
             
@@ -123,7 +124,6 @@ public class DefaultDriver extends AbstractDriver {
     		return _output[1] + _output[0];
     	}
     	return 0.0;
-//    	return _output[0];
     }
     
     private double getPercentageOffTrack(SensorModel sensors){
@@ -271,8 +271,12 @@ public class DefaultDriver extends AbstractDriver {
      */
     private Action checkGenerations(Action action, SensorModel sensors){
     	if(sensors.getLaps() == 1 || sensors.getTime() >200 && _done == false){
+    		_done = true;
     		double performance = sensors.getTime() - (_max_speed / 2);
     		System.out.println("max_speed: " + _max_speed);
+    		System.out.println(this);
+    		System.out.println(sensors.getDistanceFromStartLine());
+    		System.out.println(sensors.getDistanceRaced());
         	_gaModel.setGenResult(_gaModel.getIndividual(), performance);
     		System.out.println(Arrays.toString(_gaModel.getGenResults()));
     		// Give the score
@@ -298,7 +302,7 @@ public class DefaultDriver extends AbstractDriver {
     		
     		System.out.println("New individual start");
     		action.restartRace = true;
-    		_done = true;
+    		
     	}
     	
     	return action;
