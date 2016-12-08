@@ -1,11 +1,11 @@
-package torcsController;
+
 
 import cicontest.algorithm.abstracts.AbstractDriver;
 import cicontest.algorithm.abstracts.DriversUtils;
 import cicontest.torcs.controller.extras.ABS;
 import cicontest.torcs.controller.extras.AutomatedClutch;
 import cicontest.torcs.controller.extras.AutomatedGearbox;
-import cicontest.torcs.controller.extras.AutomatedRecovering;
+//import cicontest.torcs.controller.extras.AutomatedRecovering;
 import cicontest.torcs.genome.IGenome;
 import models.GAModel;
 import models.TrainedModel;
@@ -123,11 +123,16 @@ public class DefaultDriver extends AbstractDriver {
 
     @Override
     public double getAcceleration(SensorModel sensors) {
-//    	if(_output[0] > _output[1]){
-//    		return _output[1] + _output[0];
-//    	}
-//    	return 0.0;
-    	return _output[0];
+
+        // Stop acceleration when slipping
+        if (sensors.getLateralSpeed() < -5.0){
+        	return 0.2D;
+        }else{
+        	if(_output[0] > _output[1]){
+        		return 1.0D;
+        	}
+        }
+    	return 0.0;
     }
     
 
@@ -137,11 +142,10 @@ public class DefaultDriver extends AbstractDriver {
     }
 
     public double getBreak(SensorModel sensors) {
-//    	if(_output[1] > _output[0]){
-//    		return _output[1] + _output[0];
-//    	}
-//    	return 0.0;
-        return _output[1];
+    	if(_output[1] > _output[0]){
+    		return _output[1] + _output[0];
+    	}
+    	return 0.0;
     }
     
     @Override
@@ -201,7 +205,7 @@ public class DefaultDriver extends AbstractDriver {
     	action.steering = getSteering(sensors);
     	action.accelerate = getAcceleration(sensors);
     	action.brake = getBreak(sensors);
-    	
+
     	if(_gaModel != null){
         	checkGenerations(action, sensors);
     	}
@@ -210,8 +214,7 @@ public class DefaultDriver extends AbstractDriver {
     	if (_speed < sensors.getSpeed()){
     		_speed = sensors.getSpeed();
     	}
-    	AutomatedRecovering recover = new AutomatedRecovering();
-    	recover.process(action, sensors);
+
 //    	
 //        System.out.println("--------------" + getDriverName() + "--------------");
 //        System.out.println("Steering: " + action.steering);
