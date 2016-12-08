@@ -1,4 +1,4 @@
-package torcsController;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -104,7 +104,7 @@ public class DefaultDriverAlgorithm extends AbstractAlgorithm {
 //                algorithm.run(true);
 //            }
 //        } else {
-            algorithm.run(true);
+            algorithm.run();
         }else{
             algorithm.run();
         }
