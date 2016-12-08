@@ -4,6 +4,8 @@ public class GAModel {
 	private int _generations;
 	private int _individual;
 	private int _generationSize = 30;
+	private String _loadPath = "/variations/";
+	private String _savePath = "./resources/variations2/";
 	private double _bestResult = Double.POSITIVE_INFINITY;
     private Double[] _genResults = new Double [_generationSize];
     
@@ -56,5 +58,24 @@ public class GAModel {
 		this._individual++;
 	}
 	
+	public String getLoadPath(){
+		return this._loadPath;
+	}
+	
+	public String getSavePath(){
+		return this._savePath;
+	}
+	
+	public void updatePaths(){
+//   	 Where to load and store the variations
+   	if (this._loadPath.equals("/variations/")){
+   		this._loadPath = "/variations2/";
+   		this._savePath = "./resources/variations/";
+   	} else {
+   		this._loadPath = "/variations/";
+   		this._savePath = "./resources/variations2/";
+   	}
+   	
+   }
 	
 }

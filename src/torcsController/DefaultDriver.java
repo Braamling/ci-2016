@@ -29,8 +29,8 @@ public class DefaultDriver extends AbstractDriver {
 //    private double[] _prev_steering = new double[10];
     private GAModel _gaModel;
     
-	private String _loadPath = "/variations/";
-	private String _savePath = "./resources/variations2/";
+	//private String _loadPath = "/variations/";
+	//private String _savePath = "./resources/variations2/";
 	private double _speed; 
 	private int _stepsAmount;
 	
@@ -40,8 +40,8 @@ public class DefaultDriver extends AbstractDriver {
     	_gaModel = gaModel;
         initialize();
         _speed = 0;
-       
-		LoadNewNN(_loadPath + "var_" + Integer.toString(_gaModel.getIndividual()) + ".json");
+        System.out.println("loading" + _gaModel.getLoadPath() + "var_" + Integer.toString(_gaModel.getIndividual()) + ".json");
+		LoadNewNN(_gaModel.getLoadPath() + "var_" + Integer.toString(_gaModel.getIndividual()) + ".json");
 
     }
     
@@ -63,14 +63,15 @@ public class DefaultDriver extends AbstractDriver {
     
     static int[] indexesOfMinElements(Double[] orig, int nummin) {
     	int[] result = new int[nummin];
-    	
+    	List<Double> placeholder = Arrays.asList(orig);
+    	System.out.println("komt hier in");
     	for(int i = 0; i < nummin; i++){
-    		List<Double> placeholder = Arrays.asList(orig);
     		double min = Collections.min(placeholder);
+    		System.out.println(Double.toString(min));
     		int index = Arrays.asList(orig).indexOf(min);
-    		
+    		System.out.println(Integer.toString(index));
     		result[i] = index;
-    		orig[i] = Double.MAX_VALUE;
+    		placeholder.set(index, Double.MAX_VALUE);
     	}
     	
     	return result;
@@ -79,31 +80,36 @@ public class DefaultDriver extends AbstractDriver {
     private void LoadNewNN(String path ){
     	PredictionTools predictor = new PredictionTools(path);
         TrainedModel trainedModel = predictor.getModel();
+        System.out.println(Double.toString(trainedModel._weight2[0][0]));
         int[] hidden_layers = {100, 50, 20};
         neuralNetwork = new CustomNeuralNetwork(22, hidden_layers, 3, trainedModel);
     }
     
     private void createNewGeneration(int [] parentIndices){
-    	for(int i=0; i < parentIndices.length - 1; i++){    		
+    	for(int i=0; i < parentIndices.length -1; i++){    		
     		// Retrieve the two parents
-    		PredictionTools predictor1 = new PredictionTools(_loadPath + "var_" 
+    		int nextIndex = i+1;
+    		PredictionTools predictor1 = new PredictionTools(_gaModel.getLoadPath() + "var_" 
     					+ Integer.toString(parentIndices[i]) + ".json");
-    		PredictionTools predictor2 = new PredictionTools(_loadPath + "var_" 
-					+ Integer.toString(parentIndices[i + 1]) + ".json");
+    		if(parentIndices[i + 1] == parentIndices.length){
+    			nextIndex = 0;
+    		}
+    		PredictionTools predictor2 = new PredictionTools(_gaModel.getLoadPath() + "var_" 
+					+ Integer.toString(parentIndices[nextIndex]) + ".json");
             TrainedModel trainedModel1 = predictor1.getModel();
             TrainedModel trainedModel2 = predictor2.getModel();
             
             // Breed two kids and store them
             BreedWeights breedWeights = new BreedWeights(trainedModel1, trainedModel2, 1, 5);
-            breedWeights.getKids(1).storeJson(_savePath + "var_" 
+            breedWeights.getKids(1).storeJson(_gaModel.getSavePath() + "var_" 
 					+ Integer.toString(i) + ".json");
-            breedWeights.getKids(2).storeJson(_savePath + "var_" 
+            breedWeights.getKids(2).storeJson(_gaModel.getSavePath() + "var_" 
 					+ Integer.toString(10 + i) + ".json");
             
-            trainedModel1.storeJson(_savePath + "var_" 
+            trainedModel1.storeJson(_gaModel.getSavePath() + "var_" 
 					+ Integer.toString(20 + i) + ".json");
     	}
-    	updatePaths();
+    	_gaModel.updatePaths();
     	
     }
 
@@ -176,7 +182,6 @@ public class DefaultDriver extends AbstractDriver {
         SensorReporting reporter = new SensorReporting(sensors);
        	reporter.reportSensors();
         
-        System.out.println(sensors.toString());
         action.steering = DriversUtils.alignToTrackAxis(sensors, 0.5);
         
         action.accelerate = 10.0D;
@@ -222,17 +227,17 @@ public class DefaultDriver extends AbstractDriver {
     	return action;
     }
     
-    private void updatePaths(){
-//    	 Where to load and store the variations
-    	if (_loadPath == "./resources/variations/"){
-    		_loadPath = "./resources/variations2/";
-    		_savePath = "./resources/variations/";
-    	} else {
-    		_loadPath = "./resources/variations/";
-    		_savePath = "./resources/variations2/";
-    	}
-    	
-    }
+//    private void updatePaths(){
+////    	 Where to load and store the variations
+//    	if (_loadPath == "./resources/variations/"){
+//    		_loadPath = "./resources/variations2/";
+//    		_savePath = "./resources/variations/";
+//    	} else {
+//    		_loadPath = "./resources/variations/";
+//    		_savePath = "./resources/variations2/";
+//    	}
+//    	
+//    }
     
 
     /**
@@ -246,18 +251,18 @@ public class DefaultDriver extends AbstractDriver {
     	if((sensors.getLaps() == 1 || sensors.getTime() > 200) && _done == false){
     		_done = true;
     		double avgSpeed = (_speed / _stepsAmount)*100;
-    		double performance = sensors.getTime() - avgSpeed/2 ;
+    		double performance = sensors.getTime() - (avgSpeed/2) ;
     		System.out.println("avg_speed: " + avgSpeed);
         	_gaModel.setGenResult(_gaModel.getIndividual(), performance);
     		System.out.println(Arrays.toString(_gaModel.getGenResults()));
     		// Give the score
     		System.out.println("The performace of individual " + 
     						   Integer.toString(_gaModel.getIndividual()) + 
-    						   " is " + Double.toString(performance));  		
+    						   "generation" + Integer.toString(_gaModel.getGenerations())+" is " + Double.toString(performance));  		
     		
     		// Uber best just to store.
     		if(performance < _gaModel.getBestResult()){
-    			neuralNetwork.storeJson(_savePath + "best_i.json");
+    			neuralNetwork.storeJson(_gaModel.getSavePath() + "best_i.json");
     			_gaModel.setBestResult(performance);
     		}
     		
