@@ -86,12 +86,12 @@ public class DefaultDriver extends AbstractDriver {
     }
     
     private void createNewGeneration(int [] parentIndices){
-    	for(int i=0; i < parentIndices.length -1; i++){    		
+    	for(int i=0; i < parentIndices.length; i++){    		
     		// Retrieve the two parents
     		int nextIndex = i+1;
     		PredictionTools predictor1 = new PredictionTools(_gaModel.getLoadPath() + "var_" 
     					+ Integer.toString(parentIndices[i]) + ".json");
-    		if(parentIndices[i + 1] == parentIndices.length){
+    		if(i + 1 == parentIndices.length){
     			nextIndex = 0;
     		}
     		PredictionTools predictor2 = new PredictionTools(_gaModel.getLoadPath() + "var_" 
@@ -248,10 +248,10 @@ public class DefaultDriver extends AbstractDriver {
      * @return
      */
     private Action checkGenerations(Action action, SensorModel sensors){
-    	if((sensors.getLaps() == 1 || sensors.getTime() > 200) && _done == false){
+    	if((sensors.getLaps() == 1 || sensors.getTime() > 250) && _done == false){
     		_done = true;
     		double avgSpeed = (_speed / _stepsAmount)*100;
-    		double performance = sensors.getTime() - (avgSpeed/2) ;
+    		double performance = sensors.getTime() - (avgSpeed) ;
     		System.out.println("avg_speed: " + avgSpeed);
         	_gaModel.setGenResult(_gaModel.getIndividual(), performance);
     		System.out.println(Arrays.toString(_gaModel.getGenResults()));

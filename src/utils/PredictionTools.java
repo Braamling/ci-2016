@@ -67,7 +67,9 @@ public class PredictionTools {
             
 
             InputStream in = getClass().getResourceAsStream(filename); 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            System.out.println(filename);
+            BufferedReader reader = new BufferedReader(new FileReader("resources" + filename));
+            //BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         	
             JSONArray hidden_layer_arr = (JSONArray) parser.parse(reader);
 //            JSONArray hidden_layer_arr = (JSONArray) parser.parse(readFileStream(

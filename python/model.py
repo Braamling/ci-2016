@@ -49,7 +49,7 @@ class Model():
         # define the loss
         # self.reg_losses = tf.get_collection(tf.GraphKeys.REGULARIZATION_LOSSES)
         # self.reg_constant = 0.01
-        self.loss = tf.nn.l2_loss(self.y - self.y_) #/ batch_size) #+ self.reg_constant * sum(self.reg_losses)
+        self.loss = tf.nn.l2_loss(self.y - self.y_) + self.reg_constant * sum(self.reg_losses)
         self.train_step = tf.train.AdamOptimizer(0.0001, epsilon=0.1).minimize(self.loss)
 
     def feedforward(self, sess, input):
