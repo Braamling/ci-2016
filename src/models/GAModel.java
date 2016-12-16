@@ -6,6 +6,8 @@ public class GAModel {
 	private int _generationSize = 30;
 	private double _bestResult = Double.POSITIVE_INFINITY;
     private Double[] _genResults = new Double [_generationSize];
+    private String _loadPath;
+    private String _savePath;
     
     public GAModel(){
     	_generations = 0;
@@ -44,8 +46,8 @@ public class GAModel {
 	public double getGenResult(int index) {
 		return _genResults[index];
 	}
-	public void setGenResult(int index, double _genResults) {
-		this._genResults[index] = _genResults;
+	public void setGenResult(int index, double _genResult) {
+		this._genResults[index] = _genResult;
 	}
 
 	public void generationPlusPLus() {
@@ -56,5 +58,25 @@ public class GAModel {
 		this._individual++;
 	}
 	
+	public void setPaths(){
+		// if even 
+		if (_generations == 0){
+			this._loadPath = "/variations/";
+			this._savePath = "./resources/variations2/";
+		} else if ((_generations % 2 == 0)){
+			this._loadPath = "/variations/";
+    		this._savePath = "./resources/variations2/";
+		} else { 
+			this._loadPath = "/variations2/";
+			this._savePath = "./resources/variations/";
+		}
+	}
 	
+	public String getLoadPath(){
+		return _loadPath;
+	}
+	
+	public String getSavePath(){
+		return _savePath;
+	}
 }

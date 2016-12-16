@@ -1,5 +1,6 @@
 package models;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -269,6 +270,7 @@ public class TrainedModel {
 
 		 }
 		 
+		 /*
 		 // try-with-resources statement based on post comment below :)
 		 try (FileWriter file = new FileWriter(filename)) {
 			 file.write(output.toJSONString());
@@ -278,7 +280,31 @@ public class TrainedModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
+		
+		 
+		 //try (FileWriter fw = new FileWriter(filename)) {
+		 try {
+			 File file = new File(filename);
+			 if (!file.exists()) {
+				 file.createNewFile();
+			 } else {
+				 file.delete();
+				 System.out.println("File deleted");
+			 }
+			 file.createNewFile();
+			 
+			 FileWriter fw = new FileWriter(file);
+			 fw.write(output.toJSONString());
+			 System.out.println("File written succesfully");
+		 } catch (IOException e){
+			 e.printStackTrace();
+		 }
+		 
 	 }
+	 
+	 
+	 
 	 
 	   /**
 	     * 
@@ -324,6 +350,13 @@ public class TrainedModel {
 	    		
 	    	}
 	    }
+	    
+	    /**
+	     * 
+	     * @param networkLength
+	     * @param amount
+	     * @return
+	     */
 	    
 	    public int[] getRandomHiddenUnitIndices(int networkLength, int amount) {
 	        ArrayList<Integer> list = new ArrayList<Integer>();
